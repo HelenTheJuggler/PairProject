@@ -28,6 +28,9 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		setPreferredSize(new Dimension(200,100));
 		setSize(new Dimension(200,100));
 		
+		ImageIcon icon = new ImageIcon("Catapult\\Pics\\Catapult.jpg");
+		catapultBody = (BufferedImage)icon.getImage();
+		
 		try {
 		    catapultBody = ImageIO.read(new File("Catapult\\Pics\\Catapult.jpg"));
 		} catch (IOException e) {

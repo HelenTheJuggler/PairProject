@@ -21,30 +21,20 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	
 	private Point fulcrum;
 	private Point catapultLoc;
-	private int groundHeight = 20;
-	private Color sky = Color.cyan;
+	private int groundHeight;
+	private Color sky;
 	
 	public Catapult(){
-		setPreferredSize(new Dimension(200,100));
-		setSize(new Dimension(200,100));
+		groundHeight = 20;
+		sky = new Color(145, 214, 239);
 		
-		ImageIcon icon = new ImageIcon("PairProject\\Pics\\Catapult.jpg");
-		catapultBody = icon.getImage();
+		setSize(new Dimension(800,400));
 		
-		/*try {
-		    catapultBody = ImageIO.read(new File("PairProject\\Pics\\Catapult.jpg"));
-		} catch (IOException e) {
-			System.out.println("EXCEPTION");
-		}*/
+		ImageIcon icon = new ImageIcon("src\\Catapult3.png");
+		catapultBody = icon.getImage().getScaledInstance(488,300,Image.SCALE_SMOOTH);
 		
 		fulcrum = new Point(0, getHeight()-groundHeight);
-		
-		System.out.println(getHeight());
-		System.out.println(groundHeight);
-		System.out.println(catapultBody);
-		System.out.println(catapultBody.getHeight(null));
-		
-		catapultLoc = new Point(0, getHeight()-groundHeight-catapultBody.getHeight(null));
+		catapultLoc = new Point(50, getHeight()-groundHeight-300);
 		
 		runTime = new Timer(10, this);
 		setBackground(sky);
@@ -88,23 +78,25 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	}
 	
 	public void paint(Graphics g){
-		super.repaint();
+		super.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
 		
 		//draw ground
 		g.setColor(new Color(0, 102, 0));
-		g.fill3DRect(0, getHeight() - groundHeight, getWidth(), getHeight(), false);
+		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
 		
 		//draw catapultArm
-		AffineTransform notRotated = g2.getTransform();
-		g2.rotate(direction);
-		g2.drawImage(catapultArm, (int)fulcrum.getX()-catapultArm.getWidth(null), 
+		if(catapultArm!=null){
+			AffineTransform notRotated = g2.getTransform();
+			g2.rotate(direction);
+			g2.drawImage(catapultArm, (int)fulcrum.getX()-catapultArm.getWidth(null), 
 				(int)fulcrum.getY()-catapultArm.getHeight(null), sky, null);
-		g2.setTransform(notRotated);
+			g2.setTransform(notRotated);
+		}
 		
 		//draw catapult body on top of arm
-		g2.drawImage(catapultBody, (int)catapultLoc.getX(), 
-				(int)catapultLoc.getY(), sky, null);
+		g2.drawImage(catapultBody, (int)catapultLoc.getX(), (int)catapultLoc.getY(), new Color(0,0,0,0), null);
+		g2.drawImage(catapultBody, 0, 0, new Color(0,0,0,0), null);
 	}
 	
 	public void mouseClicked(MouseEvent arg0) {}

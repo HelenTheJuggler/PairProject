@@ -15,6 +15,10 @@ public class Window {
 		frame = new JFrame("CATapult");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		frame.setPreferredSize(new Dimension(800,400));
+		frame.setSize(new Dimension(800,400));
+		frame.setResizable(false);
+		
 		catapult = new Catapult();
 		frame.setContentPane(catapult);
 		

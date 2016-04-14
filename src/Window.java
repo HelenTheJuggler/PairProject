@@ -1,6 +1,8 @@
 
+import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
+
 import javax.imageio.*;
 import javax.swing.*;
 
@@ -21,12 +23,16 @@ public class Window {
 	}
 	
 	public void startGame(){
-		BufferedImage cat = null;
-		try {
-		    cat = ImageIO.read(new File("Catapult\\Pics\\KittenInCup.jpg"));
+		ImageIcon icon = new ImageIcon("PairProject\\Pics\\KittenInCup.jpg");
+		Image cat = icon.getImage();
+		System.out.println(cat);
+		catapult.startLaunch(cat);
+		
+		/*try {
+		    cat = ImageIO.read(new File("PairProject\\Pics\\KittenInCup.jpg"));
 		    catapult.startLaunch(cat);
 		} catch (IOException e) {
-		}
+		}*/
 	}
 	
 	public static void main(String[] args){

@@ -15,9 +15,9 @@ public class Window {
 		frame = new JFrame("CATapult");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		frame.setPreferredSize(new Dimension(800,400));
-		frame.setSize(new Dimension(800,400));
-		frame.setResizable(false);
+		frame.setPreferredSize(new Dimension(700,400));
+		frame.setSize(new Dimension(700,400));
+		//frame.setResizable(false);
 		
 		catapult = new Catapult();
 		frame.setContentPane(catapult);
@@ -27,9 +27,8 @@ public class Window {
 	}
 	
 	public void startGame(){
-		ImageIcon icon = new ImageIcon("PairProject\\Pics\\KittenInCup.jpg");
-		Image cat = icon.getImage();
-		System.out.println(cat);
+		ImageIcon icon = new ImageIcon("Pics\\KittenInCup.png");
+		Image cat = icon.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
 		catapult.startLaunch(cat);
 		
 		/*try {

@@ -16,6 +16,7 @@ public class Window {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		frame.setPreferredSize(new Dimension(700,400));
+		frame.setMinimumSize(new Dimension(200,100));
 		frame.setSize(new Dimension(700,400));
 		//frame.setResizable(false);
 		
@@ -27,18 +28,16 @@ public class Window {
 	}
 	
 	public void startGame(){
-		ImageIcon icon = new ImageIcon("Pics\\KittenInCup.png");
-		Image cat = icon.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
-		catapult.startLaunch(cat);
-		
-		/*try {
-		    cat = ImageIO.read(new File("PairProject\\Pics\\KittenInCup.jpg"));
+		BufferedImage cat;
+		try {
+		    cat = ImageIO.read(new File("Pics\\KittenInCup.png"));
 		    catapult.startLaunch(cat);
 		} catch (IOException e) {
-		}*/
+		}
 	}
 	
 	public static void main(String[] args){
 		Window win = new Window();
+		win.startGame();
 	}
 }

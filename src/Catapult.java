@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private BufferedImage catapultBody;
-	private Image catapultArm;
+	private BufferedImage catapultArm;
 	
 	private double direction;
 	private double releaseAngle; //angle of arm (orthogonal to velocity)
@@ -21,31 +21,30 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private Timer animationTime;
 	
 	private Point fulcrum;
-	private Point catapultLoc;
 	private int groundHeight;
+	private int catapultXLoc;
+	private double catRatio;
+	private double armRatio;
+	
 	private Color sky;
 	
 	public Catapult(){
 		groundHeight = 20;
+		catapultXLoc = 50;
 		sky = new Color(145, 214, 239);
 		
+		setMinimumSize(new Dimension(200,100));
 		setSize(new Dimension(700,400));
-		
-		
 		
 		try {
 			catapultBody = ImageIO.read(new File("Pics\\Catapult.png"));
 			catapultArm = ImageIO.read(new File("Pics\\EmptyArm.png"));
-		} catch (IOException e) {
-		}
-		
-		fulcrum = new Point(0, getHeight()-groundHeight);
-		catapultLoc = new Point(50, getHeight()-groundHeight-catapultBody.getHeight());
+		} catch (IOException e) {}
 		
 		runTime = new Timer(10, this);
 		setBackground(sky);
 		
-		animationTime = new Timer(25, new ActionListener(){
+		animationTime = new Timer(5, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				direction -= Math.PI/12;
 				if(direction>=releaseAngle){
@@ -55,11 +54,26 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 				repaint();
 			}
 		});
+		
+		addComponentListener(new ComponentAdapter() { 
+			public void componentResized(ComponentEvent e) {
+				groundHeight = getHeight()/20;
+				catapultXLoc = getWidth()/14;
+				setResizeRatios();
+				fulcrum = new Point((int)(catapultBody.getWidth()*.7*catRatio) + catapultXLoc, 
+						getHeight()-groundHeight-(int)(12*catRatio));
+				repaint();
+			} 
+		});
+		
+		addMouseListener(this);
 	}
 	
-	public void startLaunch(Image catInCatapult){
+	public void startLaunch(BufferedImage catInCatapult){
 		catapultArm = catInCatapult;
 		releaseAngle = Math.PI/4;
+		direction = releaseAngle;
+		repaint();
 	}
 	
 	public double[] getReleaseVelocity(){
@@ -76,11 +90,32 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		x = mouse.getX() - fulcrum.getX();
 		y = mouse.getY() - fulcrum.getY();
 		
-		direction = Math.atan2(y,x);
+		direction = Math.atan(y/x);
 	}
 	
 	private void calculateMagnitude(){
 		
+	}
+	
+	private void setResizeRatios(){
+		double w = catapultBody.getWidth();
+		double h = catapultBody.getHeight();
+		
+		double ratio = w/h;
+		double scaleRatio = (double)(.8*getHeight())/h;
+		
+		if(ratio > ((double)getWidth())/getHeight()){
+			scaleRatio = (double)(.8*getWidth())/w;
+		}
+		
+		catRatio = scaleRatio;
+		armRatio = (catapultBody.getWidth()*catRatio*0.65)/catapultArm.getWidth();
+	}
+	
+	private BufferedImage scaleImage(BufferedImage image, double ratio){
+		AffineTransform scaleTransform = AffineTransform.getScaleInstance(ratio, ratio);
+		AffineTransformOp op = new AffineTransformOp(scaleTransform, AffineTransformOp.TYPE_BILINEAR);
+		return op.filter(image,  null);
 	}
 	
 	public void paint(Graphics g){
@@ -92,14 +127,19 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
 		
 		//draw catapultArm
-		//AffineTransform notRotated = g2.getTransform();
-		//g2.rotate(direction);
-		//g2.drawImage(catapultArm, (int)fulcrum.getX()-catapultArm.getWidth(null), 
-		//		(int)fulcrum.getY()-catapultArm.getHeight(null), new Color(0,0,0,0), null);
-		//g2.setTransform(notRotated);
+		AffineTransform tx = AffineTransform.getRotateInstance(-direction, fulcrum.getX(), fulcrum.getY());
+		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		g2.drawImage(op.filter(scaleImage(catapultArm, armRatio), null), 
+				(int)(fulcrum.getX()-catapultArm.getWidth()*armRatio),
+				(int)(fulcrum.getY()-catapultArm.getHeight()*armRatio*.5), 
+				new Color(0,0,0,0), null);
+		g2.drawImage(scaleImage(catapultArm, armRatio), 
+				(int)(fulcrum.getX()-catapultArm.getWidth()*armRatio),
+				(int)(fulcrum.getY()-catapultArm.getHeight()*armRatio*.5), null);
 		
 		//draw catapult body on top of arm
-		g2.drawImage(catapultBody, (int)catapultLoc.getX(), (int)catapultLoc.getY(), new Color(0,0,0,0), null);
+		g2.drawImage(scaleImage(catapultBody, catRatio), catapultXLoc, 
+				getHeight()-groundHeight-(int)(catapultBody.getHeight()*catRatio),new Color(0,0,0,0), null);
 	}
 	
 	public void mouseClicked(MouseEvent arg0) {}
@@ -113,7 +153,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		calculateMagnitude();
 		
 		//run launch animation
-		animationTime.start();
+		//animationTime.start();
 		
 		//call launch complete in window
 	}

@@ -109,7 +109,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		}
 		
 		catRatio = scaleRatio;
-		armRatio = (catapultBody.getWidth()*catRatio*0.65)/catapultArm.getWidth();
+		armRatio = (catapultBody.getWidth()*catRatio)/catapultArm.getWidth();
 	}
 	
 	private BufferedImage scaleImage(BufferedImage image, double ratio){
@@ -130,9 +130,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		AffineTransform tx = AffineTransform.getRotateInstance(direction, 
 				catapultArm.getWidth(), catapultArm.getHeight()*.5);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		g2.drawImage(op.filter(scaleImage(catapultArm, armRatio), null), 
-				(int)(fulcrum.getX()-catapultArm.getWidth()*armRatio),
-				(int)(fulcrum.getY()-catapultArm.getHeight()*armRatio*.5), 
+		BufferedImage arm = op.filter(scaleImage(catapultArm, armRatio),null);
+		g2.drawImage(arm, (int)(fulcrum.getX()-arm.getWidth()),(int)(fulcrum.getY()-arm.getHeight()*.5), 
 				new Color(0,0,0,0), null);
 		
 		//draw catapult body on top of arm

@@ -127,15 +127,13 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
 		
 		//draw catapultArm
-		AffineTransform tx = AffineTransform.getRotateInstance(-direction, fulcrum.getX(), fulcrum.getY());
+		AffineTransform tx = AffineTransform.getRotateInstance(direction, 
+				catapultArm.getWidth(), catapultArm.getHeight()*.5);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 		g2.drawImage(op.filter(scaleImage(catapultArm, armRatio), null), 
 				(int)(fulcrum.getX()-catapultArm.getWidth()*armRatio),
 				(int)(fulcrum.getY()-catapultArm.getHeight()*armRatio*.5), 
 				new Color(0,0,0,0), null);
-		g2.drawImage(scaleImage(catapultArm, armRatio), 
-				(int)(fulcrum.getX()-catapultArm.getWidth()*armRatio),
-				(int)(fulcrum.getY()-catapultArm.getHeight()*armRatio*.5), null);
 		
 		//draw catapult body on top of arm
 		g2.drawImage(scaleImage(catapultBody, catRatio), catapultXLoc, 

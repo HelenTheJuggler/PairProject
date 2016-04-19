@@ -2,7 +2,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-
+//
 public class Obstacle {
 	int x, y;
 	Rectangle rect;

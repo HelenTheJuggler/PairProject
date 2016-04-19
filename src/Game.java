@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
+//
 public class Game extends JPanel implements ActionListener{
 	Cat kitty;
 	Window win;

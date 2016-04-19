@@ -46,7 +46,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		
 		animationTime = new Timer(5, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				direction -= Math.PI/12;
+				direction -= Math.PI/24;
 				if(direction>=releaseAngle){
 					direction = releaseAngle;
 					animationTime.stop();
@@ -90,7 +90,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		x = mouse.getX() - fulcrum.getX();
 		y = mouse.getY() - fulcrum.getY();
 		
-		direction = Math.atan(y/x);
+		direction = -(Math.PI-Math.atan2(y,x));
 	}
 	
 	private void calculateMagnitude(){
@@ -150,7 +150,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		calculateMagnitude();
 		
 		//run launch animation
-		//animationTime.start();
+		animationTime.start();
 		
 		//call launch complete in window
 	}

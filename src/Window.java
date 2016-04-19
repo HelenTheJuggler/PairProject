@@ -30,7 +30,7 @@ public class Window {
 	public void startGame(){
 		BufferedImage cat;
 		try {
-		    cat = ImageIO.read(new File("Pics\\KittenInCup.png"));
+		    cat = ImageIO.read(new File("Pics\\KittenInCup2.png"));
 		    catapult.startLaunch(cat);
 		} catch (IOException e) {
 		}

@@ -131,7 +131,11 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 				catapultArm.getWidth(), catapultArm.getHeight()*.5);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 		BufferedImage arm = op.filter(scaleImage(catapultArm, armRatio),null);
-		g2.drawImage(arm, (int)(fulcrum.getX()-arm.getWidth()),(int)(fulcrum.getY()-arm.getHeight()*.5), 
+		
+		
+		
+		g2.drawImage(arm, (int)(fulcrum.getX()-arm.getWidth()),
+				(int)(fulcrum.getY()-arm.getHeight()*.5), 
 				new Color(0,0,0,0), null);
 		
 		//draw catapult body on top of arm
@@ -150,7 +154,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		calculateMagnitude();
 		
 		//run launch animation
-		animationTime.start();
+		//animationTime.start();
 		
 		//call launch complete in window
 	}

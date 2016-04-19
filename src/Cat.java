@@ -38,7 +38,7 @@ public class Cat {
 		pos = p;
 		current = flyingCat;
 	}
-	public void runProjectinMotion(){
+	public void runProjectionMotion(){
 		pos.setLocation(pos.getX() + vel[0], pos.getY() + vel[1]);
 		//this method is not finished... physics things
 	}

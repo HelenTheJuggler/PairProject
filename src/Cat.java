@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 //
 public class Cat {
@@ -15,6 +16,7 @@ public class Cat {
 	Point pos;
 	double[] vel;
 	boolean friction;
+	double gravity = 5;
 	
 	public Cat(boolean fr){
 		friction = fr;
@@ -40,7 +42,15 @@ public class Cat {
 	}
 	public void runProjectionMotion(){
 		pos.setLocation(pos.getX() + vel[0], pos.getY() + vel[1]);
-		//this method is not finished... physics things
+		vel[1]-=gravity;
+		if(friction){
+			vel[0]-=1;
+			if(vel[1]<0)
+				vel[1]+=1;
+			else
+				vel[1]-=1;
+			
+		}
 	}
 	public boolean collide(Rectangle r){
 		if(r.contains(pos)){

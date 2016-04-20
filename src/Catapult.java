@@ -46,8 +46,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		
 		animationTime = new Timer(5, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				direction -= Math.PI/24;
-				if(direction>=releaseAngle){
+				direction += Math.PI/48;
+				if(direction>= releaseAngle){
 					direction = releaseAngle;
 					animationTime.stop();
 				}
@@ -90,11 +90,12 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		x = mouse.getX() - fulcrum.getX();
 		y = mouse.getY() - fulcrum.getY();
 		
-		direction = -(Math.PI-Math.atan2(y,x));
+		direction = -(Math.PI-Math.atan2(y,x)) + 2*Math.PI;
 	}
 	
 	private void calculateMagnitude(){
-		
+		magnitude = (int) (10*Math.sin(direction));
+		System.out.println(magnitude);
 	}
 	
 	private void setResizeRatios(){
@@ -127,16 +128,15 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
 		
 		//draw catapultArm
-		AffineTransform tx = AffineTransform.getRotateInstance(direction, 
-				catapultArm.getWidth(), catapultArm.getHeight()*.5);
+		BufferedImage arm = scaleImage(catapultArm, armRatio);
+		AffineTransform tx = AffineTransform.getTranslateInstance(fulcrum.getX() - catapultArm.getWidth()*2, 
+				fulcrum.getY() - catapultArm.getHeight());
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		BufferedImage arm = op.filter(scaleImage(catapultArm, armRatio),null);
-		
-		
-		
-		g2.drawImage(arm, (int)(fulcrum.getX()-arm.getWidth()),
-				(int)(fulcrum.getY()-arm.getHeight()*.5), 
-				new Color(0,0,0,0), null);
+		arm = op.filter(arm, null);
+		tx = AffineTransform.getRotateInstance(direction, fulcrum.getX(), fulcrum.getY());
+		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		arm = op.filter(arm,  null);
+		g2.drawImage(arm, 0, 0, new Color(0,0,0,0), null);
 		
 		//draw catapult body on top of arm
 		g2.drawImage(scaleImage(catapultBody, catRatio), catapultXLoc, 
@@ -154,7 +154,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		calculateMagnitude();
 		
 		//run launch animation
-		//animationTime.start();
+		animationTime.start();
 		
 		//call launch complete in window
 	}

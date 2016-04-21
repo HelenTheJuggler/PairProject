@@ -22,12 +22,12 @@ public class Cat {
 		friction = fr;
 		BufferedImage cat = null;
 		try {
-		    cat = ImageIO.read(new File("Catapult\\Pics\\KittenInCup.jpg"));
+		    cat = ImageIO.read(new File("Pics\\KittenInCup.png"));
 		    current = cat;
 		    catapultCat = cat;
-		    cat = ImageIO.read(new File("Catapult\\Pics\\BallKitten.jpg"));
+		    cat = ImageIO.read(new File("Pics\\BallKitten.png"));
 		    flyingCat = cat;
-		    cat = ImageIO.read(new File("Catapult\\Pics\\KittenStanding.jpg"));
+		    cat = ImageIO.read(new File("Pics\\KittenStanding.png"));
 		    landingCat = cat;
 		} catch (IOException e) {
 		}

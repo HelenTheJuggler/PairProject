@@ -94,8 +94,10 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	}
 	
 	private void calculateMagnitude(){
-		magnitude = (int) (10*Math.sin(direction));
-		System.out.println(magnitude);
+		//dies if arm pulled back too far(goes super huge)
+		
+		magnitude = (int) (50*Math.abs(releaseAngle-direction));
+		//System.out.println(magnitude);
 	}
 	
 	private void setResizeRatios(){

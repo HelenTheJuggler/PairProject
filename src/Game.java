@@ -40,7 +40,7 @@ public class Game extends JPanel implements ActionListener{
 		g.setColor(new Color(0, 102, 0));
 		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
 		
-		//ask helen for picture of generic catapult to use in background(with arm)
+		//draw cat
 		g2.drawImage(kitty.getImage(), (int)kitty.getPosition().getX(), (int)kitty.getPosition().getY(), null);
 	
 		

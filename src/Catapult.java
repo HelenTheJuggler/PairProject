@@ -27,8 +27,10 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private double armRatio;
 	
 	private Color sky;
+	private Game game;
 	
-	public Catapult(){
+	public Catapult(Game g){
+		game = g;
 		groundHeight = 20;
 		catapultXLoc = 50;
 		sky = new Color(145, 214, 239);
@@ -158,7 +160,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		//run launch animation
 		animationTime.start();
 		
-		//call launch complete in window
+		game.launchComplete();
 	}
 	
 	public void actionPerformed(ActionEvent e){

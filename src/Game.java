@@ -61,6 +61,9 @@ public class Game extends JPanel implements ActionListener{
 	public Cat getCat(){
 		return kitty;
 	}
+	public void setCat(Cat newCat){
+		kitty = newCat;
+	}
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
 		//kitty.collide()

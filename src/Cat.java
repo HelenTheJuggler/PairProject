@@ -20,6 +20,13 @@ public class Cat {
 	
 	public Cat(boolean fr){
 		friction = fr;
+		initImages();
+		pos = null;
+		vel= null;
+	}
+	
+	private void initImages(){
+		//can specialize in subclasses of cat
 		BufferedImage cat = null;
 		try {
 		    cat = ImageIO.read(new File("Pics\\KittenInCup.png"));
@@ -31,16 +38,16 @@ public class Cat {
 		    landingCat = cat;
 		} catch (IOException e) {
 		}
-		pos = null;
-		vel= null;
-		
 	}
+	
 	public void launch(double[] velocity, Point p){
 		vel = velocity;
 		pos = p;
 		current = flyingCat;
 	}
+	
 	public void runProjectionMotion(){
+		//can specialize in subclasses of cat
 		pos.setLocation(pos.getX() + vel[0], pos.getY() + vel[1]);
 		vel[1]-=gravity;
 		if(friction){
@@ -49,9 +56,9 @@ public class Cat {
 				vel[1]+=1;
 			else
 				vel[1]-=1;
-			
 		}
 	}
+	
 	public boolean collide(Rectangle r){
 		if(r.contains(pos)){
 			return true;
@@ -59,18 +66,21 @@ public class Cat {
 		else{
 			return false;
 		}
-		
 	}
+	
 	public void hitGround(){
 		current = landingCat;
 	}
+	
 	public void hitObstacle(){
 		vel[0] = 0;
 		current = fallingCat;
 	}
+	
 	public BufferedImage getImage(){
 		return current;
 	}
+	
 	public Point getPosition(){
 		return pos;
 	}

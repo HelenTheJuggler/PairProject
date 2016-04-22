@@ -59,16 +59,20 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		
 		addComponentListener(new ComponentAdapter() { 
 			public void componentResized(ComponentEvent e) {
-				groundHeight = getHeight()/20;
-				catapultXLoc = getWidth()/14;
-				setResizeRatios();
-				fulcrum = new Point((int)(catapultBody.getWidth()*.7*catRatio) + catapultXLoc, 
-						getHeight()-groundHeight-(int)(12*catRatio));
-				repaint();
+				resize();
 			} 
 		});
-		
 		addMouseListener(this);
+		resize();
+	}
+	
+	private void resize(){
+		groundHeight = getHeight()/20;
+		catapultXLoc = getWidth()/14;
+		setResizeRatios();
+		fulcrum = new Point((int)(catapultBody.getWidth()*.7*catRatio) + catapultXLoc, 
+				getHeight()-groundHeight-(int)(12*catRatio));
+		repaint();
 	}
 	
 	public void startLaunch(BufferedImage catInCatapult){
@@ -164,7 +168,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		//run launch animation
 		animationTime.start();
 		
-		game.launchComplete();
+		//game.launchComplete();
 	}
 	
 	public void actionPerformed(ActionEvent e){

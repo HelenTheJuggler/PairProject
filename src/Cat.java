@@ -21,8 +21,8 @@ public class Cat {
 	public Cat(boolean fr){
 		friction = fr;
 		initImages();
-		pos = null;
-		vel= null;
+		pos = new Point(0,0);
+		vel= new double[2];
 	}
 	
 	private void initImages(){
@@ -32,9 +32,9 @@ public class Cat {
 		    cat = ImageIO.read(new File("Pics\\KittenInCup.png"));
 		    current = cat;
 		    catapultCat = cat;
-		    cat = ImageIO.read(new File("Pics\\BallKitten.png"));
+		    cat = ImageIO.read(new File("Pics\\BallKitten.jpg"));
 		    flyingCat = cat;
-		    cat = ImageIO.read(new File("Pics\\KittenStanding.png"));
+		    cat = ImageIO.read(new File("Pics\\KittenStanding.jpg"));
 		    landingCat = cat;
 		} catch (IOException e) {
 		}

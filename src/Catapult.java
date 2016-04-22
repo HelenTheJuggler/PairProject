@@ -83,6 +83,10 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		return releaseV;
 	}
 
+	public int getGroundHeight(){
+		return groundHeight;
+	}
+	
 	private void calculateAngle(){
 		double x;
 		double y;

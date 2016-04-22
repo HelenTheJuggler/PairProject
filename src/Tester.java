@@ -1,17 +1,15 @@
+import java.awt.Dimension;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.io.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-import javax.imageio.*;
-import javax.swing.*;
 
-public class Window {
+public class Tester {
 	JFrame frame;
 	JPanel content;
 	Game game;
 	
-	public Window(){
+	public Tester(){
 		frame = new JFrame("CATapult");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -20,7 +18,7 @@ public class Window {
 		frame.setSize(new Dimension(700,400));
 		//frame.setResizable(false);
 		
-		game = new Game(this);
+		game = new Game(new Window());
 		frame.setContentPane(game);
 		
 		frame.pack();
@@ -28,6 +26,6 @@ public class Window {
 	}
 	
 	public static void main(String[] args){
-		Window win = new Window();
+		Tester win = new Tester();
 	}
 }

@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,19 +21,22 @@ public class Tester {
 		frame.setPreferredSize(new Dimension(700,400));
 		frame.setMinimumSize(new Dimension(200,100));
 		frame.setSize(new Dimension(700,400));
-		//frame.setResizable(false);
 		
-		Catapult cat = new Catapult(null);
+		/*Catapult cat = new Catapult(null);
 		frame.setContentPane(cat);
 		
 		BufferedImage kitty = null;
 		try {
 		    kitty = ImageIO.read(new File("Pics\\KittenInCup.png"));
 		} catch (IOException e) {}
+		*/
+		
+		game = new Game(null);
+		frame.setContentPane(game);
 		
 		frame.pack();
 		frame.setVisible(true);
-		cat.startLaunch(kitty);
+		//cat.startLaunch(kitty);
 	}
 	
 	public static void main(String[] args){

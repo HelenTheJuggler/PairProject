@@ -1,17 +1,12 @@
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
-//
+
 public class Game extends JPanel implements ActionListener{
 	private Window win;
 	private Timer time;
@@ -29,20 +24,30 @@ public class Game extends JPanel implements ActionListener{
 	
 	public Game(Window w){
 		win = w;
-		groundHeight = 20;
-		sky = new Color(145, 214, 239);
+		
 		setMinimumSize(new Dimension(200,100));
 		setSize(new Dimension(700,400));
+		
+		groundHeight = 20;
+		sky = new Color(145, 214, 239);
 		setBackground(sky);
+		
 		time = new Timer(10, this);
 		cata = new Catapult(this);
 		kitty = new Cat(false);
 		obs = new Obstacle[0];
 		launching = true;
+		
+		setLayout(null);
+		add(cata);
+		
+		Insets insets = getInsets();
+		cata.setBounds(insets.left+10, insets.top + getHeight() + cata.getGroundHeight() - 400,
+				700, 400);
 	}
 	
 	public void paint(Graphics g){
-		super.repaint();
+		super.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
 		
 		//draw ground
@@ -55,15 +60,13 @@ public class Game extends JPanel implements ActionListener{
 					(int)kitty.getPosition().getX(), 
 					(int)kitty.getPosition().getY(), null);
 		}
-	
-		//draw catapult
-		g2.drawImage(cata.createImage(cata.getWidth(),cata.getHeight()), 0, 
-				getHeight()-groundHeight + cata.getGroundHeight(), null);
 		
 		//draw obstacle things
 		for(int x = 0; x < obs.length; x ++){
 			g2.drawImage(obs[x].getImage(), obs[x].getX(), obs[x].getY(), null);
 		}
+		
+		//cata.requestFocus();
 	}
 	
 	public void launchComplete(){

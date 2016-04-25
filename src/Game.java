@@ -78,6 +78,10 @@ public class Game extends JPanel implements ActionListener{
 		time.start();
 	}
 	
+	public void startLaunch(){
+		cata.startLaunch(kitty.getImage());
+	}
+	
 	public Point getReleasePosition(){
 		release = new Point(cata.getX() + cata.getWidth()/3, cata.getY());
 		return release;

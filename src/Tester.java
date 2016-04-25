@@ -38,6 +38,7 @@ public class Tester {
 		frame.pack();
 		frame.setVisible(true);
 		//cat.startLaunch(kitty);
+		game.startLaunch();
 	}
 	
 	public static void main(String[] args){

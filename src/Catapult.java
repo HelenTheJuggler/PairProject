@@ -13,6 +13,7 @@ import java.io.IOException;
 public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private BufferedImage catapultBody;
 	private BufferedImage catapultArm;
+	private BufferedImage emptyArm;
 	
 	private double direction;
 	private double releaseAngle; //angle of arm (orthogonal to velocity)
@@ -40,7 +41,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		
 		try {
 			catapultBody = ImageIO.read(new File("Pics\\Catapult.png"));
-			catapultArm = ImageIO.read(new File("Pics\\KittenInCup.png"));
+			catapultArm = ImageIO.read(new File("Pics\\EmptyArm.png"));
 		} catch (IOException e) {}
 		releaseAngle = Math.PI/3;
 		direction = releaseAngle;
@@ -171,6 +172,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		animationTime.start();
 		
 		game.launchComplete();
+		catapultArm = emptyArm;
 	}
 	
 	public void actionPerformed(ActionEvent e){

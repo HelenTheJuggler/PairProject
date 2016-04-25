@@ -31,6 +31,7 @@ public class Tester {
 		} catch (IOException e) {}
 		*/
 		
+		
 		game = new Game(null);
 		frame.setContentPane(game);
 		

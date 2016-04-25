@@ -40,10 +40,9 @@ public class Game extends JPanel implements ActionListener{
 		
 		setLayout(null);
 		add(cata);
-		
 		Insets insets = getInsets();
-		cata.setBounds(insets.left+10, insets.top + getHeight() + cata.getGroundHeight() - 400,
-				700, 400);
+		cata.setBounds(insets.left+10, insets.top + getHeight() + cata.getGroundHeight() - 220, 350, 200);
+		repaint();
 	}
 	
 	public void paint(Graphics g){
@@ -66,7 +65,11 @@ public class Game extends JPanel implements ActionListener{
 			g2.drawImage(obs[x].getImage(), obs[x].getX(), obs[x].getY(), null);
 		}
 		
-		//cata.requestFocus();
+		Insets insets = getInsets();
+		cata.setBounds(insets.left+10, insets.top + getHeight() + cata.getGroundHeight() - 220, 350, 200);
+		if(launching){
+			cata.requestFocus();
+		}
 	}
 	
 	public void launchComplete(){
@@ -76,6 +79,7 @@ public class Game extends JPanel implements ActionListener{
 	}
 	
 	public Point getReleasePosition(){
+		release = new Point(cata.getX() + cata.getWidth()/3, cata.getY());
 		return release;
 	}
 	

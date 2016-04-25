@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 //
 public class Cat {
-	BufferedImage catapult;
 	BufferedImage flyingCat;
 	BufferedImage landingCat;
 	BufferedImage catapultCat;
@@ -16,7 +15,7 @@ public class Cat {
 	Point pos;
 	double[] vel;
 	boolean friction;
-	double gravity = 5;
+	double gravity = 0.5;
 	
 	public Cat(boolean fr){
 		friction = fr;
@@ -32,12 +31,17 @@ public class Cat {
 		    cat = ImageIO.read(new File("Pics\\KittenInCup.png"));
 		    current = cat;
 		    catapultCat = cat;
-		    cat = ImageIO.read(new File("Pics\\BallKitten.jpg"));
+		    cat = ImageIO.read(new File("Pics\\BallKitten.png"));
 		    flyingCat = cat;
-		    cat = ImageIO.read(new File("Pics\\KittenStanding.jpg"));
+		    cat = ImageIO.read(new File("Pics\\StandingKitten.png"));
 		    landingCat = cat;
 		} catch (IOException e) {
 		}
+		
+		double catRatio = 75.0/flyingCat.getWidth();
+		flyingCat = Catapult.scaleImage(flyingCat, catRatio);
+		catRatio = 150.0/landingCat.getWidth(); 
+		landingCat = Catapult.scaleImage(landingCat, catRatio);
 	}
 	
 	public void launch(double[] velocity, Point p){
@@ -48,7 +52,7 @@ public class Cat {
 	
 	public void runProjectionMotion(){
 		//can specialize in subclasses of cat
-		pos.setLocation(pos.getX() + vel[0], pos.getY() + vel[1]);
+		pos.setLocation(pos.getX() + vel[0]/5, pos.getY() - vel[1]/5);
 		vel[1]-=gravity;
 		if(friction){
 			vel[0]-=1;

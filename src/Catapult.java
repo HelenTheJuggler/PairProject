@@ -42,7 +42,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 			catapultBody = ImageIO.read(new File("Pics\\Catapult.png"));
 			catapultArm = ImageIO.read(new File("Pics\\KittenInCup.png"));
 		} catch (IOException e) {}
-		releaseAngle = Math.PI/4;
+		releaseAngle = Math.PI/3;
 		direction = releaseAngle;
 		
 		runTime = new Timer(10, this);
@@ -79,7 +79,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	
 	public void startLaunch(BufferedImage catInCatapult){
 		catapultArm = catInCatapult;
-		releaseAngle = Math.PI/4;
+		releaseAngle = Math.PI/3;
 		direction = releaseAngle;
 		repaint();
 	}
@@ -99,8 +99,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		
 		//finds direction of mouse relative to fulcrum of catapult
 		Point mouse = new Point(MouseInfo.getPointerInfo().getLocation());
-		x = mouse.getX() - fulcrum.getX();
-		y = mouse.getY() - fulcrum.getY();
+		x = mouse.getX() - fulcrum.getX() - getX();
+		y = mouse.getY() - fulcrum.getY() - getY();
 		
 		direction = -(Math.PI-Math.atan2(y,x)) + 2*Math.PI;
 	}
@@ -127,7 +127,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		armRatio = (catapultBody.getWidth()*catRatio*.9)/catapultArm.getWidth();
 	}
 	
-	private BufferedImage scaleImage(BufferedImage image, double ratio){
+	public static BufferedImage scaleImage(BufferedImage image, double ratio){
 		AffineTransform scaleTransform = AffineTransform.getScaleInstance(ratio, ratio);
 		AffineTransformOp op = new AffineTransformOp(scaleTransform, AffineTransformOp.TYPE_BILINEAR);
 		return op.filter(image,  null);
@@ -170,7 +170,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		//run launch animation
 		animationTime.start();
 		
-		//game.launchComplete();
+		game.launchComplete();
 	}
 	
 	public void actionPerformed(ActionEvent e){

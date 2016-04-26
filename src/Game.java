@@ -97,18 +97,16 @@ public class Game extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
-		//kitty.collide()
 		for(int x = 0; x < obs.length; x ++){
 			if(kitty.collide(obs[x].getRectangle())){
 				kitty.hitObstacle();
 			}
 		}
-		if(kitty.getPosition().getX() + kitty.getImage().getHeight() <= groundHeight){
+		if(kitty.collide(new Rectangle(0, getHeight() - groundHeight, getWidth()+1, groundHeight+1))){
 			kitty.hitGround();
 			time.stop();
 			//no end game animation exists
 			//win.gameComplete();
-			
 		}
 		repaint();
 	}

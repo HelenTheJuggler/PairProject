@@ -15,11 +15,12 @@ public class Cat {
 	Point pos;
 	double[] vel;
 	boolean friction;
-	double gravity = 0.5;
+	double gravity = .75;
 	
 	public Cat(boolean fr){
 		friction = fr;
 		initImages();
+		scaleImages();
 		pos = new Point(0,0);
 		vel= new double[2];
 	}
@@ -35,12 +36,13 @@ public class Cat {
 		    flyingCat = cat;
 		    cat = ImageIO.read(new File("Pics\\StandingKitten.png"));
 		    landingCat = cat;
-		} catch (IOException e) {
-		}
-		
+		} catch (IOException e) {}
+	}
+	
+	private void scaleImages(){
 		double catRatio = 75.0/flyingCat.getWidth();
 		flyingCat = Catapult.scaleImage(flyingCat, catRatio);
-		catRatio = 150.0/landingCat.getWidth(); 
+		catRatio = 80.0/landingCat.getWidth(); 
 		landingCat = Catapult.scaleImage(landingCat, catRatio);
 	}
 	
@@ -64,7 +66,7 @@ public class Cat {
 	}
 	
 	public boolean collide(Rectangle r){
-		if(r.contains(pos)){
+		if(r.intersects(getBounds())){
 			return true;
 		}
 		else{
@@ -72,7 +74,12 @@ public class Cat {
 		}
 	}
 	
+	private Rectangle getBounds(){
+		return (new Rectangle((int)pos.getX(), (int)pos.getY(), current.getHeight(), current.getWidth()));
+	}
+	
 	public void hitGround(){
+		pos.setLocation(pos.getX(), pos.getY() + current.getHeight() - landingCat.getHeight() + 5);
 		current = landingCat;
 	}
 	

@@ -10,6 +10,7 @@ import javax.swing.Timer;
 public class Game extends JPanel implements ActionListener{
 	private Window win;
 	private Timer time;
+	private Timer waitTime;
 	private int score;
 	
 	private Cat kitty;
@@ -105,10 +106,14 @@ public class Game extends JPanel implements ActionListener{
 		if(kitty.collide(new Rectangle(0, getHeight() - groundHeight, getWidth()+1, groundHeight+1))){
 			kitty.hitGround();
 			time.stop();
-			//no end game animation exists
-			//win.gameComplete();
+			waitTime = new Timer(2000, new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					waitTime.stop();
+					win.gameComplete();
+				}
+			});
+			waitTime.start();
 		}
 		repaint();
 	}
-	
 }

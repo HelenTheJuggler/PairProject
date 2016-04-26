@@ -9,12 +9,18 @@ import javax.swing.*;
 public class Window {
 	JFrame frame;
 	JPanel content;
+	CardLayout layout;
 	Game game;
 	Settings settings;
-	/*Directions direction;
+	Directions direction;
 	IntroScreen intro;
 	EndScreen end;
-	*/
+	
+	final private String GAME = "game screen";
+	final private String SETTINGS = "settings screen";
+	final private String INTRO = "title screen";
+	final private String END = "game over";
+	final private String DIRECTIONS = "directions screen";
 	
 	
 	public Window(){
@@ -28,33 +34,44 @@ public class Window {
 		
 		game = new Game(this);
 		settings = new Settings(this);
-		/*direction = new Directions();
+		direction = new Directions();
 		intro = new IntroScreen();
 		end = new EndScreen();
-		 */
-		frame.setContentPane(game);
+		
+		content = new JPanel();
+		content.add(game);
+		content.add(settings);
+		content.add(intro);
+		content.add(end);
+		content.add(direction);
+		
+		layout = new CardLayout();
+		layout.addLayoutComponent(game, GAME);
+		layout.addLayoutComponent(settings, SETTINGS);
+		layout.addLayoutComponent(intro, INTRO);
+		layout.addLayoutComponent(end, END);
+		layout.addLayoutComponent(direction, DIRECTIONS);
+		content.setLayout(layout);
+		layout.show(content, GAME);
+		
+		frame.setContentPane(content);
 		
 		frame.pack();
 		frame.setVisible(true);
 	}
 	public void gameComplete(){
 		//endScreen.setScore(game.getScore());
-		//frame.setContentPane(endScreen);
+		layout.show(content, END);
 	}
 	public void goToIntro(){
-		//frame.setContentPane(intro);
+		layout.show(content, INTRO);
 	}
 	public void goToDirections(){
-		//frame.setContentPane(settings);
-	}
-	public void launchComplete(){
-		game.launchComplete();
-		frame.setContentPane(game);
+		layout.show(content, DIRECTIONS);
 	}
 	public void startGame(){
-		/*game.getCatapult().startLaunch(game.getCat());
-		frame.setContentPane(game);
-		 */
+		game.startLaunch();
+		layout.show(content, GAME);
 	}
 	public Settings getSettings(){
 		return settings;
@@ -64,5 +81,6 @@ public class Window {
 	}
 	public static void main(String[] args){
 		Window win = new Window();
+		win.startGame();
 	}
 }

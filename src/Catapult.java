@@ -45,7 +45,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 			emptyArm = ImageIO.read(new File("Pics\\EmptyArm.png"));
 			catapultArm = emptyArm;
 		} catch (IOException e) {}
-		releaseAngle = Math.PI/3;
+		releaseAngle = Math.PI/2;
 		direction = releaseAngle;
 		
 		runTime = new Timer(10, this);
@@ -84,14 +84,15 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	
 	public void startLaunch(BufferedImage catInCatapult){
 		catapultArm = catInCatapult;
-		releaseAngle = Math.PI/3;
+		releaseAngle = Math.PI/2;
 		direction = releaseAngle;
 		launching= true;
 		repaint();
 	}
 	
 	public double[] getReleaseVelocity(){
-		double[] releaseV = {Math.cos(releaseAngle)*magnitude, Math.sin(releaseAngle)*magnitude};
+		//switch cos and sin since velocity perpendicular to arm
+		double[] releaseV = {Math.sin(releaseAngle)*magnitude, Math.cos(releaseAngle)*magnitude};
 		return releaseV;
 	}
 
@@ -114,10 +115,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	}
 	
 	private void calculateMagnitude(){
-		//dies if arm pulled back too far(goes super huge)
-		
+		//pull back to far kills magnitude
 		magnitude = (int) (50*Math.abs(releaseAngle-direction));
-		//System.out.println(magnitude);
 	}
 	
 	private void setResizeRatios(){

@@ -27,7 +27,7 @@ public class Game extends JPanel implements ActionListener{
 		win = w;
 		
 		setMinimumSize(new Dimension(200,100));
-		setSize(new Dimension(700,400));
+		setSize(new Dimension(1500,700));
 		
 		groundHeight = 20;
 		sky = new Color(145, 214, 239);

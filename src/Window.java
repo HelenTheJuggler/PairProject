@@ -7,14 +7,14 @@ import javax.imageio.*;
 import javax.swing.*;
 
 public class Window {
-	JFrame frame;
-	JPanel content;
-	CardLayout layout;
-	Game game;
-	Settings settings;
-	Directions direction;
-	IntroScreen intro;
-	EndScreen end;
+	private JFrame frame;
+	private JPanel content;
+	private CardLayout layout;
+	private Game game;
+	private Settings settings;
+	private Directions direction;
+	private IntroScreen intro;
+	private EndScreen end;
 	
 	final private String GAME = "game screen";
 	final private String SETTINGS = "settings screen";

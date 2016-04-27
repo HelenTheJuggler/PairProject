@@ -1,14 +1,11 @@
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class Game extends JPanel implements ActionListener{
 	private Window win;
+	private JViewport viewport;
 	private Timer time;
 	private Timer waitTime;
 	private int score;
@@ -27,7 +24,7 @@ public class Game extends JPanel implements ActionListener{
 		win = w;
 		
 		setMinimumSize(new Dimension(200,100));
-		setSize(new Dimension(1500,700));
+		setSize(new Dimension(1700,800));
 		
 		groundHeight = 20;
 		sky = new Color(145, 214, 239);
@@ -44,6 +41,14 @@ public class Game extends JPanel implements ActionListener{
 		Insets insets = getInsets();
 		cata.setBounds(insets.left+10, insets.top + getHeight() + cata.getGroundHeight() - 220, 350, 200);
 		repaint();
+		
+		setUpViewport();
+	}
+	
+	private void setUpViewport(){
+		viewport = new JViewport();
+		viewport.setView(this);
+		viewport.setExtentSize(new Dimension(700,400));
 	}
 	
 	public void paint(Graphics g){

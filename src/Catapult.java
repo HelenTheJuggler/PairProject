@@ -29,6 +29,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	
 	private Color sky;
 	private Game game;
+	private boolean launching;
 	
 	public Catapult(Game g){
 		game = g;
@@ -83,6 +84,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		catapultArm = catInCatapult;
 		releaseAngle = Math.PI/3;
 		direction = releaseAngle;
+		launching= true;
 		repaint();
 	}
 	
@@ -163,17 +165,21 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	public void mouseEntered(MouseEvent arg0) {}
 	public void mouseExited(MouseEvent arg0) {}
 	public void mousePressed(MouseEvent arg0) {
-		runTime.start();
+		if(launching){
+			runTime.start();
+		}
 	}
 	public void mouseReleased(MouseEvent arg0) {
-		runTime.stop();
-		calculateMagnitude();
+		if(launching){
+			runTime.stop();
+			calculateMagnitude();
 		
-		//run launch animation
-		animationTime.start();
+			animationTime.start();
 		
-		game.launchComplete();
-		catapultArm = emptyArm;
+			game.launchComplete();
+			catapultArm = emptyArm;
+			launching = false;
+		}
 	}
 	
 	public void actionPerformed(ActionEvent e){

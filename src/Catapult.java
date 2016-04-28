@@ -110,8 +110,14 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		y = mouse.getY() - fulcrum.getY() - getY();
 		
 		double newDirection = -(Math.PI-Math.atan2(y,x)) + 2*Math.PI;
-		if(newDirection<Math.PI*1.8)
+		if(newDirection<Math.PI*0.001){
+			System.out.println(newDirection);
+			direction = Math.PI*0.001;
+		}else if(newDirection>=releaseAngle){
+			direction = releaseAngle;
+		}else{
 			direction = newDirection;
+		}
 	}
 	
 	private void calculateMagnitude(){

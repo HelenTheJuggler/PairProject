@@ -49,6 +49,7 @@ public class Game extends JPanel implements ActionListener{
 		viewport = new JViewport();
 		viewport.setView(this);
 		viewport.setExtentSize(new Dimension(700,400));
+		viewport.setViewPosition(new Point(0, getHeight()-400));
 	}
 	
 	public void paint(Graphics g){
@@ -86,6 +87,7 @@ public class Game extends JPanel implements ActionListener{
 	
 	public void startLaunch(){
 		cata.startLaunch(kitty.getImage());
+		viewport.setViewPosition(new Point(0, getHeight()-400));
 	}
 	
 	public Point getReleasePosition(){
@@ -119,6 +121,25 @@ public class Game extends JPanel implements ActionListener{
 			});
 			waitTime.start();
 		}
+		adjustViewport();
 		repaint();
+	}
+	private void adjustViewport(){
+		Point catPos = kitty.getPosition();
+		Point viewPos = viewport.getViewPosition();
+		Dimension viewSize = viewport.getViewSize();
+		
+		double edgeDist = catPos.getX()-viewPos.getX()-viewSize.getWidth();
+		System.out.println(edgeDist);
+		if(edgeDist<150){
+			Point pos = new Point((int)(150-edgeDist + viewPos.getX()), (int)(viewPos.getY()));
+			viewport.setViewPosition(pos);
+		}
+		edgeDist = -catPos.getY()+viewPos.getY()+viewSize.getHeight();
+		if(edgeDist<150){
+			Point pos = new Point((int)(viewPos.getX()), (int)(-150+edgeDist + viewPos.getY()));
+			viewport.setViewPosition(pos);
+		}
+			
 	}
 }

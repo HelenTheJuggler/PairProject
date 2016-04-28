@@ -36,7 +36,7 @@ public class Window {
 		settings = new Settings(this);
 		direction = new Directions();
 		intro = new IntroScreen();
-		end = new EndScreen();
+		end = new EndScreen(this);
 		
 		content = new JPanel();
 		content.add(game);
@@ -60,7 +60,7 @@ public class Window {
 		frame.setVisible(true);
 	}
 	public void gameComplete(){
-		//endScreen.setScore(game.getScore());
+		end.setScore(0);
 		layout.show(content, END);
 	}
 	public void goToIntro(){

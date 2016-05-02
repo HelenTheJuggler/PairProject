@@ -100,7 +100,9 @@ public class Game extends JPanel implements ActionListener{
 	public void setCat(Cat newCat){
 		kitty = newCat;
 	}
-	
+	public Catapult getCatapult(){
+		return cata;
+	}
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
 		for(int x = 0; x < obs.length; x ++){
@@ -114,6 +116,7 @@ public class Game extends JPanel implements ActionListener{
 			waitTime = new Timer(2000, new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					waitTime.stop();
+					launching = true;
 					win.gameComplete();
 				}
 			});

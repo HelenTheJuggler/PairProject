@@ -1,6 +1,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 public class Game extends JPanel implements ActionListener{
@@ -23,14 +24,14 @@ public class Game extends JPanel implements ActionListener{
 	public Game(Window w){
 		win = w;
 		
-		setMinimumSize(new Dimension(200,100));
+		setMinimumSize(new Dimension(1700,800));
 		setSize(new Dimension(1700,800));
 		
 		groundHeight = 20;
 		sky = new Color(145, 214, 239);
 		setBackground(sky);
 		
-		time = new Timer(10, this);
+		time = new Timer(100, this);
 		cata = new Catapult(this);
 		kitty = new Cat(false);
 		obs = new Obstacle[0];
@@ -48,7 +49,14 @@ public class Game extends JPanel implements ActionListener{
 	private void setUpViewport(){
 		viewport = new JViewport();
 		viewport.setView(this);
+		viewport.setViewSize(new Dimension(1700, 800));
 		viewport.setExtentSize(new Dimension(700,400));
+		viewport.setViewPosition(new Point(0, 400));
+		System.out.println(viewport.getViewPosition().getX() + ", " + viewport.getViewPosition().getY());
+	}
+	
+	public JViewport getViewport(){
+		return viewport;
 	}
 	
 	public void paint(Graphics g){
@@ -105,6 +113,7 @@ public class Game extends JPanel implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
+		//adjustViewport();
 		for(int x = 0; x < obs.length; x ++){
 			if(kitty.collide(obs[x].getRectangle())){
 				kitty.hitObstacle();
@@ -123,5 +132,23 @@ public class Game extends JPanel implements ActionListener{
 			waitTime.start();
 		}
 		repaint();
+	}
+	
+	private void adjustViewport(){
+		int x = (int) viewport.getViewPosition().getX();
+		int y = (int) viewport.getViewPosition().getY();
+		
+		int xGap = (int) (x + viewport.getWidth() -kitty.getPosition().getX());
+		int yGap = (int) (-y + kitty.getPosition().getY());
+		//System.out.println(xGap + ", " + yGap);
+		System.out.println(x + ", " + y);
+		
+		if(xGap<150){
+			x+= (150-xGap);
+		}if(yGap<150){
+			y-= (150-yGap);
+		}
+		//System.out.println(x + ", " + y);
+		viewport.setViewPosition(new Point(x,y));
 	}
 }

@@ -45,7 +45,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 			emptyArm = ImageIO.read(new File("Pics\\EmptyArm.png"));
 			catapultArm = emptyArm;
 		} catch (IOException e) {}
-		releaseAngle = Math.PI/2;
+		releaseAngle = Math.PI/4;
 		direction = releaseAngle;
 		
 		runTime = new Timer(10, this);
@@ -84,7 +84,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	
 	public void startLaunch(BufferedImage catInCatapult){
 		catapultArm = catInCatapult;
-		releaseAngle = Math.PI/2;
+		releaseAngle = Math.PI/4;
 		direction = releaseAngle;
 		launching= true;
 		repaint();

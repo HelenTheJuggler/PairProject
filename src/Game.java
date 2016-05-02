@@ -113,7 +113,7 @@ public class Game extends JPanel implements ActionListener{
 		if(kitty.collide(new Rectangle(0, getHeight() - groundHeight, getWidth()+1, groundHeight+1))){
 			kitty.hitGround();
 			time.stop();
-			waitTime = new Timer(2000, new ActionListener(){
+			waitTime = new Timer(1000, new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					waitTime.stop();
 					launching = true;

@@ -112,8 +112,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		double newDirection = -(Math.PI-Math.atan2(y,x)) + 2*Math.PI;
 		if(newDirection<Math.PI*0.03 || newDirection>Math.PI)
 			direction = Math.PI*0.03;
-		else if(newDirection>Math.PI/2)
-			direction = Math.PI/2;
+		else if(newDirection>releaseAngle)
+			direction = releaseAngle;
 		else
 			direction = newDirection;
 	}

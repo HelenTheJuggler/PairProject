@@ -97,6 +97,10 @@ public class Cat {
 	public Point getPosition(){
 		return pos;
 	}
+	
+	public int getHeight(){
+		return current.getHeight();
+	}
 	public void setFriction(boolean change){
 		friction = change;
 	}

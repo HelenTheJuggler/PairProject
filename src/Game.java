@@ -32,7 +32,7 @@ public class Game extends JPanel implements ActionListener{
 		sky = new Color(145, 214, 239);
 		setBackground(sky);
 		
-		time = new Timer(500, this);
+		time = new Timer(10, this);
 		cata = new Catapult(this);
 		kitty = new Cat(false);
 		obs = new Obstacle[0];
@@ -46,18 +46,25 @@ public class Game extends JPanel implements ActionListener{
 	}
 	
 	public void paint(Graphics g){
-		g.translate((int)origin.getX(), (int)origin.getY());
+		int deltaX = 0;
+		int deltaY = 0;
+		
+		if(!launching){
+			deltaX = -(int) Math.max((kitty.getPosition().getX()- getWidth()*0.5),0);
+			deltaY = (int) Math.max(0,-(-getHeight()*0.5 + kitty.getPosition().getY()));
+		}
 		
 		Insets insets = getInsets();
-		cata.setBounds(insets.left+10 + (int)origin.getX(), 
-				(int)origin.getY() + insets.top + getHeight() + cata.getGroundHeight() - 220, 350, 200);
+		cata.setBounds(insets.left+10 + deltaX, deltaY + insets.top + getHeight() + cata.getGroundHeight() - 220, 350, 200);
 		
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
 		
 		//draw ground
+		g2.translate(0, deltaY);
 		g.setColor(new Color(0, 102, 0));
 		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
+		g2.translate(deltaX, 0);
 		
 		//draw cat
 		if(!launching){
@@ -104,13 +111,12 @@ public class Game extends JPanel implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
-		adjustViewport();
 		for(int x = 0; x < obs.length; x ++){
 			if(kitty.collide(obs[x].getRectangle())){
 				kitty.hitObstacle();
 			}
 		}
-		if(kitty.collide(new Rectangle(0, getHeight() - groundHeight, getWidth()+1, groundHeight+1))){
+		if(kitty.getPosition().getY()>getHeight()-kitty.getHeight()-groundHeight){
 			kitty.hitGround();
 			time.stop();
 			waitTime = new Timer(1000, new ActionListener(){
@@ -123,23 +129,5 @@ public class Game extends JPanel implements ActionListener{
 			waitTime.start();
 		}
 		repaint();
-	}
-			
-	private void adjustViewport(){
-		int x = (int) origin.getX();
-		int y = (int) origin.getY();
-		
-		int xGap = (int) (x + 700 -kitty.getPosition().getX());
-		int yGap = (int) (-y + kitty.getPosition().getY());
-		System.out.println(xGap + ", " + yGap);
-		//System.out.println(x + ", " + y);
-		
-		if(xGap<150){
-			x+= (150-xGap);
-		}if(yGap<150){
-			y+= (150-yGap);
-		}
-		//System.out.println(x + ", " + y);
-		//origin.setLocation(new Point(x,y));
 	}
 }

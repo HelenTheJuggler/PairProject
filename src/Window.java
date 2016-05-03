@@ -39,14 +39,14 @@ public class Window {
 		end = new EndScreen(this);
 		
 		content = new JPanel();
-		content.add(game.getViewport());
+		content.add(game);
 		content.add(settings);
 		content.add(intro);
 		content.add(end);
 		content.add(direction);
 		
 		layout = new CardLayout();
-		layout.addLayoutComponent(game.getViewport(), GAME);
+		layout.addLayoutComponent(game, GAME);
 		layout.addLayoutComponent(settings, SETTINGS);
 		layout.addLayoutComponent(intro, INTRO);
 		layout.addLayoutComponent(end, END);

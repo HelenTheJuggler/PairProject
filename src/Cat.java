@@ -87,7 +87,9 @@ public class Cat {
 		vel[0] = 0;
 		current = fallingCat;
 	}
-	
+	public void newCat(){
+		current = catapultCat;
+	}
 	public BufferedImage getImage(){
 		return current;
 	}

@@ -1,6 +1,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 public class Game extends JPanel implements ActionListener{
@@ -23,14 +24,14 @@ public class Game extends JPanel implements ActionListener{
 	public Game(Window w){
 		win = w;
 		
-		setMinimumSize(new Dimension(200,100));
+		setMinimumSize(new Dimension(1700,800));
 		setSize(new Dimension(1700,800));
 		
 		groundHeight = 20;
 		sky = new Color(145, 214, 239);
 		setBackground(sky);
 		
-		time = new Timer(10, this);
+		time = new Timer(100, this);
 		cata = new Catapult(this);
 		kitty = new Cat(false);
 		obs = new Obstacle[0];
@@ -48,8 +49,14 @@ public class Game extends JPanel implements ActionListener{
 	private void setUpViewport(){
 		viewport = new JViewport();
 		viewport.setView(this);
+		viewport.setViewSize(new Dimension(1700, 800));
 		viewport.setExtentSize(new Dimension(700,400));
-		viewport.setViewPosition(new Point(0, getHeight()-400));
+		viewport.setViewPosition(new Point(0, 400));
+		System.out.println(viewport.getViewPosition().getX() + ", " + viewport.getViewPosition().getY());
+	}
+	
+	public JViewport getViewport(){
+		return viewport;
 	}
 	
 	public void paint(Graphics g){
@@ -102,9 +109,12 @@ public class Game extends JPanel implements ActionListener{
 	public void setCat(Cat newCat){
 		kitty = newCat;
 	}
-	
+	public Catapult getCatapult(){
+		return cata;
+	}
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
+		//adjustViewport();
 		for(int x = 0; x < obs.length; x ++){
 			if(kitty.collide(obs[x].getRectangle())){
 				kitty.hitObstacle();
@@ -113,9 +123,10 @@ public class Game extends JPanel implements ActionListener{
 		if(kitty.collide(new Rectangle(0, getHeight() - groundHeight, getWidth()+1, groundHeight+1))){
 			kitty.hitGround();
 			time.stop();
-			waitTime = new Timer(2000, new ActionListener(){
+			waitTime = new Timer(1000, new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					waitTime.stop();
+					launching = true;
 					win.gameComplete();
 				}
 			});
@@ -124,22 +135,22 @@ public class Game extends JPanel implements ActionListener{
 		adjustViewport();
 		repaint();
 	}
-	private void adjustViewport(){
-		Point catPos = kitty.getPosition();
-		Point viewPos = viewport.getViewPosition();
-		Dimension viewSize = viewport.getViewSize();
-		
-		double edgeDist = catPos.getX()-viewPos.getX()-viewSize.getWidth();
-		System.out.println(edgeDist);
-		if(edgeDist<150){
-			Point pos = new Point((int)(150-edgeDist + viewPos.getX()), (int)(viewPos.getY()));
-			viewport.setViewPosition(pos);
-		}
-		edgeDist = -catPos.getY()+viewPos.getY()+viewSize.getHeight();
-		if(edgeDist<150){
-			Point pos = new Point((int)(viewPos.getX()), (int)(-150+edgeDist + viewPos.getY()));
-			viewport.setViewPosition(pos);
-		}
 			
+	private void adjustViewport(){
+		int x = (int) viewport.getViewPosition().getX();
+		int y = (int) viewport.getViewPosition().getY();
+		
+		int xGap = (int) (x + viewport.getWidth() -kitty.getPosition().getX());
+		int yGap = (int) (-y + kitty.getPosition().getY());
+		//System.out.println(xGap + ", " + yGap);
+		System.out.println(x + ", " + y);
+		
+		if(xGap<150){
+			x+= (150-xGap);
+		}if(yGap<150){
+			y-= (150-yGap);
+		}
+		//System.out.println(x + ", " + y);
+		viewport.setViewPosition(new Point(x,y));
 	}
 }

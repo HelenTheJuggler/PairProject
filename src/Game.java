@@ -51,7 +51,7 @@ public class Game extends JPanel implements ActionListener{
 		
 		if(!launching){
 			deltaX = -(int) Math.max((kitty.getPosition().getX()- getWidth()*0.5),0);
-			deltaY = (int) Math.max(0,-(-getHeight()*0.5 + kitty.getPosition().getY()));
+			deltaY = (int) Math.max(0,-(-getHeight()*0.25 + kitty.getPosition().getY()));
 		}
 		
 		Insets insets = getInsets();
@@ -95,7 +95,7 @@ public class Game extends JPanel implements ActionListener{
 	}
 	
 	public Point getReleasePosition(){
-		release = new Point(cata.getX() + cata.getWidth()/3, cata.getY());
+		release = new Point(cata.getX() + cata.getWidth()/4, cata.getY() + cata.getHeight()/4);
 		return release;
 	}
 	

@@ -14,6 +14,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private BufferedImage catapultBody;
 	private BufferedImage catapultArm;
 	private BufferedImage emptyArm;
+	private BufferedImage gear;
+	private BufferedImage catapultBottom;
 	
 	private double direction;
 	private double releaseAngle; //angle of arm (orthogonal to velocity)
@@ -26,6 +28,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private int catapultXLoc;
 	private double catRatio;
 	private double armRatio;
+	private double gearRatio;
 	
 	private Color sky;
 	private Game game;
@@ -44,6 +47,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 			catapultBody = ImageIO.read(new File("Pics\\Catapult.png"));
 			emptyArm = ImageIO.read(new File("Pics\\EmptyArm.png"));
 			catapultArm = emptyArm;
+			gear = ImageIO.read(new File("Pics\\Gear2.png"));
+			catapultBottom = ImageIO.read(new File("Pics\\CatapultBottom.png"));
 		} catch (IOException e) {}
 		releaseAngle = Math.PI/4;
 		direction = releaseAngle;
@@ -84,7 +89,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	
 	public void startLaunch(BufferedImage catInCatapult){
 		catapultArm = catInCatapult;
-		releaseAngle = Math.PI/4;
+		releaseAngle = Math.PI/2;
 		direction = releaseAngle;
 		launching= true;
 		repaint();
@@ -136,6 +141,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		
 		catRatio = scaleRatio;
 		armRatio = (catapultBody.getWidth()*catRatio*.9)/catapultArm.getWidth();
+		gearRatio = armRatio*0.4;
 	}
 	
 	public static BufferedImage scaleImage(BufferedImage image, double ratio){
@@ -147,10 +153,6 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	public void paint(Graphics g){
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
-		
-		//draw ground
-		g.setColor(new Color(0, 102, 0));
-		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
 		
 		//draw catapultArm
 		BufferedImage arm = scaleImage(catapultArm, armRatio);
@@ -166,12 +168,35 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		//draw catapult body on top of arm
 		g2.drawImage(scaleImage(catapultBody, catRatio), catapultXLoc, 
 				getHeight()-groundHeight-(int)(catapultBody.getHeight()*catRatio),new Color(0,0,0,0), null);
+		
+		//draw gear
+		BufferedImage gear = scaleImage(this.gear, gearRatio);
+		tx = AffineTransform.getTranslateInstance(fulcrum.getX() - gear.getWidth()/2, 
+				fulcrum.getY() - gear.getHeight()*.5);
+		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		gear = op.filter(gear, null);
+		tx = AffineTransform.getRotateInstance(releaseAngle, fulcrum.getX(), fulcrum.getY());
+		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		gear = op.filter(gear,  null);
+		g2.drawImage(gear, 0, 0, new Color(0,0,0,0), null);
+		
+		//draw catapult bottom on top of gear
+		g2.drawImage(scaleImage(catapultBottom, catRatio), catapultXLoc, 
+				getHeight()-groundHeight-(int)(catapultBody.getHeight()*catRatio),new Color(0,0,0,0), null);
+		
+		//draw ground
+		g.setColor(new Color(0, 102, 0));
+		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
 	}
 	
 	public void mouseClicked(MouseEvent arg0) {}
 	public void mouseEntered(MouseEvent arg0) {}
 	public void mouseExited(MouseEvent arg0) {}
 	public void mousePressed(MouseEvent arg0) {
+		Point mouse = new Point(MouseInfo.getPointerInfo().getLocation());
+		if()
+		
+		
 		if(launching){
 			runTime.start();
 		}

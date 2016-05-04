@@ -193,14 +193,27 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	public void mouseEntered(MouseEvent arg0) {}
 	public void mouseExited(MouseEvent arg0) {}
 	public void mousePressed(MouseEvent arg0) {
-		Point mouse = new Point(MouseInfo.getPointerInfo().getLocation());
-		if()
+		
 		
 		
 		if(launching){
+			Point mouse = new Point(MouseInfo.getPointerInfo().getLocation());
+			
+			Polygon arm = new Polygon();
+			
+			
+			
 			runTime.start();
 		}
 	}
+	
+	private Point rotatePoint(Point p, Point fulcrum, double radians){
+		Double x = p.getX()-fulcrum.getX();
+		Double y = p.getY()-fulcrum.getY();
+		p.setLocation(x*Math.cos(radians)-y*Math.sin(radians), x*Math.sin(radians)+y*Math.cos(radians));
+		return p;
+	}
+	
 	public void mouseReleased(MouseEvent arg0) {
 		if(launching){
 			runTime.stop();

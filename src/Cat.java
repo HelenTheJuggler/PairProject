@@ -101,6 +101,11 @@ public class Cat {
 	public int getHeight(){
 		return current.getHeight();
 	}
+	
+	public int getWidth(){
+		return current.getWidth();
+	}
+	
 	public void setFriction(boolean change){
 		friction = change;
 	}

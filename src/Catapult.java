@@ -19,9 +19,13 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	
 	private double direction;
 	private double releaseAngle; //angle of arm (orthogonal to velocity)
+	private double oldReleaseAngle;
 	private int magnitude;
 	private Timer runTime;
 	private Timer animationTime;
+	
+	private int armLength;
+	private Point cupLoc;
 	
 	private Point fulcrum;
 	private int groundHeight;
@@ -32,7 +36,10 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	
 	private Color sky;
 	private Game game;
+	
 	private boolean launching;
+	private boolean adjustGear;
+	private boolean adjustArm;
 	
 	public Catapult(Game g){
 		game = g;
@@ -42,6 +49,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		
 		setMinimumSize(new Dimension(200,100));
 		setSize(new Dimension(700,400));
+		cupLoc = new Point(0,0);
 		
 		try {
 			catapultBody = ImageIO.read(new File("Pics\\Catapult.png"));
@@ -52,13 +60,18 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		} catch (IOException e) {}
 		releaseAngle = Math.PI/4;
 		direction = releaseAngle;
+		oldReleaseAngle = releaseAngle;
+		
+		adjustGear = false;
+		adjustArm = false;
 		
 		runTime = new Timer(10, this);
 		setBackground(sky);
 		
 		animationTime = new Timer(5, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				direction += Math.PI/48;
+				direction += Math.PI/40;
+				setCupLoc();
 				if(direction>= releaseAngle){
 					direction = releaseAngle;
 					animationTime.stop();
@@ -84,6 +97,9 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		setResizeRatios();
 		fulcrum = new Point((int)(catapultBody.getWidth()*.7*catRatio) + catapultXLoc, 
 				getHeight()-groundHeight-(int)(12*catRatio));
+		
+		armLength = (int) (catapultArm.getWidth()*armRatio*0.65);
+		
 		repaint();
 	}
 	
@@ -92,6 +108,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		releaseAngle = Math.PI/2;
 		direction = releaseAngle;
 		launching= true;
+		resize();
+		setCupLoc();
 		repaint();
 	}
 	
@@ -99,6 +117,10 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		//switch cos and sin since velocity perpendicular to arm
 		double[] releaseV = {Math.sin(releaseAngle)*magnitude, Math.cos(releaseAngle)*magnitude};
 		return releaseV;
+	}
+	
+	public Point getReleasePosCenter(){
+		return cupLoc;
 	}
 
 	public int getGroundHeight(){
@@ -115,12 +137,26 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		y = mouse.getY() - fulcrum.getY() - getY();
 		
 		double newDirection = -(Math.PI-Math.atan2(y,x)) + 2*Math.PI;
-		if(newDirection<Math.PI*0.03 || newDirection>Math.PI)
-			direction = Math.PI*0.03;
-		else if(newDirection>releaseAngle)
-			direction = releaseAngle;
-		else
-			direction = newDirection;
+
+		if(adjustArm){
+			if(newDirection<Math.PI*0.03 || newDirection>Math.PI)
+				direction = Math.PI*0.03;
+			else if(newDirection>releaseAngle)
+				direction = releaseAngle;
+			else
+				direction = newDirection;
+		}else if(adjustGear){
+			if(newDirection>=0 && newDirection<=Math.PI){
+				releaseAngle = newDirection;
+				direction = releaseAngle;
+			}
+		}
+		
+		setCupLoc();
+	}
+	
+	private void setCupLoc(){
+		cupLoc.setLocation(fulcrum.getX() - Math.cos(direction)*armLength, fulcrum.getY() - Math.sin(direction)*armLength);
 	}
 	
 	private void calculateMagnitude(){
@@ -170,15 +206,15 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 				getHeight()-groundHeight-(int)(catapultBody.getHeight()*catRatio),new Color(0,0,0,0), null);
 		
 		//draw gear
-		BufferedImage gear = scaleImage(this.gear, gearRatio);
-		tx = AffineTransform.getTranslateInstance(fulcrum.getX() - gear.getWidth()/2, 
-				fulcrum.getY() - gear.getHeight()*.5);
+		BufferedImage scaleGear = scaleImage(this.gear, gearRatio);
+		tx = AffineTransform.getTranslateInstance(fulcrum.getX() - scaleGear.getWidth()/2, 
+				fulcrum.getY() - scaleGear.getHeight()*.5);
 		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		gear = op.filter(gear, null);
+		scaleGear = op.filter(scaleGear, null);
 		tx = AffineTransform.getRotateInstance(releaseAngle, fulcrum.getX(), fulcrum.getY());
 		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		gear = op.filter(gear,  null);
-		g2.drawImage(gear, 0, 0, new Color(0,0,0,0), null);
+		scaleGear = op.filter(scaleGear,  null);
+		g2.drawImage(scaleGear, 0, 0, new Color(0,0,0,0), null);
 		
 		//draw catapult bottom on top of gear
 		g2.drawImage(scaleImage(catapultBottom, catRatio), catapultXLoc, 
@@ -192,34 +228,40 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	public void mouseClicked(MouseEvent arg0) {}
 	public void mouseEntered(MouseEvent arg0) {}
 	public void mouseExited(MouseEvent arg0) {}
-	public void mousePressed(MouseEvent arg0) {
-		
-		
-		
+	public void mousePressed(MouseEvent squeak) {
 		if(launching){
-			Point mouse = new Point(MouseInfo.getPointerInfo().getLocation());
+			Point mouse = new Point(squeak.getX(), squeak.getY());
+			mouse.translate(0, 20);
 			
-			Polygon arm = new Polygon();
+			BufferedImage scaleGear = scaleImage(this.gear, gearRatio);
+			Ellipse2D gearBounds = new Ellipse2D.Double(fulcrum.getX()-scaleGear.getWidth()/4, 
+					fulcrum.getY()-scaleGear.getWidth()/4, scaleGear.getWidth()/2, scaleGear.getWidth()/2);
 			
+			int width = (int) (150*catRatio);
+			Ellipse2D armBounds = new Ellipse2D.Double(cupLoc.getX() - width/2, cupLoc.getY()-width/2,
+					width, width);
 			
-			
+			if(gearBounds.contains(mouse.getX(), mouse.getY())){
+				adjustGear = true;
+				oldReleaseAngle = releaseAngle;
+			}else if(armBounds.contains(mouse.getX(), mouse.getY())){
+				adjustArm=true;
+			}
 			runTime.start();
 		}
-	}
-	
-	private Point rotatePoint(Point p, Point fulcrum, double radians){
-		Double x = p.getX()-fulcrum.getX();
-		Double y = p.getY()-fulcrum.getY();
-		p.setLocation(x*Math.cos(radians)-y*Math.sin(radians), x*Math.sin(radians)+y*Math.cos(radians));
-		return p;
 	}
 	
 	public void mouseReleased(MouseEvent arg0) {
 		if(launching){
 			runTime.stop();
-			calculateMagnitude();
-			animationTime.start();
-			launching = false;
+			if(adjustArm){
+				calculateMagnitude();
+				animationTime.start();
+				launching = false;
+				adjustArm = false;
+			}if(adjustGear){
+				adjustGear = false;
+			}
 		}
 	}
 	

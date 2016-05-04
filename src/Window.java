@@ -30,7 +30,7 @@ public class Window {
 		frame.setPreferredSize(new Dimension(700,400));
 		frame.setMinimumSize(new Dimension(200,100));
 		frame.setSize(new Dimension(700,400));
-		//frame.setResizable(false);
+		frame.setResizable(false);
 		
 		game = new Game(this);
 		settings = new Settings(this);

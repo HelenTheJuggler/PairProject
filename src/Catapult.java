@@ -20,6 +20,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private double direction;
 	private double releaseAngle; //angle of arm (orthogonal to velocity)
 	private double oldReleaseAngle;
+	private double oldMousePos;
 	private int magnitude;
 	private Timer runTime;
 	private Timer animationTime;
@@ -127,7 +128,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		return groundHeight;
 	}
 	
-	private void calculateAngle(){
+	private double calculateAngle(){
 		double x;
 		double y;
 		
@@ -146,6 +147,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 			else
 				direction = newDirection;
 		}else if(adjustGear){
+			newDirection = oldReleaseAngle + (newDirection-oldMousePos);
 			if(newDirection>=0 && newDirection<=Math.PI){
 				releaseAngle = newDirection;
 				direction = releaseAngle;
@@ -153,6 +155,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		}
 		
 		setCupLoc();
+		return newDirection;
 	}
 	
 	private void setCupLoc(){
@@ -242,6 +245,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 					width, width);
 			
 			if(gearBounds.contains(mouse.getX(), mouse.getY())){
+				oldMousePos = calculateAngle();
 				adjustGear = true;
 				oldReleaseAngle = releaseAngle;
 			}else if(armBounds.contains(mouse.getX(), mouse.getY())){

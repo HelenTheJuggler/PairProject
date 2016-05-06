@@ -18,16 +18,16 @@ public class Settings extends JPanel{
 	JCheckBox frictionCheckBox;
 	boolean friction;
 	
-	String[] themes = {"Day", "Night"};
-	BufferedImage[] skyImages;
+	String[] themeNames = {"Day", "Night"};
+	Theme[] themes;
 	JComboBox<String> themeBox;
-	BufferedImage currentTheme;
+	Theme currentTheme;
 
 	public Settings(Window w){
 		win = w;
 		friction = false;
 		setSize(new Dimension(700,400));
-		initSkyImages();
+		initThemes();
 		setUpGUIComponents();
 		
 		setLayout(new GridBagLayout());
@@ -59,14 +59,11 @@ public class Settings extends JPanel{
 		add(themeBox, c);
 	}
 	
-	private void initSkyImages(){
-		skyImages = new BufferedImage[themes.length];
+	private void initThemes(){
 		BufferedImage sky = null;
 		try {
 		    sky = ImageIO.read(new File("Pics\\DaySky.png"));
-		    skyImages[0] = sky;
 		} catch (IOException e) {}
-		currentTheme = skyImages[0];
 	}
 	
 	private void setUpGUIComponents(){
@@ -95,23 +92,22 @@ public class Settings extends JPanel{
 			}
 		});
 		
-		themeBox = new JComboBox<String>(themes);
+		themeBox = new JComboBox<String>(themeNames);
 		themeBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				int selected =  ((JComboBox)event.getSource()).getSelectedIndex();
-				currentTheme = skyImages[selected];
+				currentTheme = themes[selected];
 			}
 		});
 	}
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
-		g2.drawImage(currentTheme, 0, -600, null, null);
-		
+		g2.drawImage(currentTheme.getSkyImage(), 0, -600, null, null);
 		super.paint(g);
 	}
 	
-	public BufferedImage getTheme(){
+	public Theme getTheme(){
 		return currentTheme;
 	}
 }

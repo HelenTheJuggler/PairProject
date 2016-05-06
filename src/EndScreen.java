@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,8 +38,9 @@ public class EndScreen extends JPanel{
 		score.setText("Score: " + points);
 		
 	}
-	/*public void paint(Graphics g){
-		g.setColor(new Color(0, 102, 0));
-		g.fill3DRect(0, getHeight() - win.getGame().getCatapult().getGroundHeight(), getWidth()+1, getHeight()+1, false);
-	}*/
+	public void paint(Graphics g){
+		Graphics2D g2 = (Graphics2D)g;
+		g2.drawImage(win.getSettings().getTheme().getSkyImage(), 0, -600, null, null);
+		super.paint(g);
+	}
 }

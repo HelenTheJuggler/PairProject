@@ -19,8 +19,6 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	
 	private double direction;
 	private double releaseAngle; //angle of arm (orthogonal to velocity)
-	private double oldReleaseAngle;
-	private double oldMousePos;
 	private int magnitude;
 	private Timer runTime;
 	private Timer animationTime;
@@ -35,39 +33,37 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private double armRatio;
 	private double gearRatio;
 	
-	private Color sky;
 	private Game game;
-	
+
 	private boolean launching;
 	private boolean adjustGear;
 	private boolean adjustArm;
+	
+	private final String filePath = "Pics\\Catapult\\";
 	
 	public Catapult(Game g){
 		game = g;
 		groundHeight = 20;
 		catapultXLoc = 50;
-		sky = new Color(0,150,255);
 		
 		setMinimumSize(new Dimension(200,100));
-		setSize(new Dimension(700,400));
+		setSize(new Dimension(350, 200));
 		cupLoc = new Point(0,0);
 		
 		try {
-			catapultBody = ImageIO.read(new File("Pics\\Catapult.png"));
-			emptyArm = ImageIO.read(new File("Pics\\EmptyArm.png"));
+			catapultBody = ImageIO.read(new File(filePath + "Catapult.png"));
+			emptyArm = ImageIO.read(new File(filePath + "EmptyArm.png"));
 			catapultArm = emptyArm;
-			gear = ImageIO.read(new File("Pics\\Gear2.png"));
-			catapultBottom = ImageIO.read(new File("Pics\\CatapultBottom.png"));
+			gear = ImageIO.read(new File(filePath + "CatapultGear.png"));
+			catapultBottom = ImageIO.read(new File(filePath + "CatapultBottom.png"));
 		} catch (IOException e) {}
 		releaseAngle = Math.PI/4;
 		direction = releaseAngle;
-		oldReleaseAngle = releaseAngle;
 		
 		adjustGear = false;
 		adjustArm = false;
 		
 		runTime = new Timer(10, this);
-		setBackground(sky);
 		
 		animationTime = new Timer(5, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -128,7 +124,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		return groundHeight;
 	}
 	
-	private double calculateAngle(){
+	private void calculateAngle(){
 		double x;
 		double y;
 		
@@ -147,15 +143,12 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 			else
 				direction = newDirection;
 		}else if(adjustGear){
-			newDirection = oldReleaseAngle + (newDirection-oldMousePos);
 			if(newDirection>=0 && newDirection<=Math.PI){
 				releaseAngle = newDirection;
 				direction = releaseAngle;
 			}
 		}
-		
 		setCupLoc();
-		return newDirection;
 	}
 	
 	private void setCupLoc(){
@@ -193,6 +186,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D)g;
 		
+		g2.drawImage(game.getTheme().getSkyImage(), -10, getHeight()-961, null, null);
+		
 		//draw catapultArm
 		BufferedImage arm = scaleImage(catapultArm, armRatio);
 		AffineTransform tx = AffineTransform.getTranslateInstance(fulcrum.getX() - arm.getWidth(), 
@@ -224,7 +219,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 				getHeight()-groundHeight-(int)(catapultBody.getHeight()*catRatio),new Color(0,0,0,0), null);
 		
 		//draw ground
-		g.setColor(new Color(0, 102, 0));
+		g.setColor(game.getTheme().getGroundColor());
 		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
 	}
 	
@@ -245,9 +240,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 					width, width);
 			
 			if(gearBounds.contains(mouse.getX(), mouse.getY())){
-				oldMousePos = calculateAngle();
 				adjustGear = true;
-				oldReleaseAngle = releaseAngle;
 			}else if(armBounds.contains(mouse.getX(), mouse.getY())){
 				adjustArm=true;
 			}

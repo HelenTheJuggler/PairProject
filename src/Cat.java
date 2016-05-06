@@ -7,43 +7,42 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 //
 public class Cat {
-	BufferedImage flyingCat;
-	BufferedImage landingCat;
-	BufferedImage catapultCat;
-	BufferedImage fallingCat;
-	BufferedImage current;
-	Point pos;
-	double[] vel;
-	boolean friction;
-	double gravity = .75;
+	private BufferedImage flyingCat;
+	private BufferedImage landingCat;
+	private BufferedImage catapultCat;
+	private BufferedImage current;
+	private Point pos;
+	private double[] vel;
+	private boolean friction;
+	private double gravity = .75;
+	private final String name = "Kitten";
 	
-	public Cat(boolean fr){
-		friction = fr;
-		initImages();
-		scaleImages();
+	
+	public Cat(){
+		friction = false;
+		initImages("Orange");
 		pos = new Point(0,0);
 		vel= new double[2];
 	}
 	
-	private void initImages(){
+	private void initImages(String color){
 		//can specialize in subclasses of cat
 		BufferedImage cat = null;
 		try {
-		    cat = ImageIO.read(new File("Pics\\KittenInCup.png"));
-		    current = cat;
+		    cat = ImageIO.read(new File("Pics\\Cats\\"+ color + "Cats\\"+ name +"InCup.png"));
 		    catapultCat = cat;
-		    cat = ImageIO.read(new File("Pics\\BallKitten.png"));
+		    cat = ImageIO.read(new File("Pics\\Cats\\"+ color + "Cats\\Ball"+ name + ".png"));
 		    flyingCat = cat;
-		    cat = ImageIO.read(new File("Pics\\StandingKitten.png"));
+		    cat = ImageIO.read(new File("Pics\\Cats\\"+ color + "Cats\\Standing"+ name +".png"));
 		    landingCat = cat;
 		} catch (IOException e) {}
-	}
-	
-	private void scaleImages(){
+		
 		double catRatio = 75.0/flyingCat.getWidth();
 		flyingCat = Catapult.scaleImage(flyingCat, catRatio);
 		catRatio = 80.0/landingCat.getWidth(); 
 		landingCat = Catapult.scaleImage(landingCat, catRatio);
+		
+		current = catapultCat;
 	}
 	
 	public void launch(double[] velocity, Point p){
@@ -57,11 +56,9 @@ public class Cat {
 		pos.setLocation(pos.getX() + vel[0]/5, pos.getY() - vel[1]/5);
 		vel[1]-=gravity;
 		if(friction){
-			vel[0]-=1;
-			if(vel[1]<0)
-				vel[1]+=1;
-			else
-				vel[1]-=1;
+			vel[0]-=0.05*vel[0];
+			vel[1]-=0.05*vel[1];
+
 		}
 	}
 	
@@ -85,7 +82,6 @@ public class Cat {
 	
 	public void hitObstacle(){
 		vel[0] = 0;
-		current = fallingCat;
 	}
 	public void newCat(){
 		current = catapultCat;
@@ -108,5 +104,9 @@ public class Cat {
 	
 	public void setFriction(boolean change){
 		friction = change;
+	}
+	
+	public void setColor(String color){
+		initImages(color);
 	}
 }

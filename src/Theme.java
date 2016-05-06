@@ -4,23 +4,25 @@ import java.awt.image.BufferedImage;
 
 public class Theme {
 	private BufferedImage sky;
-	private Color skyColor;
+	private BufferedImage title;
 	private Color groundColor;
+	private Color fontColor;
 	private String catColor;
 	
-	public Theme(BufferedImage s, Color sc, Color gc, String cc){
+	public Theme(BufferedImage s, BufferedImage t, Color gc, Color fc, String cc){
 		catColor = cc;
+		if(fc == null){
+			fontColor = Color.black;
+		}else{
+			fontColor = fc;
+		}
 		sky = s;
-		skyColor = sc;
+		title = t;
 		groundColor = gc;
 	}
 	
 	public Color getGroundColor(){
 		return groundColor;
-	}
-	
-	public Color getSkyColor(){
-		return skyColor;
 	}
 	
 	public BufferedImage getSkyImage(){
@@ -29,5 +31,13 @@ public class Theme {
 	
 	public String getCatColor(){
 		return catColor;
+	}
+	
+	public Color getFontColor(){
+		return fontColor;
+	}
+	
+	public BufferedImage getTitle(){
+		return title;
 	}
 }

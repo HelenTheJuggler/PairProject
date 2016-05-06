@@ -7,6 +7,7 @@ import javax.swing.*;
 
 public class Game extends JPanel implements ActionListener{
 	private Window win;
+	private Settings settings;
 	private Timer time;
 	private Timer waitTime;
 	private int score;
@@ -17,23 +18,22 @@ public class Game extends JPanel implements ActionListener{
 	
 	private Point release;
 	private int groundHeight;
-	private BufferedImage sky;
 	
 	private boolean launching;
 	
 	public Game(Window w){
 		win = w;
+		settings = win.getSettings();
 		
 		setMinimumSize(new Dimension(700,400));
 		setSize(new Dimension(700,400));
 		
 		groundHeight = 20;
 		setBackground(new Color(0,0,0,0));
-		sky = w.getSettings().getTheme();
 		
 		time = new Timer(10, this);
 		cata = new Catapult(this);
-		kitty = new Cat(false);
+		kitty = new Cat();
 		obs = new Obstacle[0];
 		launching = true;
 		
@@ -59,14 +59,14 @@ public class Game extends JPanel implements ActionListener{
 		//draw sky
 		Graphics2D g2 = (Graphics2D)g;
 		g2.translate(deltaX, deltaY);
-		g2.drawImage(sky, 0, -600, null, null);
+		g2.drawImage(win.getSettings().getTheme().getSkyImage(), 0, -600, null, null);
 		g2.translate(-deltaX, -deltaY);
 		
 		super.paint(g);
 		
 		//draw ground
 		g2.translate(0, deltaY);
-		g.setColor(new Color(0, 102, 0));
+		g.setColor(settings.getTheme().getGroundColor());
 		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
 		g2.translate(deltaX, 0);
 		
@@ -113,6 +113,9 @@ public class Game extends JPanel implements ActionListener{
 	}
 	public Catapult getCatapult(){
 		return cata;
+	}
+	public Theme getTheme(){
+		return settings.getTheme();
 	}
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();

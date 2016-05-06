@@ -13,20 +13,16 @@ public class IntroScreen extends JPanel{
 	private JButton play;
 	private JButton instructions;
 	private JButton settings;
-	private BufferedImage title;
 	private Window window;
 
 	public IntroScreen(Window w){
 		window = w;
 		setSize(new Dimension(700, 400));
-		
-		title = null;
-		try {
-		    title = ImageIO.read(new File("Pics\\CatapultTitle.png"));
-		} catch (IOException e) {}
+		setBackground(new Color(0,0,0,0));
 		
 		initButtons();
 		JPanel buttonPanel = new JPanel();
+		buttonPanel.setBackground(new Color(0,0,0,0));
 		buttonPanel.add(settings);
 		settings.setSize(new Dimension(50,50));
 		buttonPanel.add(play);
@@ -68,8 +64,11 @@ public class IntroScreen extends JPanel{
 	}
 	
 	public void paint(Graphics g){
+		Graphics2D g2 = (Graphics2D)g;
+		g2.drawImage(window.getSettings().getTheme().getSkyImage(), 0, -600, null, null);
+
 		super.paint(g);
-		Graphics2D g2= (Graphics2D)g;
+		BufferedImage title = window.getSettings().getTheme().getTitle();
 		BufferedImage scaleTitle = Catapult.scaleImage(title, 600.0/title.getWidth());
 		g2.drawImage(scaleTitle, getWidth()/2 - scaleTitle.getWidth()/2, 10, null, null);
 	}

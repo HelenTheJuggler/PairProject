@@ -35,7 +35,7 @@ public class Window {
 		game = new Game(this);
 		settings = new Settings(this);
 		direction = new Directions();
-		intro = new IntroScreen();
+		intro = new IntroScreen(this);
 		end = new EndScreen(this);
 		
 		content = new JPanel();
@@ -52,7 +52,8 @@ public class Window {
 		layout.addLayoutComponent(end, END);
 		layout.addLayoutComponent(direction, DIRECTIONS);
 		content.setLayout(layout);
-		layout.show(content, GAME);
+		
+		layout.show(content, INTRO);
 		
 		frame.setContentPane(content);
 		
@@ -73,6 +74,9 @@ public class Window {
 		game.startLaunch();
 		layout.show(content, GAME);
 	}
+	public void goToSettings(){
+		layout.show(content, SETTINGS);
+	}
 	public Settings getSettings(){
 		return settings;
 	}
@@ -81,6 +85,5 @@ public class Window {
 	}
 	public static void main(String[] args){
 		Window win = new Window();
-		win.startGame();
 	}
 }

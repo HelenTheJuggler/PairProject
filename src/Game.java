@@ -12,7 +12,6 @@ public class Game extends JPanel implements ActionListener{
 	
 	private Cat kitty;
 	private Obstacle[] obs;
-	private Cloud[] clouds;
 	private Catapult cata;
 	
 	private Point release;
@@ -37,7 +36,6 @@ public class Game extends JPanel implements ActionListener{
 		cata = new Catapult(this);
 		kitty = new Cat(false);
 		obs = new Obstacle[0];
-		clouds = new Cloud[0];
 		launching = true;
 		
 		setLayout(null);
@@ -67,13 +65,6 @@ public class Game extends JPanel implements ActionListener{
 		g.setColor(new Color(0, 102, 0));
 		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
 		g2.translate(deltaX, 0);
-		
-		//draw sky
-		Cloud c;
-		for(int i=0; i<clouds.length; i++){
-			c = clouds[i];
-			g2.drawImage(c.getImage(), (int)c.getLoc().getX(), (int)c.getLoc().getY(), null);
-		}
 		
 		//draw cat
 		if(!launching){

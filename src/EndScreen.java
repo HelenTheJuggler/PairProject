@@ -14,14 +14,13 @@ public class EndScreen extends JPanel{
 	public EndScreen(Window w){
 		win = w;
 		//panel = new JPanel();
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		title = new JLabel("Game Over");
-		this.add(title);
-		this.setBackground(new Color(145, 214, 239));
+		add(title);
+		setBackground(new Color(0,0,0,0));
 		title.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		score = new JLabel("Score: ");
-		//JPanel pan = new JPanel(new BoxLayout(this, BoxLayout.X_AXIS));
 		JButton button = new JButton("Play Again");
 		button.setActionCommand("Play Again");
 		button.addActionListener(new ActionListener(){

@@ -115,10 +115,12 @@ public class Settings extends JPanel{
 		
 		
 		frictionCheckBox = new JCheckBox();
-		frictionCheckBox.setIcon(new ImageIcon("Pics\\NotChecked.png"));
-		frictionCheckBox.setPressedIcon(new ImageIcon("Pics\\NotChecked.png"));
-		frictionCheckBox.setRolloverIcon(new ImageIcon("Pics\\NotChecked.png"));
-		frictionCheckBox.setSelectedIcon(new ImageIcon("Pics\\Checked.png"));
+		ImageIcon checked = new ImageIcon("Pics\\Buttons\\Checked.png");
+		ImageIcon notChecked = new ImageIcon("Pics\\Buttons\\NotChecked.png");
+		frictionCheckBox.setIcon(notChecked);
+		frictionCheckBox.setPressedIcon(notChecked);
+		frictionCheckBox.setRolloverIcon(notChecked);
+		frictionCheckBox.setSelectedIcon(checked);
 		frictionCheckBox.setBorder(null);
 		frictionCheckBox.setBackground(new Color(0,0,0,0));
 		frictionCheckBox.addActionListener(new ActionListener(){

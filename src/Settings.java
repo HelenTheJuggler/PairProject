@@ -1,27 +1,77 @@
 
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 
 public class Settings extends JPanel{
-	String[] names = {"Normal","Other Cat"};
 	Window win;
 	JPanel panel;
-	JComboBox comboBox;
-	JCheckBox checkBox;
+	
+	String[] names = {"Normal","Other Cat"};
+	JComboBox<String> catType;
+	
+	JCheckBox frictionCheckBox;
 	boolean friction;
+	
+	String[] themes = {"Day", "Night"};
+	BufferedImage[] skyImages;
+	JComboBox<String> themeBox;
+	BufferedImage currentTheme;
+
 	public Settings(Window w){
 		win = w;
 		friction = false;
-		panel = new JPanel(new GridLayout(0, 2, 10, 10));
-		panel.add(new JLabel("Type of Cat: "));
-		comboBox = new JComboBox(names);
-		comboBox.addActionListener(new ActionListener(){
+		setSize(new Dimension(700,400));
+		initSkyImages();
+		setUpGUIComponents();
+		
+		setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 1;
+		add(new JLabel("Type of Cat: "), c);
+		
+		c.gridx = 0;
+		c.gridy = 1;
+		add(catType, c);
+		
+		c.gridx = 1;
+		c.gridy = 0;
+		add(new JLabel("Friction"), c);
+		
+		c.gridx = 1;
+		c.gridy = 1;
+		add(frictionCheckBox, c);
+		
+		c.gridx=0;
+		c.gridy=2;
+		add(new JLabel("Theme"), c);
+		
+		c.gridx=1;
+		c.gridy=2;
+		add(themeBox, c);
+	}
+	
+	private void initSkyImages(){
+		skyImages = new BufferedImage[themes.length];
+		BufferedImage sky = null;
+		try {
+		    sky = ImageIO.read(new File("Pics\\DaySky.png"));
+		    skyImages[0] = sky;
+		} catch (IOException e) {}
+		currentTheme = skyImages[0];
+	}
+	
+	private void setUpGUIComponents(){
+		catType = new JComboBox<String>(names);
+		catType.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
 				String selected = (String) ((JComboBox)event.getSource()).getSelectedItem();
 				if(selected.equals(names[0])){
@@ -29,21 +79,40 @@ public class Settings extends JPanel{
 				}
 			}
 		});
-		panel.add(comboBox);
-		panel.add(new JLabel("Friction"));
-		checkBox = new JCheckBox();
-		checkBox.addActionListener(new ActionListener(){
+		
+		
+		frictionCheckBox = new JCheckBox();
+		frictionCheckBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				if(checkBox.isSelected()){
-					checkBox.setSelected(false);
+				if(frictionCheckBox.isSelected()){
+					frictionCheckBox.setSelected(false);
 				}
 				else{
-					checkBox.setSelected(true);
+					frictionCheckBox.setSelected(true);
 				}
 				friction = !friction;
 				win.getGame().getCat().setFriction(friction);
 			}
 		});
+		
+		themeBox = new JComboBox<String>(themes);
+		themeBox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event) {
+				int selected =  ((JComboBox)event.getSource()).getSelectedIndex();
+				currentTheme = skyImages[selected];
+			}
+		});
+	}
+	
+	public void paint(Graphics g){
+		Graphics2D g2 = (Graphics2D)g;
+		g2.drawImage(currentTheme, 0, -600, null, null);
+		
+		super.paint(g);
+	}
+	
+	public BufferedImage getTheme(){
+		return currentTheme;
 	}
 }
 	

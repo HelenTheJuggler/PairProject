@@ -32,8 +32,8 @@ public class Window {
 		frame.setSize(new Dimension(700,400));
 		frame.setResizable(false);
 		
-		game = new Game(this);
 		settings = new Settings(this);
+		game = new Game(this);
 		direction = new Directions();
 		intro = new IntroScreen(this);
 		end = new EndScreen(this);

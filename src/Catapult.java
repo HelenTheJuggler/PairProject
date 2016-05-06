@@ -46,7 +46,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		game = g;
 		groundHeight = 20;
 		catapultXLoc = 50;
-		sky = new Color(145, 214, 239);
+		sky = new Color(0,150,255);
 		
 		setMinimumSize(new Dimension(200,100));
 		setSize(new Dimension(700,400));

@@ -1,6 +1,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
@@ -16,21 +17,19 @@ public class Game extends JPanel implements ActionListener{
 	
 	private Point release;
 	private int groundHeight;
-	private Color sky;
+	private BufferedImage sky;
 	
 	private boolean launching;
-	private Point origin;
 	
 	public Game(Window w){
 		win = w;
 		
 		setMinimumSize(new Dimension(700,400));
 		setSize(new Dimension(700,400));
-		origin = new Point(0,0);
 		
 		groundHeight = 20;
-		sky = new Color(145, 214, 239);
-		setBackground(sky);
+		setBackground(new Color(0,0,0,0));
+		sky = w.getSettings().getTheme();
 		
 		time = new Timer(10, this);
 		cata = new Catapult(this);
@@ -57,8 +56,13 @@ public class Game extends JPanel implements ActionListener{
 		Insets insets = getInsets();
 		cata.setBounds(insets.left+10 + deltaX, deltaY + insets.top + getHeight() + cata.getGroundHeight() - 220, 350, 200);
 		
-		super.paint(g);
+		//draw sky
 		Graphics2D g2 = (Graphics2D)g;
+		g2.translate(deltaX, deltaY);
+		g2.drawImage(sky, 0, -600, null, null);
+		g2.translate(-deltaX, -deltaY);
+		
+		super.paint(g);
 		
 		//draw ground
 		g2.translate(0, deltaY);
@@ -91,7 +95,6 @@ public class Game extends JPanel implements ActionListener{
 	
 	public void startLaunch(){
 		cata.startLaunch(kitty.getImage());
-		origin = new Point(0,0);
 	}
 	
 	public Point getReleasePosition(){

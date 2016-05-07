@@ -15,17 +15,17 @@ public class Cat {
 	private double[] vel;
 	private boolean friction;
 	private double gravity = .75;
-	private final String name = "Kitten";
-	
+	private String name = "Kitten";
+	private String color = "Orange";
 	
 	public Cat(){
 		friction = false;
-		initImages("Orange");
+		initImages();
 		pos = new Point(0,0);
 		vel= new double[2];
 	}
 	
-	private void initImages(String color){
+	private void initImages(){
 		//can specialize in subclasses of cat
 		BufferedImage cat = null;
 		try {
@@ -107,6 +107,12 @@ public class Cat {
 	}
 	
 	public void setColor(String color){
-		initImages(color);
+		this.color = color;
+		initImages();
+	}
+	
+	public void setType(String name){
+		this.name = name;
+		initImages();
 	}
 }

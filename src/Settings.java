@@ -12,7 +12,7 @@ public class Settings extends JPanel{
 	private Window win;
 	private JPanel panel;
 	
-	private String[] names = {"Normal","Other Cat"};
+	private String[] names = {"Kitten","Cat"};
 	private JLabel catTypeLabel;
 	private JComboBox<String> catType;
 	
@@ -106,10 +106,8 @@ public class Settings extends JPanel{
 		catType.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
 		catType.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
-				String selected = (String) ((JComboBox)event.getSource()).getSelectedItem();
-				if(selected.equals(names[0])){
-					win.getGame().setCat(new Cat());
-				}
+				int selected = ((JComboBox)event.getSource()).getSelectedIndex();
+				win.getGame().getCat().setType(names[selected]);
 			}
 		});
 		

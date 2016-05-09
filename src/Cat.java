@@ -76,7 +76,7 @@ public class Cat {
 	}
 	
 	public void hitGround(){
-		pos.setLocation(pos.getX(), pos.getY() + current.getHeight() - landingCat.getHeight() + 5);
+		pos.setLocation(pos.getX(), pos.getY() + current.getHeight() - landingCat.getHeight() + 10);
 		current = landingCat;
 	}
 	

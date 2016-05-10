@@ -76,12 +76,18 @@ public class Cat {
 	}
 	
 	public void hitGround(){
-		pos.setLocation(pos.getX(), pos.getY() + current.getHeight() - landingCat.getHeight() + 10);
+		pos.setLocation(pos.getX() + current.getWidth()-landingCat.getWidth(), 
+				pos.getY() + current.getHeight() - landingCat.getHeight() + 10);
 		current = landingCat;
 	}
 	
-	public void hitObstacle(){
+	public void hitObstacle(boolean hitTop){
 		vel[0] = 0;
+		if(hitTop){
+			System.out.println("!!!!!!");
+			vel[1] = 0;
+			//hitGround();
+		}
 	}
 	public void newCat(){
 		current = catapultCat;

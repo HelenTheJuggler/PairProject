@@ -34,8 +34,18 @@ public class Game extends JPanel implements ActionListener{
 		time = new Timer(10, this);
 		cata = new Catapult(this);
 		kitty = new Cat();
-		obs = new Obstacle[0];
+		obs = new Obstacle[1];
+		obs[0] = new Obstacle(400, getHeight() - groundHeight - 100, null);
+		
 		launching = true;
+		
+		waitTime = new Timer(1000, new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				waitTime.stop();
+				launching = true;
+				win.gameComplete();
+			}
+		});
 		
 		setLayout(null);
 		add(cata);
@@ -121,19 +131,17 @@ public class Game extends JPanel implements ActionListener{
 		kitty.runProjectionMotion();
 		for(int x = 0; x < obs.length; x ++){
 			if(kitty.collide(obs[x].getRectangle())){
-				kitty.hitObstacle();
+				boolean bool = kitty.getPosition().getY() + kitty.getHeight() > obs[x].getY();
+				if(bool){
+					time.stop();
+					waitTime.start();
+				}
+				kitty.hitObstacle(bool);
 			}
 		}
 		if(kitty.getPosition().getY()>getHeight()-kitty.getHeight()-groundHeight){
 			kitty.hitGround();
 			time.stop();
-			waitTime = new Timer(1000, new ActionListener(){
-				public void actionPerformed(ActionEvent e){
-					waitTime.stop();
-					launching = true;
-					win.gameComplete();
-				}
-			});
 			waitTime.start();
 		}
 		repaint();

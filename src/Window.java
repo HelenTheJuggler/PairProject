@@ -16,6 +16,8 @@ public class Window {
 	private IntroScreen intro;
 	private EndScreen end;
 	
+	private LevelSet levSet;
+	
 	final private String GAME = "game screen";
 	final private String SETTINGS = "settings screen";
 	final private String INTRO = "title screen";
@@ -37,6 +39,8 @@ public class Window {
 		direction = new Directions();
 		intro = new IntroScreen(this);
 		end = new EndScreen(this);
+		
+		levSet = new LevelSet();
 		
 		content = new JPanel();
 		content.add(game);
@@ -71,7 +75,11 @@ public class Window {
 		layout.show(content, DIRECTIONS);
 	}
 	public void startGame(){
-		game.startLaunch(new Level());
+		Level current = levSet.getCurrent();
+		if(current == null){
+			current = new Level();
+		}
+		game.startLaunch(current);
 		layout.show(content, GAME);
 	}
 	public void goToSettings(){

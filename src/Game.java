@@ -146,17 +146,27 @@ public class Game extends JPanel implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
+		
 		Obstacle[] obs = lev.getObstacles();
 		for(int x = 0; x < obs.length; x ++){
 			if(kitty.collide(obs[x].getRectangle())){
 				kitty.hitObstacle();
 			}
 		}
+		
+		Goal[] coins = lev.getCoins();
+		for(int x=0; x<coins.length; x++){
+			if(kitty.collide(coins[x].getGoalBounds())){
+				score += 5;
+				coins[x].accomplished();
+			}
+		}
+			
 		if(kitty.getPosition().getY()>getHeight()-kitty.getHeight()-groundHeight){
 			kitty.hitGround();
 			time.stop();
 			if(kitty.collide(lev.getGoal().getGoalBounds())){
-				score += 1;
+				score += 100;
 				lev.getGoal().accomplished();
 			}
 			waitTime.start();

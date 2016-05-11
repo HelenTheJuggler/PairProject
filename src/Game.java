@@ -107,6 +107,7 @@ public class Game extends JPanel implements ActionListener{
 		//draw score
 		g2.translate(-deltaX, -deltaY);
 		g2.setFont(new Font(Font.DIALOG, Font.PLAIN, 30));
+		g2.setColor(settings.getTheme().getFontColor());
 		g2.drawString("Score: " + score, 10, 30);
 	}
 	

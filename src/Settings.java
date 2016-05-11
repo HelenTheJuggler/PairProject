@@ -153,6 +153,7 @@ public class Settings extends JPanel{
 		catTypeLabel.setForeground(currentTheme.getFontColor());
 		frictionLabel.setForeground(currentTheme.getFontColor());
 		themeLabel.setForeground(currentTheme.getFontColor());
+		win.updatedTheme();
 		repaint();
 	}
 	

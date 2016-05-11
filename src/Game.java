@@ -88,7 +88,10 @@ public class Game extends JPanel implements ActionListener{
 		g2.translate(deltaX, 0);
 		
 		//draw goal
-		g2.drawImage(lev.getGoalImage(), lev.getGoalX(), lev.getGoalY(), null);
+		Goal goal = lev.getGoal();
+		if(!goal.isAccomplished()){
+			g2.drawImage(goal.getGoalImage(), goal.getX(), goal.getY(), null);
+		}
 		
 		//draw cat
 		if(!launching){
@@ -100,6 +103,11 @@ public class Game extends JPanel implements ActionListener{
 		if(launching){
 			cata.requestFocus();
 		}
+		
+		//draw score
+		g2.translate(-deltaX, -deltaY);
+		g2.setFont(new Font(Font.DIALOG, Font.PLAIN, 30));
+		g2.drawString("Score: " + score, 10, 30);
 	}
 	
 	public void launchComplete(){
@@ -133,6 +141,9 @@ public class Game extends JPanel implements ActionListener{
 	public Theme getTheme(){
 		return settings.getTheme();
 	}
+	public int getScore(){
+		return score;
+	}
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
 		Obstacle[] obs = lev.getObstacles();
@@ -144,8 +155,9 @@ public class Game extends JPanel implements ActionListener{
 		if(kitty.getPosition().getY()>getHeight()-kitty.getHeight()-groundHeight){
 			kitty.hitGround();
 			time.stop();
-			if(kitty.collide(lev.getGoalBounds())){
+			if(kitty.collide(lev.getGoal().getGoalBounds())){
 				score += 1;
+				lev.getGoal().accomplished();
 			}
 			waitTime.start();
 		}

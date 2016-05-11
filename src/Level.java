@@ -10,15 +10,18 @@ import javax.imageio.ImageIO;
 public class Level{
 	private Obstacle[] obs;
 	private Goal goal;
+	private Goal[] coins;
 	
-	public Level(Obstacle[] o, Goal g){
+	public Level(Obstacle[] o, Goal g, Goal[] c){
 		obs = o;
 		goal = g;
+		coins = c;
 	}
 	
 	public Level(){
 		obs = new Obstacle[0];
-		goal = new Goal();
+		goal = new Goal("Bird");
+		coins = new Goal[0];
 	}
 	
 	public  Obstacle[] getObstacles(){
@@ -29,7 +32,7 @@ public class Level{
 		return goal;
 	}
 	
-	public void achieved(boolean bool){
-		
+	public Goal[] getCoins(){
+		return coins;
 	}
 }

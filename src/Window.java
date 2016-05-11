@@ -61,7 +61,7 @@ public class Window {
 		frame.setVisible(true);
 	}
 	public void gameComplete(){
-		end.setScore(0);
+		end.setScore(game.getScore());
 		layout.show(content, END);
 	}
 	public void goToIntro(){

@@ -11,17 +11,20 @@ public class Level{
 	private Obstacle[] obs;
 	private Goal goal;
 	private Goal[] coins;
+	private String text;
 	
-	public Level(Obstacle[] o, Goal g, Goal[] c){
+	public Level(Obstacle[] o, Goal g, Goal[] c, String text){
 		obs = o;
 		goal = g;
 		coins = c;
+		this.text = text;
 	}
 	
 	public Level(){
 		obs = new Obstacle[0];
 		goal = new Goal("Bird");
 		coins = new Goal[0];
+		text = "";
 	}
 	
 	public  Obstacle[] getObstacles(){
@@ -34,5 +37,9 @@ public class Level{
 	
 	public Goal[] getCoins(){
 		return coins;
+	}
+	
+	public String getText(){
+		return text;
 	}
 }

@@ -81,13 +81,8 @@ public class Cat {
 		current = landingCat;
 	}
 	
-	public void hitObstacle(boolean hitTop){
+	public void hitObstacle(){
 		vel[0] = 0;
-		if(hitTop){
-			System.out.println("!!!!!!");
-			vel[1] = 0;
-			//hitGround();
-		}
 	}
 	public void newCat(){
 		current = catapultCat;

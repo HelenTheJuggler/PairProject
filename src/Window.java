@@ -71,7 +71,7 @@ public class Window {
 		layout.show(content, DIRECTIONS);
 	}
 	public void startGame(){
-		game.startLaunch();
+		game.startLaunch(new Level());
 		layout.show(content, GAME);
 	}
 	public void goToSettings(){

@@ -13,7 +13,7 @@ public class Game extends JPanel implements ActionListener{
 	private int score;
 	
 	private Cat kitty;
-	private Obstacle[] obs;
+	private Level lev;
 	private Catapult cata;
 	
 	private Point release;
@@ -34,8 +34,7 @@ public class Game extends JPanel implements ActionListener{
 		time = new Timer(10, this);
 		cata = new Catapult(this);
 		kitty = new Cat();
-		obs = new Obstacle[1];
-		obs[0] = new Obstacle(400, getHeight() - groundHeight - 100, null);
+		lev = new Level();
 		
 		launching = true;
 		
@@ -74,22 +73,28 @@ public class Game extends JPanel implements ActionListener{
 		
 		super.paint(g);
 		
+		//draw obstacles
+		Obstacle[] obs = lev.getObstacles();
+		Obstacle ob;
+		for(int x = 0; x < obs.length; x ++){
+			ob = obs[x];
+			g2.drawImage(ob.getImage(), ob.getX(), ob.getY(), null);
+		}
+		
 		//draw ground
 		g2.translate(0, deltaY);
 		g.setColor(settings.getTheme().getGroundColor());
 		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
 		g2.translate(deltaX, 0);
 		
+		//draw goal
+		g2.drawImage(lev.getGoalImage(), lev.getGoalX(), lev.getGoalY(), null);
+		
 		//draw cat
 		if(!launching){
 			g2.drawImage(kitty.getImage(), 
 					(int)kitty.getPosition().getX(), 
 					(int)kitty.getPosition().getY(), null);
-		}
-		
-		//draw obstacle things
-		for(int x = 0; x < obs.length; x ++){
-			g2.drawImage(obs[x].getImage(), obs[x].getX(), obs[x].getY(), null);
 		}
 		
 		if(launching){
@@ -103,7 +108,8 @@ public class Game extends JPanel implements ActionListener{
 		time.start();
 	}
 	
-	public void startLaunch(){
+	public void startLaunch(Level l){
+		lev = l;
 		cata.startLaunch(kitty.getImage());
 	}
 	
@@ -129,19 +135,18 @@ public class Game extends JPanel implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
+		Obstacle[] obs = lev.getObstacles();
 		for(int x = 0; x < obs.length; x ++){
 			if(kitty.collide(obs[x].getRectangle())){
-				boolean bool = kitty.getPosition().getY() + kitty.getHeight() > obs[x].getY();
-				if(bool){
-					time.stop();
-					waitTime.start();
-				}
-				kitty.hitObstacle(bool);
+				kitty.hitObstacle();
 			}
 		}
 		if(kitty.getPosition().getY()>getHeight()-kitty.getHeight()-groundHeight){
 			kitty.hitGround();
 			time.stop();
+			if(kitty.collide(lev.getGoalBounds())){
+				score += 1;
+			}
 			waitTime.start();
 		}
 		repaint();

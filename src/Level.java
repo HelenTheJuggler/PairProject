@@ -1,5 +1,6 @@
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -7,26 +8,27 @@ import javax.imageio.ImageIO;
 
 public class Level{
 	private Obstacle[] obs;
-	private Point goalPos;
-	private BufferedImage goal;
+	private Goal goal;
 	
-	public Level(Obstacle[] o, Point gp){
+	public Level(Obstacle[] o, Goal g){
 		obs = o;
-		goalPos = gp;
-		try{
-			goal = ImageIO.read(new File("Pics\\Goal.png"));
-		}catch(Exception e){}
+		goal = g;
+	}
+	
+	public Level(){
+		obs = new Obstacle[0];
+		goal = new Goal();
 	}
 	
 	public  Obstacle[] getObstacles(){
 		return obs;
 	}
 	
-	public Point getGoalPos(){
-		return goalPos;
+	public Goal getGoal(){
+		return goal;
 	}
 	
-	public BufferedImage getGoalImage(){
-		return goal;
+	public void achieved(boolean bool){
+		
 	}
 }

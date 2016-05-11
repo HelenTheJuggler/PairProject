@@ -20,8 +20,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private double direction;
 	private double releaseAngle; //angle of arm (orthogonal to velocity)
 	private int magnitude;
-	//private int power=50;
-	private int power=100;
+	private int power=50;
+	//private int power=100;
 	private Timer runTime;
 	private Timer animationTime;
 	

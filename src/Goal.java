@@ -50,4 +50,8 @@ public class Goal {
 	public boolean isAccomplished(){
 		return accomplished;
 	}
+	
+	public void reset(){
+		accomplished = false;
+	}
 }

@@ -72,6 +72,11 @@ public class Game extends JPanel implements ActionListener{
 		g2.translate(-deltaX, -deltaY);
 		
 		super.paint(g);
+		//draw ground
+		g2.translate(0, deltaY);
+		g.setColor(settings.getTheme().getGroundColor());
+		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
+		g2.translate(deltaX, 0);
 		
 		//draw obstacles
 		Obstacle[] obs = lev.getObstacles();
@@ -81,16 +86,18 @@ public class Game extends JPanel implements ActionListener{
 			g2.drawImage(ob.getImage(), ob.getX(), ob.getY(), null);
 		}
 		
-		//draw ground
-		g2.translate(0, deltaY);
-		g.setColor(settings.getTheme().getGroundColor());
-		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
-		g2.translate(deltaX, 0);
-		
 		//draw goal
 		Goal goal = lev.getGoal();
 		if(!goal.isAccomplished()){
 			g2.drawImage(goal.getGoalImage(), goal.getX(), goal.getY(), null);
+		}
+		
+		//draw "coins"
+		for(int i=0; i<lev.getCoins().length; i++){
+			Goal coin = lev.getCoins()[i];
+			if(!coin.isAccomplished()){
+				g2.drawImage(coin.getGoalImage(), coin.getX(), coin.getY(), null);
+			}
 		}
 		
 		//draw cat

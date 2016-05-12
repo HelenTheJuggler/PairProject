@@ -42,4 +42,14 @@ public class Level{
 	public String getText(){
 		return text;
 	}
+	
+	public void reset(){
+		for(int i=0; i<coins.length; i++){
+			coins[i].reset();
+		}
+		
+		goal.reset();
+	}
+	
+	
 }

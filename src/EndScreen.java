@@ -31,9 +31,13 @@ public class EndScreen extends JPanel{
 		setUp();
 		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		JPanel butts = new JPanel();
+		butts.setBackground(new Color(0,0,0,0));
+		butts.add(mainMenu);
+		butts.add(playAgain);
+		add(Box.createRigidArea(new Dimension(0,50)));
 		add(score);
-		add(mainMenu);
-		add(playAgain);
+		add(butts);
 		
 		//panel = new JPanel();
 	/*	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -66,8 +70,6 @@ public class EndScreen extends JPanel{
 		score.setFont(new Font(Font.DIALOG, Font.PLAIN, 40));
 		score.setForeground(win.getSettings().getTheme().getFontColor());
 		
-		
-		add(score);
 		playAgain = new JButton("Play Again");
 		playAgain.setActionCommand("Play Again");
 		playAgain.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -77,6 +79,7 @@ public class EndScreen extends JPanel{
 				win.startGame();
 			}
 		});
+		
 		mainMenu = new JButton("Main Menu");
 		mainMenu.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		mainMenu.addActionListener(new ActionListener(){

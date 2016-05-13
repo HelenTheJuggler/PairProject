@@ -43,9 +43,9 @@ public class IntroScreen extends JPanel{
 			}
 		});
 		
-		ImageIcon qMark = new ImageIcon("Pics\\BasicQuestionMark.png");
-		qMark.setImage(qMark.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH));
-		instructions = new JButton(qMark);
+		instructions = new JButton();
+		ImageIcon[] icons = window.getSettings().getTheme().getImageIcons("gear");
+		instructions.setIcon(icons[0]);
 		instructions.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				window.goToDirections();
@@ -61,6 +61,10 @@ public class IntroScreen extends JPanel{
 				window.goToSettings();
 			}
 		});
+	}
+	
+	public void update(){
+		repaint();
 	}
 	
 	public void paint(Graphics g){

@@ -35,16 +35,17 @@ public class Theme {
 	}
 	
 	private void initImageIcons(){
-		ImageIcon play;
-		ImageIcon playSelected;
-		ImageIcon qMark;
-		ImageIcon qMarkSelected;
-		ImageIcon gear;
-		ImageIcon gearSelected;
-		ImageIcon replay;
-		ImageIcon replaySelected;
-		ImageIcon home;
-		ImageIcon homeSelected;
+		String filePath = "Pics\\" + titleColor;
+		
+		ImageIcon[] i = {new ImageIcon(filePath + "Play1.png"), new ImageIcon(filePath + "Play2.png"),
+			new ImageIcon(filePath + "qMark1.png"), new ImageIcon(filePath + "qMark2.png"),
+			new ImageIcon(filePath + "Gear1.png"), new ImageIcon(filePath + "Gear2.png"),
+			new ImageIcon(filePath + "Replay1.png"),new ImageIcon(filePath + "Replay2.png"),
+			new ImageIcon(filePath + "Home1.png"), new ImageIcon(filePath + "Home2.png")};
+		
+		for(int i=0; )
+		
+		icons = i;
 	}
 	
 	public Color getGroundColor(){

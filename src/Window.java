@@ -107,6 +107,7 @@ public class Window {
 	}
 	public void updatedTheme(){
 		end.update();
+		intro.update();
 	}
 	public LevelSet getLevelSet(){
 		return levSet;

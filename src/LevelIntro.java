@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class LevelIntro extends JPanel{
 	private Window win;
-	private JTextArea text;
+	private JPanel textBox;
 	private JLabel levNum;
 	private JButton skip;
 	
@@ -16,11 +16,8 @@ public class LevelIntro extends JPanel{
 		setSize(new Dimension(700,400));
 		setBackground(new Color(0,0,0,0));
 		
-		text = new JTextArea();
-		text.setFont(new Font(Font.DIALOG, Font.PLAIN, 40));
-		text.setForeground(win.getSettings().getTheme().getFontColor());
-		text.setBackground(new Color(0,0,0,0));
-		text.setEditable(false);
+		textBox = new JPanel();
+		textBox.setLayout(new BoxLayout(textBox, BoxLayout.PAGE_AXIS));
 		
 		levNum = new JLabel();
 		levNum.setFont(new Font(Font.DIALOG, Font.PLAIN, 60));
@@ -37,6 +34,7 @@ public class LevelIntro extends JPanel{
 			}
 		});
 		
+		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
@@ -49,7 +47,7 @@ public class LevelIntro extends JPanel{
 		c.gridy = 1;
 		c.gridwidth = 3;
 		c.anchor = GridBagConstraints.LINE_END;
-		add(text, c);
+		add(textBox, c);
 		
 		c.anchor = GridBagConstraints.CENTER;
 		c.gridx = 1;
@@ -74,8 +72,17 @@ public class LevelIntro extends JPanel{
 		skip.setVisible(false);
 		skip.setEnabled(false);
 		
-		text.setText(l.getText());
-		text.setForeground(win.getSettings().getTheme().getFontColor());
+		String[] split = l.getText().split("\n");
+		JLabel label;
+		textBox.removeAll();
+		for(int i=0; i<split.length; i++){
+			label = new JLabel(split[i]);
+			label.setForeground(win.getSettings().getTheme().getFontColor());
+			label.setBackground(new Color(0,0,0,0));
+			label.setFont(new Font(Font.DIALOG, Font.PLAIN, 40));
+			textBox.add(label);
+		}
+		
 		levNum.setText("Level " + win.getLevelSet().getLevelNum());
 		levNum.setForeground(win.getSettings().getTheme().getFontColor());
 	}

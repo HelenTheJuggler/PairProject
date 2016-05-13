@@ -164,34 +164,43 @@ public class Game extends JPanel implements ActionListener{
 		Obstacle[] obs = lev.getObstacles();
 		for(int x = 0; x < obs.length; x ++){
 			if(kitty.collide(obs[x].getRectangle())){
-				kitty.hitObstacle();
+				boolean top = kitty.getPosition().getX() + kitty.getWidth()*0.75>=obs[x].getX();
+				kitty.hitObstacle(top);
+				if(top){
+					runComplete();
+				}
 			}
 		}
 		
 		Goal[] coins = lev.getCoins();
 		for(int x=0; x<coins.length; x++){
-			if(kitty.collide(coins[x].getGoalBounds())){
-				score += 5;
+			if(kitty.collide(coins[x].getGoalBounds()) && !coins[x].isAccomplished()){
+				score += 1;
 				coins[x].accomplished();
 			}
 		}
 			
+		if(kitty.collide(lev.getGoal().getGoalBounds()) && !lev.getGoal().isAccomplished()){
+			score += 10;
+			lev.getGoal().accomplished();
+		}
+		
 		if(kitty.getPosition().getY()>getHeight()-kitty.getHeight()-groundHeight){
 			kitty.hitGround();
-			time.stop();
-			if(kitty.collide(lev.getGoal().getGoalBounds())){
-				score += 100;
-				lev.getGoal().accomplished();
-			}
-			waitTime = new Timer(1000, new ActionListener(){
-				public void actionPerformed(ActionEvent e){
-					waitTime.stop();
-					win.gameComplete();
-					launching = true;
-				}
-			});
-			waitTime.start();
+			runComplete();
 		}
 		repaint();
+	}
+	
+	private void runComplete(){
+		time.stop();
+		waitTime = new Timer(1000, new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				waitTime.stop();
+				win.gameComplete();
+				launching = true;
+			}
+		});
+		waitTime.start();
 	}
 }

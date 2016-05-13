@@ -14,6 +14,13 @@ public class Level{
 	private String text;
 	
 	public Level(Obstacle[] o, Goal g, Goal[] c, String text){
+		if(o == null){
+			o = new Obstacle[0];
+		}if(c == null){
+			c = new Goal[0];
+		}if(text == null){
+			text ="";
+		}
 		obs = o;
 		goal = g;
 		coins = c;

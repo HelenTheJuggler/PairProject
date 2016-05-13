@@ -13,6 +13,7 @@ public class Game extends JPanel implements ActionListener{
 	private Timer time;
 	private Timer waitTime;
 	private int score;
+	private String text;
 	
 	private Cat kitty;
 	private Level lev;
@@ -33,20 +34,14 @@ public class Game extends JPanel implements ActionListener{
 		groundHeight = 20;
 		setBackground(new Color(0,0,0,0));
 		
-		time = new Timer(100, this);
+		time = new Timer(10, this);
 		cata = new Catapult(this);
 		kitty = new Cat();
 		lev = new Level();
 		
 		launching = true;
 		
-		waitTime = new Timer(1000, new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				waitTime.stop();
-				launching = true;
-				win.gameComplete();
-			}
-		});
+		
 		
 		setLayout(null);
 		add(cata);
@@ -123,7 +118,7 @@ public class Game extends JPanel implements ActionListener{
 		g2.translate(-deltaX, -deltaY);
 		g2.setFont(new Font(Font.DIALOG, Font.PLAIN, 30));
 		g2.setColor(settings.getTheme().getFontColor());
-		g2.drawString("Score: " + score, 10, 30);
+		g2.drawString("Score: " + score, 10, 30);	
 	}
 	
 	public void launchComplete(){
@@ -160,6 +155,9 @@ public class Game extends JPanel implements ActionListener{
 	public int getScore(){
 		return score;
 	}
+	public boolean isComplete(){
+		return lev.getGoal().isAccomplished();
+	}
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
 		
@@ -185,6 +183,13 @@ public class Game extends JPanel implements ActionListener{
 				score += 100;
 				lev.getGoal().accomplished();
 			}
+			waitTime = new Timer(1000, new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					waitTime.stop();
+					win.gameComplete();
+					launching = true;
+				}
+			});
 			waitTime.start();
 		}
 		repaint();

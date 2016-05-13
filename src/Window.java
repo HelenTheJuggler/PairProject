@@ -1,5 +1,7 @@
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.*;
 import java.io.*;
 
@@ -14,16 +16,18 @@ public class Window {
 	private Settings settings;
 	private Directions direction;
 	private IntroScreen intro;
+	private LevelIntro levIntro;
 	private EndScreen end;
 	
 	private LevelSet levSet;
+	private Timer waitTime;
 	
 	final private String GAME = "game screen";
 	final private String SETTINGS = "settings screen";
 	final private String INTRO = "title screen";
 	final private String END = "game over";
 	final private String DIRECTIONS = "directions screen";
-	
+	final private String LEV_INTRO = "level inroduction";
 	
 	public Window(){
 		frame = new JFrame("CATapult");
@@ -39,8 +43,16 @@ public class Window {
 		direction = new Directions();
 		intro = new IntroScreen(this);
 		end = new EndScreen(this);
+		levIntro = new LevelIntro(this);
 		
 		levSet = new LevelSet();
+		waitTime = new Timer(4000, new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				waitTime.stop();
+				game.startLaunch(levSet.getCurrent());
+				layout.show(content, GAME);
+			}
+		});
 		
 		content = new JPanel();
 		content.add(game);
@@ -48,6 +60,7 @@ public class Window {
 		content.add(intro);
 		content.add(end);
 		content.add(direction);
+		content.add(levIntro);
 		
 		layout = new CardLayout();
 		layout.addLayoutComponent(game, GAME);
@@ -55,6 +68,7 @@ public class Window {
 		layout.addLayoutComponent(intro, INTRO);
 		layout.addLayoutComponent(end, END);
 		layout.addLayoutComponent(direction, DIRECTIONS);
+		layout.addLayoutComponent(levIntro, LEV_INTRO);
 		content.setLayout(layout);
 		
 		layout.show(content, INTRO);
@@ -63,6 +77,7 @@ public class Window {
 		
 		frame.pack();
 		frame.setVisible(true);
+		frame.createBufferStrategy(2);
 	}
 	public void gameComplete(){
 		end.setScore(game.getScore());
@@ -75,8 +90,9 @@ public class Window {
 		layout.show(content, DIRECTIONS);
 	}
 	public void startGame(){
-		game.startLaunch(levSet.getCurrent());
-		layout.show(content, GAME);
+		levIntro.setText(levSet.getCurrent());
+		layout.show(content, LEV_INTRO);
+		waitTime.start();
 	}
 	public void nextLevel(){
 		levSet.nextLevel();
@@ -93,8 +109,19 @@ public class Window {
 	public void updatedTheme(){
 		end.update();
 	}
+	public LevelSet getLevelSet(){
+		return levSet;
+	}
+	public LevelIntro getLevelIntro(){
+		return levIntro;
+	}
+	public void skipLevelIntro(){
+		waitTime.stop();
+		game.startLaunch(levSet.getCurrent());
+		layout.show(content, GAME);
+	}
 	
 	public static void main(String[] args){
-		Window win = new Window();
+		new Window();
 	}
 }

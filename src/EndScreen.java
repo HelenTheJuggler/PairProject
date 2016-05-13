@@ -8,10 +8,12 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class EndScreen extends JPanel{
-	private JLabel score;
+	private JLabel score, result;
 	private Window win;
 	private int points;
-	private JButton playAgain, mainMenu;
+	private JButton playAgain, mainMenu, cont;
+	private final String COMPLETE = "Level complete";
+	private final String INCOMPLETE = "Level failed";
 	
 	public EndScreen(Window w){
 		win = w;
@@ -24,22 +26,37 @@ public class EndScreen extends JPanel{
 		JPanel butts = new JPanel();
 		butts.setBackground(new Color(0,0,0,0));
 		butts.add(mainMenu);
+		butts.add(cont);
 		butts.add(playAgain);
 		add(Box.createRigidArea(new Dimension(0,50)));
+		add(result);
 		add(score);
 		add(butts);
 		
 	}
 	
 	public void setScore(int scr){
+		cont.setEnabled(true);
+		if(!win.getGame().isComplete()){
+			cont.setEnabled(false);
+			result.setText(INCOMPLETE);
+		}else{
+			result.setText(COMPLETE);
+		}
 		points = scr;
 		score.setText("Score: " + points);
 	}
 
 	private void setUp(){
+		result = new JLabel();
+		result.setFont(new Font(Font.DIALOG, Font.PLAIN, 40));
+		result.setForeground(win.getSettings().getTheme().getFontColor());
+		result.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		
 		score = new JLabel("Score: " + win.getGame().getScore());
 		score.setFont(new Font(Font.DIALOG, Font.PLAIN, 40));
 		score.setForeground(win.getSettings().getTheme().getFontColor());
+		score.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		
 		playAgain = new JButton("Play Again");
 		playAgain.setActionCommand("Play Again");
@@ -47,8 +64,8 @@ public class EndScreen extends JPanel{
 		playAgain.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				win.getGame().getCat().newCat();
-				win.nextLevel();
 				win.startGame();
+				win.getLevelIntro().addSkip();
 			}
 		});
 		
@@ -63,18 +80,26 @@ public class EndScreen extends JPanel{
 			}
 		});
 		
+		cont = new JButton("Continue");
+		cont.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		cont.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				win.getGame().getCat().newCat();
+				win.nextLevel();
+				win.startGame();
+			}
+		});
 	}
 	
 	public void update(){
 		score.setForeground(win.getSettings().getTheme().getFontColor());
-		
+		result.setForeground(win.getSettings().getTheme().getFontColor());
 	}
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
 		g2.drawImage(win.getSettings().getTheme().getSkyImage(), 0, -600, null, null);
-		super.paint(g);		
-		
+		super.paint(g);
 	}
 	
 }

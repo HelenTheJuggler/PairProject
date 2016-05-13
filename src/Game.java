@@ -1,6 +1,8 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import javax.swing.*;
@@ -65,8 +67,25 @@ public class Game extends JPanel implements ActionListener{
 		Insets insets = getInsets();
 		cata.setBounds(insets.left+10 + deltaX, deltaY + insets.top + getHeight() + cata.getGroundHeight() - 220, 350, 200);
 		
-		//draw sky
 		Graphics2D g2 = (Graphics2D)g;
+		
+		//draw sky
+		//need to implement reflections for sky if it goes out of bounds
+		/*
+		skyX = deltaX%2000;
+		boolean flipY = (deltaX/1000)%2 != 0;
+		skyY = deltaX%1000;
+		BufferedImage sky = win.getSettings().getTheme().getSkyImage();
+		if(flipY){
+			AffineTransform tx = AffineTransform.getRotateInstance(Math.PI/2, sky.getWidth()/2, sky.getHeight()/2);
+			AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+			sky = op.filter(sky,  null);
+		}
+		g2.translate(skyX, skyY);
+		g2.drawImage(win.getSettings().getTheme().getSkyImage(), 0, -600, null, null);
+		g2.translate(-skyX, -skyY);
+		 */
+		
 		g2.translate(deltaX, deltaY);
 		g2.drawImage(win.getSettings().getTheme().getSkyImage(), 0, -600, null, null);
 		g2.translate(-deltaX, -deltaY);

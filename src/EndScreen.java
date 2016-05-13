@@ -75,7 +75,6 @@ public class EndScreen extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				win.getGame().getCat().newCat();
 				win.startGame();
-				win.nextLevel();
 				win.goToIntro();
 			}
 		});

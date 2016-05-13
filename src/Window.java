@@ -46,11 +46,10 @@ public class Window {
 		levIntro = new LevelIntro(this);
 		
 		levSet = new LevelSet();
-		waitTime = new Timer(4000, new ActionListener(){
+		waitTime = new Timer(2000, new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				waitTime.stop();
-				game.startLaunch(levSet.getCurrent());
-				layout.show(content, GAME);
+				levIntro.addSkip();
 			}
 		});
 		

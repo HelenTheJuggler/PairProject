@@ -15,8 +15,10 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private BufferedImage catapultArm;
 	private BufferedImage emptyArm;
 	private BufferedImage gear;
+	private BufferedImage slider;
 	private BufferedImage catapultBottom;
 	
+	private int sliderPos;
 	private double direction;
 	private double releaseAngle; //angle of arm (orthogonal to velocity)
 	private int magnitude;
@@ -40,6 +42,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private boolean launching;
 	private boolean adjustGear;
 	private boolean adjustArm;
+	private boolean adjustSlider;
 	
 	private final String filePath = "Pics\\Catapult\\";
 	
@@ -51,6 +54,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		setMinimumSize(new Dimension(200,100));
 		setSize(new Dimension(350, 200));
 		cupLoc = new Point(0,0);
+		sliderPos = 0;
 		
 		try {
 			catapultBody = ImageIO.read(new File(filePath + "Catapult.png"));
@@ -58,12 +62,14 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 			catapultArm = emptyArm;
 			gear = ImageIO.read(new File(filePath + "CatapultGear.png"));
 			catapultBottom = ImageIO.read(new File(filePath + "CatapultBottom.png"));
+			slider = ImageIO.read(new File(filePath + "Slider.png"));
 		} catch (IOException e) {}
 		releaseAngle = Math.PI/4;
 		direction = releaseAngle;
 		
 		adjustGear = false;
 		adjustArm = false;
+		adjustSlider = false;
 		
 		runTime = new Timer(10, this);
 		
@@ -107,6 +113,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		releaseAngle = Math.PI/2;
 		direction = releaseAngle;
 		launching= true;
+		sliderPos = 0;
 		resize();
 		setCupLoc();
 		repaint();
@@ -151,6 +158,21 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 			}
 		}
 		setCupLoc();
+	}
+	
+	private void calculatePower(){
+		double x;
+		double y;
+		
+		Point mouse = new Point(MouseInfo.getPointerInfo().getLocation());
+		mouse.translate(0, -(int)fulcrum.getY() - 124);
+		
+		sliderPos = (int) mouse.getY();
+		if(sliderPos>21){
+			sliderPos = 21;
+		}else if(sliderPos<-25){
+			sliderPos = -25;
+		}
 	}
 	
 	private void setCupLoc(){
@@ -220,6 +242,12 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		g2.drawImage(scaleImage(catapultBottom, catRatio), catapultXLoc, 
 				getHeight()-groundHeight-(int)(catapultBody.getHeight()*catRatio),new Color(0,0,0,0), null);
 		
+		//draw slider on catapult
+		g2.translate(0, sliderPos);
+		g2.drawImage(scaleImage(slider, catRatio), catapultXLoc, 
+				getHeight()-groundHeight-(int)(catapultBody.getHeight()*catRatio),new Color(0,0,0,0), null);
+		g2.translate(0, -sliderPos);
+		
 		//draw ground
 		g.setColor(game.getTheme().getGroundColor());
 		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
@@ -241,7 +269,12 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 			Ellipse2D armBounds = new Ellipse2D.Double(cupLoc.getX() - width/2, cupLoc.getY()-width/2,
 					width, width);
 			
-			if(gearBounds.contains(mouse.getX(), mouse.getY())){
+			Rectangle sliderBounds = new Rectangle((int)(325*catRatio), (int)(160*catRatio), 
+					(int)(20*catRatio), (int)(100*catRatio));
+			
+			if(sliderBounds.contains(mouse.getX(), mouse.getY())){
+				adjustSlider = true;
+			}else if(gearBounds.contains(mouse.getX(), mouse.getY())){
 				adjustGear = true;
 			}else if(armBounds.contains(mouse.getX(), mouse.getY())){
 				adjustArm=true;
@@ -258,14 +291,21 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 				animationTime.start();
 				launching = false;
 				adjustArm = false;
-			}if(adjustGear){
+			}else if(adjustGear){
 				adjustGear = false;
+			}else if(adjustSlider){
+				power = (30-sliderPos)*2;
+				adjustSlider =false;
 			}
 		}
 	}
 	
 	public void actionPerformed(ActionEvent e){
-		calculateAngle();
+		if(adjustSlider){
+			calculatePower();
+		}else{
+			calculateAngle();
+		}
 		repaint();
 	}
 }

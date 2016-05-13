@@ -35,7 +35,8 @@ public class LevelIntro extends JPanel{
 			}
 		});
 		
-		setLayout(new GridBagLayout());
+		GridBagLayout layout = new GridBagLayout();
+		setLayout(layout);
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;

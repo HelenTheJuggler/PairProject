@@ -33,7 +33,7 @@ public class Game extends JPanel implements ActionListener{
 		groundHeight = 20;
 		setBackground(new Color(0,0,0,0));
 		
-		time = new Timer(10, this);
+		time = new Timer(100, this);
 		cata = new Catapult(this);
 		kitty = new Cat();
 		lev = new Level();
@@ -51,7 +51,7 @@ public class Game extends JPanel implements ActionListener{
 		setLayout(null);
 		add(cata);
 		Insets insets = getInsets();
-		cata.setBounds(insets.left+10, insets.top + getHeight() + cata.getGroundHeight() - 220, 350, 200);
+		cata.setBounds(insets.left+10, insets.top + getHeight() + cata.getGroundHeight() - 220, 400, 200);
 		repaint();
 	}
 	
@@ -65,30 +65,19 @@ public class Game extends JPanel implements ActionListener{
 		}
 		
 		Insets insets = getInsets();
-		cata.setBounds(insets.left+10 + deltaX, deltaY + insets.top + getHeight() + cata.getGroundHeight() - 220, 350, 200);
+		cata.setBounds(insets.left+10 + deltaX, deltaY + insets.top + getHeight() + cata.getGroundHeight() - 220, 400, 200);
 		
 		Graphics2D g2 = (Graphics2D)g;
 		
 		//draw sky
-		//need to implement reflections for sky if it goes out of bounds
-		/*
-		skyX = deltaX%2000;
-		boolean flipY = (deltaX/1000)%2 != 0;
-		skyY = deltaX%1000;
-		BufferedImage sky = win.getSettings().getTheme().getSkyImage();
-		if(flipY){
-			AffineTransform tx = AffineTransform.getRotateInstance(Math.PI/2, sky.getWidth()/2, sky.getHeight()/2);
-			AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-			sky = op.filter(sky,  null);
-		}
-		g2.translate(skyX, skyY);
+		int skyX = (deltaX-700)%2000 + 700;
+		g2.translate(skyX, deltaY);
 		g2.drawImage(win.getSettings().getTheme().getSkyImage(), 0, -600, null, null);
-		g2.translate(-skyX, -skyY);
-		 */
-		
-		g2.translate(deltaX, deltaY);
+		g2.translate(-skyX, -deltaY);
+		skyX = (deltaX-700)%2000 + 700 - 2000;
+		g2.translate(skyX, deltaY);
 		g2.drawImage(win.getSettings().getTheme().getSkyImage(), 0, -600, null, null);
-		g2.translate(-deltaX, -deltaY);
+		g2.translate(-skyX, -deltaY);
 		
 		super.paint(g);
 		//draw ground

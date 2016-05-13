@@ -75,12 +75,11 @@ public class Window {
 		layout.show(content, DIRECTIONS);
 	}
 	public void startGame(){
-		Level current = levSet.getCurrent();
-		if(current == null){
-			current = new Level();
-		}
-		game.startLaunch(current);
+		game.startLaunch(levSet.getCurrent());
 		layout.show(content, GAME);
+	}
+	public void nextLevel(){
+		levSet.nextLevel();
 	}
 	public void goToSettings(){
 		layout.show(content, SETTINGS);

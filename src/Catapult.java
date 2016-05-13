@@ -53,6 +53,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		
 		setMinimumSize(new Dimension(200,100));
 		setSize(new Dimension(350, 200));
+		setBackground(new Color(0,0,0,0));
 		cupLoc = new Point(0,0);
 		sliderPos = 0;
 		
@@ -161,11 +162,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	}
 	
 	private void calculatePower(){
-		double x;
-		double y;
-		
 		Point mouse = new Point(MouseInfo.getPointerInfo().getLocation());
-		mouse.translate(0, -(int)fulcrum.getY() - 124);
+		mouse.translate(0, -(int)fulcrum.getY() - 115);
 		
 		sliderPos = (int) mouse.getY();
 		if(sliderPos>21){
@@ -192,7 +190,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		double scaleRatio = (double)(.7*getHeight())/h;
 		
 		if(ratio > ((double)getWidth())/getHeight()){
-			scaleRatio = (double)(.7*getWidth())/w;
+			scaleRatio = (double)(.5*getWidth())/w;
 		}
 		
 		catRatio = scaleRatio;

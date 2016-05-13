@@ -16,9 +16,12 @@ public class LevelSet {
 		levs[2] = new Level(new Obstacle[0], new Goal("Bird"), coins, "");
 	}
 	
-	public Level getCurrent(){
+	public void nextLevel(){
 		current++;
-		Level curLev = levs[(current-1)%levs.length];
+	}
+	
+	public Level getCurrent(){
+		Level curLev = levs[(current)%levs.length];
 		curLev.reset();
 		return curLev;
 	}

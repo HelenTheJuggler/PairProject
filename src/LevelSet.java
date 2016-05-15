@@ -9,7 +9,7 @@ public class LevelSet {
 		current = 0;
 		
 		levs[0] = new Level(null, new Goal("Bird"), null, 
-				"Drag arm back and release to shoot"
+				"Click and drag the arm" + "\nRelease to shoot"
 				+ "\nCatch the bird");
 		
 		levs[1] = new Level(null, new Goal(new Point(425, 300), "Bird"), null,  

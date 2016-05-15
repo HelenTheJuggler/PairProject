@@ -292,7 +292,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 			}else if(adjustGear){
 				adjustGear = false;
 			}else if(adjustSlider){
-				power = (30-sliderPos)*2;
+				power = (35-sliderPos)*2;
 				adjustSlider =false;
 			}
 		}

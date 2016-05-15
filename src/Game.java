@@ -183,6 +183,7 @@ public class Game extends JPanel implements ActionListener{
 		if(kitty.collide(lev.getGoal().getGoalBounds()) && !lev.getGoal().isAccomplished()){
 			score += 10;
 			lev.getGoal().accomplished();
+			win.nextLevel();
 		}
 		
 		if(kitty.getPosition().getY()>getHeight()-kitty.getHeight()-groundHeight){

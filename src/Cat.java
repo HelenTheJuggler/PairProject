@@ -14,7 +14,8 @@ public class Cat {
 	private Point pos;
 	private double[] vel;
 	private boolean friction;
-	private double gravity = .75;
+	private double gravity = 2;
+	private double frictionVal = 0.1;
 	private String name = "Kitten";
 	private String color = "Orange";
 	
@@ -56,8 +57,8 @@ public class Cat {
 		pos.setLocation(pos.getX() + vel[0]/5, pos.getY() - vel[1]/5);
 		vel[1]-=gravity;
 		if(friction){
-			vel[0]-=0.05*vel[0];
-			vel[1]-=0.05*vel[1];
+			vel[0]-=frictionVal*vel[0];
+			vel[1]-=frictionVal*vel[1];
 
 		}
 	}

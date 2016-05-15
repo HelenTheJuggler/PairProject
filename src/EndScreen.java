@@ -84,7 +84,6 @@ public class EndScreen extends JPanel{
 		cont.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				win.getGame().getCat().newCat();
-				win.nextLevel();
 				win.startGame();
 			}
 		});

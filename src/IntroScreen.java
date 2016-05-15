@@ -36,7 +36,13 @@ public class IntroScreen extends JPanel{
 	}
 	
 	private void initButtons(){
-		play = new JButton("PLAY");
+		play = new JButton();
+		ImageIcon[] icons = window.getSettings().getTheme().getImageIcons("play");
+		play.setIcon(icons[0]);
+		play.setSelectedIcon(icons[1]);
+		play.setRolloverIcon(icons[1]);
+		play.setDisabledIcon(icons[0]);
+		play.setBackground(null);
 		play.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				window.startGame();
@@ -44,17 +50,23 @@ public class IntroScreen extends JPanel{
 		});
 		
 		instructions = new JButton();
-		ImageIcon[] icons = window.getSettings().getTheme().getImageIcons("gear");
+		icons = window.getSettings().getTheme().getImageIcons("qMark");
 		instructions.setIcon(icons[0]);
+		instructions.setSelectedIcon(icons[1]);
+		instructions.setRolloverIcon(icons[1]);
+		instructions.setDisabledIcon(icons[0]);
 		instructions.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				window.goToDirections();
 			}
 		});
 		
-		ImageIcon gear = new ImageIcon("Pics\\Gear.png");
-		gear.setImage(gear.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH));
-		settings = new JButton(gear);
+		settings = new JButton();
+		icons = window.getSettings().getTheme().getImageIcons("gear");
+		settings.setIcon(icons[0]);
+		settings.setSelectedIcon(icons[1]);
+		settings.setRolloverIcon(icons[1]);
+		settings.setDisabledIcon(icons[0]);
 		settings.setSize(new Dimension(50,50));
 		settings.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){

@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -35,7 +36,7 @@ public class Theme {
 	}
 	
 	private void initImageIcons(){
-		String filePath = "Pics\\" + titleColor;
+		String filePath = "Pics\\Buttons\\" + titleColor + "\\";
 		
 		ImageIcon[] i = {new ImageIcon(filePath + "Play1.png"), new ImageIcon(filePath + "Play2.png"),
 			new ImageIcon(filePath + "qMark1.png"), new ImageIcon(filePath + "qMark2.png"),
@@ -43,9 +44,10 @@ public class Theme {
 			new ImageIcon(filePath + "Replay1.png"),new ImageIcon(filePath + "Replay2.png"),
 			new ImageIcon(filePath + "Home1.png"), new ImageIcon(filePath + "Home2.png")};
 		
-		for(int i=0; )
-		
 		icons = i;
+		for(int x=0; x<icons.length; x++){
+			icons[x].setImage(icons[x].getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		}
 	}
 	
 	public Color getGroundColor(){

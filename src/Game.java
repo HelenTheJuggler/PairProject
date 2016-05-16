@@ -180,7 +180,7 @@ public class Game extends JPanel implements ActionListener{
 				coins[x].accomplished();
 			}
 		}
-			//
+			
 		if(kitty.collide(lev.getGoal().getGoalBounds()) && !lev.getGoal().isAccomplished()){
 			score+=10;
 			lev.getGoal().accomplished();

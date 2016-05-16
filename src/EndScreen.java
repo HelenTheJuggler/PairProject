@@ -61,7 +61,7 @@ public class EndScreen extends JPanel{
 		score.setFont(new Font(Font.DIALOG, Font.PLAIN, 40));
 		score.setForeground(win.getSettings().getTheme().getFontColor());
 		score.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		
+		//
 		/*playAgain = new JButton("Play Again");
 		playAgain.setActionCommand("Play Again");
 		playAgain.setAlignmentX(JLabel.CENTER_ALIGNMENT);

@@ -13,7 +13,7 @@ public class Goal {
 	public Goal(Point pos, String type){
 		goalPos = pos;
 		try{
-			goalImage = ImageIO.read(new File("Pics\\" + type + ".jpg"));
+			goalImage = ImageIO.read(new File("Pics\\" + type + ".png"));
 			goalImage = Catapult.scaleImage(goalImage, 75.0/goalImage.getWidth());
 		}catch(Exception e){}
 	}
@@ -21,7 +21,7 @@ public class Goal {
 	public Goal(String type){
 		goalPos = new Point(600, 300);
 		try{
-			goalImage = ImageIO.read(new File("Pics\\" + type + ".jpg"));
+			goalImage = ImageIO.read(new File("Pics\\" + type + ".png"));
 			goalImage = Catapult.scaleImage(goalImage, 75.0/goalImage.getWidth());
 		}catch(Exception e){}
 	}

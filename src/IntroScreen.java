@@ -42,7 +42,6 @@ public class IntroScreen extends JPanel{
 		play.setSelectedIcon(icons[1]);
 		play.setRolloverIcon(icons[1]);
 		play.setDisabledIcon(icons[0]);
-		play.setBackground(null);
 		play.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				window.startGame();

@@ -14,8 +14,8 @@ public class Cat {
 	private Point pos;
 	private double[] vel;
 	private boolean friction;
-	private double gravity = 2;
-	private double frictionVal = 0.1;
+	private double gravity = 0.75;
+	private double frictionVal = 0.01;
 	private String name = "Kitten";
 	private String color = "Orange";
 	

@@ -11,7 +11,8 @@ public class EndScreen extends JPanel{
 	private JLabel score, result;
 	private Window win;
 	private int points;
-	private JButton playAgain, mainMenu, cont;
+	private JButton butt, mainMenu;
+	boolean won = false;
 	private final String COMPLETE = "Level complete";
 	private final String INCOMPLETE = "Level failed";
 	
@@ -26,8 +27,8 @@ public class EndScreen extends JPanel{
 		JPanel butts = new JPanel();
 		butts.setBackground(new Color(0,0,0,0));
 		butts.add(mainMenu);
-		butts.add(cont);
-		butts.add(playAgain);
+		butts.add(butt);
+		//butts.add(playAgain);
 		add(Box.createRigidArea(new Dimension(0,50)));
 		add(result);
 		add(score);
@@ -36,12 +37,15 @@ public class EndScreen extends JPanel{
 	}
 	
 	public void setScore(int scr){
-		cont.setEnabled(true);
+		//butt.setEnabled(true);
 		if(!win.getGame().isComplete()){
-			cont.setEnabled(false);
+			//butt.setEnabled(false);
 			result.setText(INCOMPLETE);
 		}else{
 			result.setText(COMPLETE);
+			butt.setText("Continue");
+			butt.setActionCommand("Continue");
+			
 		}
 		points = scr;
 		score.setText("Score: " + points);
@@ -58,7 +62,7 @@ public class EndScreen extends JPanel{
 		score.setForeground(win.getSettings().getTheme().getFontColor());
 		score.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		
-		playAgain = new JButton("Play Again");
+		/*playAgain = new JButton("Play Again");
 		playAgain.setActionCommand("Play Again");
 		playAgain.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		playAgain.addActionListener(new ActionListener(){
@@ -68,6 +72,27 @@ public class EndScreen extends JPanel{
 				win.getLevelIntro().addSkip();
 			}
 		});
+		*/
+		butt = new JButton("Play Again");
+		butt.setActionCommand("Play Again");
+		butt.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		butt.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				if(won){
+					win.getGame().getCat().newCat();
+					win.startGame();
+				}
+				else{
+					win.getGame().getCat().newCat();
+					win.startGame();
+					win.getLevelIntro().addSkip();
+					butt.setText("Play Again");
+					butt.setActionCommand("Play Again");
+				}
+			}
+		});
+		
+		
 		
 		mainMenu = new JButton("Main Menu");
 		mainMenu.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -78,7 +103,7 @@ public class EndScreen extends JPanel{
 				win.goToIntro();
 			}
 		});
-		
+		/*
 		cont = new JButton("Continue");
 		cont.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		cont.addActionListener(new ActionListener(){
@@ -87,6 +112,7 @@ public class EndScreen extends JPanel{
 				win.startGame();
 			}
 		});
+		*/
 	}
 	
 	public void update(){

@@ -161,6 +161,7 @@ public class Game extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
 		
+		boolean obst = false;
 		Obstacle[] obs = lev.getObstacles();
 		for(int x = 0; x < obs.length; x ++){
 			if(kitty.collide(obs[x].getRectangle())){
@@ -175,13 +176,13 @@ public class Game extends JPanel implements ActionListener{
 		Goal[] coins = lev.getCoins();
 		for(int x=0; x<coins.length; x++){
 			if(kitty.collide(coins[x].getGoalBounds()) && !coins[x].isAccomplished()){
-				score += 1;
+				obst = true;
 				coins[x].accomplished();
 			}
 		}
 			
 		if(kitty.collide(lev.getGoal().getGoalBounds()) && !lev.getGoal().isAccomplished()){
-			score += 10;
+			score+=10;
 			lev.getGoal().accomplished();
 			win.nextLevel();
 		}

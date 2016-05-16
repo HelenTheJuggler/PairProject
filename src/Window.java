@@ -40,12 +40,12 @@ public class Window {
 		
 		settings = new Settings(this);
 		game = new Game(this);
-		direction = new Directions();
+		levSet = new LevelSet();
+		direction = new Directions(this);
 		intro = new IntroScreen(this);
 		end = new EndScreen(this);
 		levIntro = new LevelIntro(this);
 		
-		levSet = new LevelSet();
 		waitTime = new Timer(2000, new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				waitTime.stop();

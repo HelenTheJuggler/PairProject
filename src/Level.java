@@ -12,8 +12,9 @@ public class Level{
 	private Goal goal;
 	private Goal[] coins;
 	private String text;
+	private boolean moving;
 	
-	public Level(Obstacle[] o, Goal g, Goal[] c, String text){
+	public Level(Obstacle[] o, Goal g, Goal[] c, String text, boolean m){
 		if(o == null){
 			o = new Obstacle[0];
 		}if(c == null){
@@ -25,6 +26,7 @@ public class Level{
 		goal = g;
 		coins = c;
 		this.text = text;
+		moving = m;
 	}
 	
 	public Level(){
@@ -58,5 +60,7 @@ public class Level{
 		goal.reset();
 	}
 	
-	
+	public boolean isMoving(){
+		return moving;
+	}
 }

@@ -27,7 +27,7 @@ public class LevelIntro extends JPanel{
 		
 		skip = new JButton("Continue");
 		skip.setFont(new Font(Font.DIALOG, Font.PLAIN, 30));
-		skip.setVisible(false);
+		//skip.setVisible(false);
 		skip.setEnabled(false);
 		skip.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -67,12 +67,12 @@ public class LevelIntro extends JPanel{
 	}
 	
 	public void addSkip(){
-		skip.setVisible(true);
+		//skip.setVisible(true);
 		skip.setEnabled(true);
 	}
 	
 	public void setText(Level l){	
-		skip.setVisible(false);
+		//skip.setVisible(false);
 		skip.setEnabled(false);
 		
 		String[] split = l.getText().split("\n");

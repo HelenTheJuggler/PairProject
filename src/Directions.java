@@ -21,8 +21,8 @@ public class Directions extends JPanel{
 		win = w;
 		scroll = new JScrollPane();
 		textPanel = new JPanel();
-		textPanel.setBackground(null);
-		setBackground(null);
+		textPanel.setBackground(new Color(0,0,0,0));
+		setBackground(new Color(0,0,0,0));
 		scroll.setBackground(null);
 		
 		text = new ArrayList<String>();
@@ -37,7 +37,7 @@ public class Directions extends JPanel{
 		JLabel label;
 		for(int i=0; i<text.size(); i++){
 			label = new JLabel(text.get(i));
-			label.setBackground(null);
+			label.setBackground(new Color(0,0,0,0));
 			label.setForeground(win.getSettings().getTheme().getFontColor());
 			label.setFont(new Font(Font.DIALOG, Font.PLAIN, 30));
 			label.setAlignmentX(JLabel.CENTER_ALIGNMENT);

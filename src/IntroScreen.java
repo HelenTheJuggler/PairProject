@@ -44,7 +44,7 @@ public class IntroScreen extends JPanel{
 		play.setDisabledIcon(icons[0]);
 		play.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				window.startGame();
+				window.goToLevelScreen();
 			}
 		});
 		

@@ -18,6 +18,7 @@ public class Window {
 	private IntroScreen intro;
 	private LevelIntro levIntro;
 	private EndScreen end;
+	private LevelScreen levScreen;
 	
 	private LevelSet levSet;
 	private Timer waitTime;
@@ -28,6 +29,7 @@ public class Window {
 	final private String END = "game over";
 	final private String DIRECTIONS = "directions screen";
 	final private String LEV_INTRO = "level inroduction";
+	final private String LEV_SCREEN = "level chooser screen";
 	
 	public Window(){
 		frame = new JFrame("CATapult");
@@ -45,11 +47,11 @@ public class Window {
 		intro = new IntroScreen(this);
 		end = new EndScreen(this);
 		levIntro = new LevelIntro(this);
+		levScreen = new LevelScreen(this);
 		
 		waitTime = new Timer(2000, new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				waitTime.stop();
-				levIntro.addSkip();
 			}
 		});
 		
@@ -60,6 +62,7 @@ public class Window {
 		content.add(end);
 		content.add(direction);
 		content.add(levIntro);
+		content.add(levScreen);
 		
 		layout = new CardLayout();
 		layout.addLayoutComponent(game, GAME);
@@ -68,6 +71,7 @@ public class Window {
 		layout.addLayoutComponent(end, END);
 		layout.addLayoutComponent(direction, DIRECTIONS);
 		layout.addLayoutComponent(levIntro, LEV_INTRO);
+		layout.addLayoutComponent(levScreen, LEV_SCREEN);
 		content.setLayout(layout);
 		
 		layout.show(content, INTRO);
@@ -79,7 +83,7 @@ public class Window {
 		frame.createBufferStrategy(2);
 	}
 	public void gameComplete(){
-		end.setScore(game.getScore());
+		end.setScore(game.getScore(), levSet.getCurrent()==null);
 		layout.show(content, END);
 	}
 	public void goToIntro(){
@@ -88,10 +92,19 @@ public class Window {
 	public void goToDirections(){
 		layout.show(content, DIRECTIONS);
 	}
-	public void startGame(){
+	public void startLevel(int n){
+		levSet.setCurrent(n);
 		levIntro.setText(levSet.getCurrent());
 		layout.show(content, LEV_INTRO);
 		waitTime.start();
+	}
+	public void startLevel(){
+		levIntro.setText(levSet.getCurrent());
+		layout.show(content, LEV_INTRO);
+		waitTime.start();
+	}
+	public void goToLevelScreen(){
+		layout.show(content, LEV_SCREEN);
 	}
 	public void nextLevel(){
 		levSet.nextLevel();
@@ -108,12 +121,10 @@ public class Window {
 	public void updatedTheme(){
 		end.update();
 		intro.update();
+		levScreen.update();
 	}
 	public LevelSet getLevelSet(){
 		return levSet;
-	}
-	public LevelIntro getLevelIntro(){
-		return levIntro;
 	}
 	public void skipLevelIntro(){
 		waitTime.stop();

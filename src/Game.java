@@ -1,9 +1,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -13,7 +11,7 @@ public class Game extends JPanel implements ActionListener{
 	private Timer time;
 	private Timer waitTime;
 	private int score;
-	private String text;
+	private int tempScore;
 	
 	private Cat kitty;
 	private Level lev;
@@ -40,8 +38,6 @@ public class Game extends JPanel implements ActionListener{
 		lev = new Level();
 		
 		launching = true;
-		
-		
 		
 		setLayout(null);
 		add(cata);
@@ -77,8 +73,8 @@ public class Game extends JPanel implements ActionListener{
 		super.paint(g);
 		//draw ground
 		g2.translate(0, deltaY);
-		g.setColor(settings.getTheme().getGroundColor());
-		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
+		g2.setColor(settings.getTheme().getGroundColor());
+		g2.fill(new Rectangle(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1));
 		g2.translate(deltaX, 0);
 		
 		//draw obstacles
@@ -118,7 +114,7 @@ public class Game extends JPanel implements ActionListener{
 		g2.translate(-deltaX, -deltaY);
 		g2.setFont(new Font(Font.DIALOG, Font.PLAIN, 30));
 		g2.setColor(settings.getTheme().getFontColor());
-		g2.drawString("Score: " + score, 10, 30);	
+		g2.drawString("Score: " + (score+tempScore), 10, 30);	
 	}
 	
 	public void launchComplete(){
@@ -128,8 +124,25 @@ public class Game extends JPanel implements ActionListener{
 	}
 	
 	public void startLaunch(Level l){
+		kitty.reset();
 		lev = l;
-		cata.startLaunch(kitty.getImage());
+		tempScore = 0;
+		
+		ArrayList<Obstacle> overlap = new ArrayList<Obstacle>();
+		Obstacle[] obs = l.getObstacles();
+		for(int i=0; i<obs.length; i++){
+			if(obs[i].getRectangle().intersects(cata.getBounds())){
+				overlap.add(obs[i]);
+			}
+		}
+		ArrayList<Goal> overlap2 = new ArrayList<Goal>();
+		Goal[] coins = l.getCoins();
+		for(int i=0; i<coins.length; i++){
+			if(coins[i].getGoalBounds().intersects(cata.getBounds())){
+				overlap2.add(coins[i]);
+			}
+		}
+		cata.startLaunch(kitty.getImage(), overlap.toArray(new Obstacle[overlap.size()]), overlap2.toArray(new Goal[overlap2.size()]));
 	}
 	
 	public Point getReleasePosition(){
@@ -161,7 +174,6 @@ public class Game extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		kitty.runProjectionMotion();
 		
-		boolean obst = false;
 		Obstacle[] obs = lev.getObstacles();
 		for(int x = 0; x < obs.length; x ++){
 			if(kitty.collide(obs[x].getRectangle())){
@@ -176,13 +188,13 @@ public class Game extends JPanel implements ActionListener{
 		Goal[] coins = lev.getCoins();
 		for(int x=0; x<coins.length; x++){
 			if(kitty.collide(coins[x].getGoalBounds()) && !coins[x].isAccomplished()){
-				obst = true;
 				coins[x].accomplished();
+				tempScore+=2;
 			}
 		}
 			
 		if(kitty.collide(lev.getGoal().getGoalBounds()) && !lev.getGoal().isAccomplished()){
-			score+=10;
+			tempScore+=10;
 			lev.getGoal().accomplished();
 			win.nextLevel();
 		}
@@ -198,6 +210,9 @@ public class Game extends JPanel implements ActionListener{
 		time.stop();
 		waitTime = new Timer(1000, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				if(isComplete()){
+					score += tempScore;
+				}
 				waitTime.stop();
 				win.gameComplete();
 				launching = true;

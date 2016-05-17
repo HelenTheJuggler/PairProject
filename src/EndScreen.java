@@ -12,7 +12,6 @@ public class EndScreen extends JPanel{
 	private Window win;
 	private int points;
 	private JButton butt, mainMenu;
-	boolean won = false;
 	private final String COMPLETE = "Level complete";
 	private final String INCOMPLETE = "Level failed";
 	
@@ -28,7 +27,6 @@ public class EndScreen extends JPanel{
 		butts.setBackground(new Color(0,0,0,0));
 		butts.add(mainMenu);
 		butts.add(butt);
-		//butts.add(playAgain);
 		add(Box.createRigidArea(new Dimension(0,50)));
 		add(result);
 		add(score);
@@ -36,16 +34,20 @@ public class EndScreen extends JPanel{
 		
 	}
 	
-	public void setScore(int scr){
-		//butt.setEnabled(true);
+	public void setScore(int scr, boolean last){
+		butt.setVisible(true);
 		if(!win.getGame().isComplete()){
-			//butt.setEnabled(false);
 			result.setText(INCOMPLETE);
+			butt.setText("Play Again");
+			butt.setActionCommand("Play Again");
 		}else{
 			result.setText(COMPLETE);
 			butt.setText("Continue");
 			butt.setActionCommand("Continue");
-			
+			if(last){
+				butt.setVisible(false);
+				result.setText("Level complete. Game over");
+			}
 		}
 		points = scr;
 		score.setText("Score: " + points);
@@ -62,57 +64,22 @@ public class EndScreen extends JPanel{
 		score.setForeground(win.getSettings().getTheme().getFontColor());
 		score.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		
-		/*playAgain = new JButton("Play Again");
-		playAgain.setActionCommand("Play Again");
-		playAgain.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		playAgain.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				win.getGame().getCat().newCat();
-				win.startGame();
-				win.getLevelIntro().addSkip();
-			}
-		});
-		*/
 		butt = new JButton("Play Again");
 		butt.setActionCommand("Play Again");
 		butt.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		butt.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				if(won){
-					win.getGame().getCat().newCat();
-					win.startGame();
-				}
-				else{
-					win.getGame().getCat().newCat();
-					win.startGame();
-					win.getLevelIntro().addSkip();
-					butt.setText("Play Again");
-					butt.setActionCommand("Play Again");
-				}
+			public void actionPerformed(ActionEvent arg0){
+				win.startLevel();
 			}
 		});
-		
-		
 		
 		mainMenu = new JButton("Main Menu");
 		mainMenu.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		mainMenu.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				win.getGame().getCat().newCat();
-				win.startGame();
 				win.goToIntro();
 			}
 		});
-		/*
-		cont = new JButton("Continue");
-		cont.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		cont.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				win.getGame().getCat().newCat();
-				win.startGame();
-			}
-		});
-		*/
 	}
 	
 	public void update(){

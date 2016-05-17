@@ -17,6 +17,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 	private BufferedImage gear;
 	private BufferedImage slider;
 	private BufferedImage catapultBottom;
+	private Obstacle[] obs;
+	private Goal[] coins;
 	
 	private int sliderPos;
 	private double direction;
@@ -55,6 +57,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		setSize(new Dimension(350, 200));
 		setBackground(new Color(0,0,0,0));
 		cupLoc = new Point(0,0);
+		obs = new Obstacle[0];
+		coins = new Goal[0];
 		sliderPos = 0;
 		
 		try {
@@ -109,7 +113,9 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		repaint();
 	}
 	
-	public void startLaunch(BufferedImage catInCatapult){
+	public void startLaunch(BufferedImage catInCatapult, Obstacle[] obs, Goal[] coins){
+		this.obs = obs;
+		this.coins = coins;
 		catapultArm = catInCatapult;
 		releaseAngle = Math.PI/2;
 		direction = releaseAngle;
@@ -210,6 +216,18 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		
 		g2.drawImage(game.getTheme().getSkyImage(), -10, getHeight()-961, null, null);
 		
+		//draw ground
+		g2.setColor(game.getTheme().getGroundColor());
+		g2.fill(new Rectangle(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1));
+		
+		//draw any obstacles/coins that overlap the catapult panel
+		for(int i=0; i<obs.length; i++){
+			g2.drawImage(obs[i].getImage(), obs[i].getX()-10,  obs[i].getY()-163, new Color(0,0,0,0), null);
+		}
+		for(int i=0; i<coins.length; i++){
+			g2.drawImage(coins[i].getGoalImage(), coins[i].getX()-10, coins[i].getY()-163, new Color(0,0,0,0), null);
+		}
+		
 		//draw catapultArm
 		BufferedImage arm = scaleImage(catapultArm, armRatio);
 		AffineTransform tx = AffineTransform.getTranslateInstance(fulcrum.getX() - arm.getWidth(), 
@@ -241,14 +259,14 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 				getHeight()-groundHeight-(int)(catapultBody.getHeight()*catRatio),new Color(0,0,0,0), null);
 		
 		//draw slider on catapult
-		g2.translate(0, sliderPos);
-		g2.drawImage(scaleImage(slider, catRatio), catapultXLoc, 
-				getHeight()-groundHeight-(int)(catapultBody.getHeight()*catRatio),new Color(0,0,0,0), null);
-		g2.translate(0, -sliderPos);
+				g2.translate(0, sliderPos);
+				g2.drawImage(scaleImage(slider, catRatio), catapultXLoc, 
+						getHeight()-groundHeight-(int)(catapultBody.getHeight()*catRatio),new Color(0,0,0,0), null);
+				g2.translate(0, -sliderPos);
 		
 		//draw ground
-		g.setColor(game.getTheme().getGroundColor());
-		g.fill3DRect(0, getHeight() - groundHeight, getWidth()+1, getHeight()+1, false);
+		g2.setColor(game.getTheme().getGroundColor());
+				g2.fill(new Rectangle(0, getHeight() - groundHeight, (int)(getWidth()*0.65), getHeight()+1));
 	}
 	
 	public void mouseClicked(MouseEvent arg0) {}

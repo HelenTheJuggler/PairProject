@@ -88,7 +88,7 @@ public class Cat {
 			hitGround();
 		}
 	}
-	public void newCat(){
+	public void reset(){
 		current = catapultCat;
 	}
 	public BufferedImage getImage(){

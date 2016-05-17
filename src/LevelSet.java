@@ -16,13 +16,12 @@ public class LevelSet {
 				"Rotate the gear to change launch angle"
 				+ "\nMove slider to adjust power", false);
 		
-		Obstacle[] obs = {new Obstacle(425, 275)};
-		levs[2] = new Level(obs, new Goal("Bird"), null, "Avoid obstacles", false);
-		
-		
 		Goal[] coins = {new Goal(new Point(425,200),"Fish")};
-		levs[3] = new Level(null, new Goal("Bird"), coins, 
+		levs[2] = new Level(null, new Goal("Bird"), coins, 
 				"Catch fish for extra points", false);
+		
+		Obstacle[] obs = {new Obstacle(300, 275)};
+		levs[3] = new Level(obs, new Goal("Bird"), null, "Avoid obstacles", false);
 		
 		Obstacle[] obs2 = {new Obstacle(425, 150)};
 		Goal[] coins2 = {new Goal(new Point(450,75),"Fish")};
@@ -34,7 +33,10 @@ public class LevelSet {
 	}
 	
 	public Level getCurrent(){
-		Level curLev = levs[(current)%levs.length];
+		if(current>=levs.length){
+			return null;
+		}
+		Level curLev = levs[current];
 		curLev.reset();
 		return curLev;
 	}
@@ -49,5 +51,9 @@ public class LevelSet {
 	
 	public int numLevels(){
 		return levs.length;
+	}
+	
+	public void setCurrent(int n){
+		current = n-1;
 	}
 }

@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 public class LevelScreen extends JPanel{
@@ -66,6 +67,17 @@ public class LevelScreen extends JPanel{
 	
 	public void update(){
 		text.setForeground(win.getSettings().getTheme().getFontColor());
+	}
+	
+	public void hightlight(int n){
+		clearHighlight();
+		getComponent(n).setBackground(Color.RED);
+	}
+	
+	private void clearHighlight(){
+		for(int i=0; i<15; i++){
+			getComponent(i).setBackground(back.getBackground());
+		}
 	}
 	
 	public void paint(Graphics g){

@@ -47,6 +47,7 @@ public class EndScreen extends JPanel{
 			if(last){
 				butt.setVisible(false);
 				result.setText("Level complete. Game over");
+				win.getLevelSet().setCurrent(1);
 			}
 		}
 		points = scr;

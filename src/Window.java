@@ -104,6 +104,7 @@ public class Window {
 		waitTime.start();
 	}
 	public void goToLevelScreen(){
+		levScreen.hightlight(levSet.getLevelNum()-1);
 		layout.show(content, LEV_SCREEN);
 	}
 	public void nextLevel(){

@@ -12,13 +12,6 @@ public class LevelScreen extends JPanel{
 		
 		setBackground(new Color(0,0,0,0));
 		
-		back = new JButton("Back");
-		back.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				win.goToIntro();
-			}
-		});
-		
 		setLayout(new GridBagLayout());
 		GridBagConstraints con = new GridBagConstraints();
 		con.weightx = 1;
@@ -44,10 +37,8 @@ public class LevelScreen extends JPanel{
 			}
 		}
 		
-		JLabel text = new JLabel("Choose a level");
-		text.setFont(new Font(Font.DIALOG, Font.PLAIN, 40));
-		text.setForeground(win.getSettings().getTheme().getFontColor());
-		text.setBackground(new Color(0,0,0,0));
+		setUpGUIElements();
+		
 		con.gridx = 0;
 		con.gridy = 0;
 		con.gridwidth = 5;
@@ -57,6 +48,20 @@ public class LevelScreen extends JPanel{
 		con.gridy = 4;
 		con.gridwidth = 1;
 		add(back, con);
+	}
+	
+	private void setUpGUIElements(){
+		back = new JButton("Back");
+		back.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				win.goToIntro();
+			}
+		});
+		
+		text = new JLabel("Choose a level");
+		text.setFont(new Font(Font.DIALOG, Font.PLAIN, 40));
+		text.setForeground(win.getSettings().getTheme().getFontColor());
+		text.setBackground(new Color(0,0,0,0));
 	}
 	
 	public void update(){

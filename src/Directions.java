@@ -1,6 +1,7 @@
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -54,9 +55,18 @@ public class Directions extends JPanel{
 		});
 		
 		scroll.setViewportView(textPanel);
-		setLayout(new BorderLayout());
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		add(scroll, BorderLayout.CENTER);
+		add(Box.createRigidArea(new Dimension(10,10)));
 		add(back, BorderLayout.SOUTH);
+		back.setAlignmentX(JButton.CENTER_ALIGNMENT);
+		add(Box.createRigidArea(new Dimension(10,10)));
+	}
+	
+	public void update(){
+		for(int i=0; i<textPanel.getComponentCount(); i++){
+			textPanel.getComponent(i).setForeground(win.getSettings().getTheme().getFontColor());
+		}
 	}
 	
 	public void paint(Graphics g){

@@ -122,6 +122,7 @@ public class Window {
 		end.update();
 		intro.update();
 		levScreen.update();
+		direction.update();
 	}
 	public LevelSet getLevelSet(){
 		return levSet;

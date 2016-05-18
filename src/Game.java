@@ -77,7 +77,6 @@ public class Game extends JPanel implements ActionListener{
 		g2.drawImage(win.getSettings().getTheme().getSkyImage(), 0, -600, null, null);
 		g2.translate(-skyX, -deltaY);
 		
-		super.paint(g);
 		//draw ground
 		g2.translate(0, deltaY);
 		g2.setColor(settings.getTheme().getGroundColor());
@@ -105,6 +104,10 @@ public class Game extends JPanel implements ActionListener{
 				g2.drawImage(coin.getGoalImage(), coin.getX(), coin.getY(), null);
 			}
 		}
+		
+		g2.translate(-deltaX, -deltaY);
+		super.paint(g);
+		g2.translate(deltaX, deltaY);
 		
 		//draw cat
 		if(!launching){

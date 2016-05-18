@@ -31,8 +31,9 @@ public class LevelSet {
 		Goal[] coins3 = {new Goal(new Point(380,100), "Fish")};
 		levs[5] = new Level(obs3, new Goal(new Point(550, 300),"Bird"), coins3, null, false);
 		
-		Goal[] coins4 = {new Goal(new Point(400, 180), "Fish"), new Goal(new Point(500, 200), "Fish"), new Goal(new Point(600, 220), "Fish"), new Goal(new Point(700, 230), "Fish")};
-		levs[6] = new Level(null, new Goal(new Point(750, 300),"Bird"), coins4, null, false);
+		Goal[] coins4 = {new Goal(new Point(250, 100), "Fish"), new Goal(new Point(300, 130), "Fish"), 
+				new Goal(new Point(350, 180), "Fish"), new Goal(new Point(400, 225), "Fish")};
+		levs[6] = new Level(null, new Goal(new Point(480, 300),"Bird"), coins4, null, false);
 	}
 	
 	public void nextLevel(){

@@ -225,7 +225,8 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 			g2.drawImage(obs[i].getImage(), obs[i].getX()-10,  obs[i].getY()-163, new Color(0,0,0,0), null);
 		}
 		for(int i=0; i<coins.length; i++){
-			g2.drawImage(coins[i].getGoalImage(), coins[i].getX()-10, coins[i].getY()-163, new Color(0,0,0,0), null);
+			if(!coins[i].isAccomplished())
+				g2.drawImage(coins[i].getGoalImage(), coins[i].getX()-10, coins[i].getY()-163, new Color(0,0,0,0), null);
 		}
 		
 		//draw catapultArm

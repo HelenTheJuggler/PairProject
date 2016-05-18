@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -92,6 +93,10 @@ public class EndScreen extends JPanel{
 		Graphics2D g2 = (Graphics2D)g;
 		g2.drawImage(win.getSettings().getTheme().getSkyImage(), 0, -600, null, null);
 		super.paint(g);
+		
+		//g2.setColor(win.getSettings().getTheme().getGroundColor());
+		//g2.fill(new Rectangle(-1, getWidth() - 50, getWidth() + 2, 51));
+		g2.drawImage(win.getGame().getCat().getEndCat(),300, 165, null, null);
 	}
 	
 }

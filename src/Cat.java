@@ -11,6 +11,7 @@ public class Cat {
 	private BufferedImage landingCat;
 	private BufferedImage catapultCat;
 	private BufferedImage current;
+	private BufferedImage catAndBird;
 	private Point pos;
 	private double[] vel;
 	private boolean friction;
@@ -27,7 +28,6 @@ public class Cat {
 	}
 	
 	private void initImages(){
-		//can specialize in subclasses of cat
 		BufferedImage cat = null;
 		try {
 		    cat = ImageIO.read(new File("Pics\\Cats\\"+ color + "Cats\\"+ name +"InCup.png"));
@@ -36,12 +36,16 @@ public class Cat {
 		    flyingCat = cat;
 		    cat = ImageIO.read(new File("Pics\\Cats\\"+ color + "Cats\\Standing"+ name +".png"));
 		    landingCat = cat;
+		    cat = ImageIO.read(new File("Pics\\Cats\\" + color + "Cats\\CatAndBird.png"));
+		    catAndBird = cat;
 		} catch (IOException e) {}
 		
 		double catRatio = 75.0/flyingCat.getWidth();
 		flyingCat = Catapult.scaleImage(flyingCat, catRatio);
 		catRatio = 80.0/landingCat.getWidth(); 
 		landingCat = Catapult.scaleImage(landingCat, catRatio);
+		catRatio = 400.0/catAndBird.getWidth();
+		catAndBird = Catapult.scaleImage(catAndBird, catRatio);
 		
 		current = catapultCat;
 	}
@@ -105,6 +109,10 @@ public class Cat {
 	
 	public int getWidth(){
 		return current.getWidth();
+	}
+	
+	public BufferedImage getEndCat(){
+		return catAndBird;
 	}
 	
 	public void setFriction(boolean change){

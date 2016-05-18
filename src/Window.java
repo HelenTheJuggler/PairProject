@@ -87,8 +87,8 @@ public class Window {
 	private void setCursor(){
 		try{
 			Toolkit tool = Toolkit.getDefaultToolkit();
-			BufferedImage img = ImageIO.read(new File("Pics\\Fish.png"));
-			Cursor curs = tool.createCustomCursor(img, new Point(0,0), "cat paw");
+			BufferedImage img = ImageIO.read(new File("Pics\\CatPaw.png"));
+			Cursor curs = tool.createCustomCursor(img, new Point(17,0), "cat paw");
 			frame.setCursor(curs);
 		}catch(Exception e){}
 	}

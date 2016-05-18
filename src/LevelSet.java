@@ -43,7 +43,8 @@ public class LevelSet {
 				new Goal(new Point(400, 150), "Fish")};
 		levs[8] = new Level(null, mov2, coins5, null, true);
 		
-		levs[9] = new Level();
+		Obstacle[] obs4 = {new Obstacle(250, 200)};
+		levs[9] = new Level(obs4, new Goal("Bird"), null, null, false);
 		
 		levs[10] = new Level();
 		

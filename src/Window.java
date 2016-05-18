@@ -40,7 +40,7 @@ public class Window {
 		frame.setSize(new Dimension(700,400));
 		frame.setResizable(false);
 		
-		setCursor();
+		setCustomCursor();
 		
 		settings = new Settings(this);
 		game = new Game(this);
@@ -84,13 +84,16 @@ public class Window {
 		frame.setVisible(true);
 		frame.createBufferStrategy(2);
 	}
-	private void setCursor(){
+	public void setCustomCursor(){
 		try{
 			Toolkit tool = Toolkit.getDefaultToolkit();
 			BufferedImage img = ImageIO.read(new File("Pics\\CatPaw.png"));
 			Cursor curs = tool.createCustomCursor(img, new Point(17,0), "cat paw");
 			frame.setCursor(curs);
 		}catch(Exception e){}
+	}
+	public void setDefaultCursor(){
+		frame.setCursor(Cursor.getDefaultCursor());
 	}
 	public void gameComplete(){
 		end.setScore(game.getScore(), levSet.getCurrent()==null);

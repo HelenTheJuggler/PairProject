@@ -121,7 +121,9 @@ public class Settings extends JPanel{
 		frictionCheckBox.setBackground(new Color(0,0,0,0));
 		frictionCheckBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				win.getGame().getCat().setFriction(frictionCheckBox.isSelected());
+				if(frictionCheckBox.isSelected()){
+					
+				}
 			}
 		});
 		

@@ -14,14 +14,12 @@ public class Cat {
 	private BufferedImage catAndBird;
 	private Point pos;
 	private double[] vel;
-	private boolean friction;
 	private double gravity = 0.75;
 	private double frictionVal = 0.01;
 	private String name = "Kitten";
 	private String color = "Orange";
 	
 	public Cat(){
-		friction = false;
 		initImages();
 		pos = new Point(0,0);
 		vel= new double[2];
@@ -60,11 +58,6 @@ public class Cat {
 		//can specialize in subclasses of cat
 		pos.setLocation(pos.getX() + vel[0]/5, pos.getY() - vel[1]/5);
 		vel[1]-=gravity;
-		if(friction){
-			vel[0]-=frictionVal*vel[0];
-			vel[1]-=frictionVal*vel[1];
-
-		}
 	}
 	
 	public boolean collide(Rectangle r){
@@ -113,10 +106,6 @@ public class Cat {
 	
 	public BufferedImage getEndCat(){
 		return catAndBird;
-	}
-	
-	public void setFriction(boolean change){
-		friction = change;
 	}
 	
 	public void setColor(String color){

@@ -16,8 +16,8 @@ public class Settings extends JPanel{
 	private JLabel catTypeLabel;
 	private JComboBox<String> catType;
 	
-	private JCheckBox frictionCheckBox;
-	private JLabel frictionLabel;
+	private JCheckBox cursorCheckBox;
+	private JLabel cursorLabel;
 	
 	private String[] themeNames = {"Day", "Night"};
 	private Theme[] themes;
@@ -52,7 +52,7 @@ public class Settings extends JPanel{
 		
 		c.gridx = 0;
 		c.gridy = 1;
-		add(frictionLabel, c);
+		add(cursorLabel, c);
 		
 		c.gridx = 1;
 		c.gridy = 0;
@@ -61,7 +61,7 @@ public class Settings extends JPanel{
 		
 		c.gridx = 1;
 		c.gridy = 1;
-		add(frictionCheckBox, c);
+		add(cursorCheckBox, c);
 		
 		c.gridx=1;
 		c.gridy=2;
@@ -110,19 +110,22 @@ public class Settings extends JPanel{
 		});
 		
 		
-		frictionCheckBox = new JCheckBox();
+		cursorCheckBox = new JCheckBox();
 		ImageIcon checked = new ImageIcon("Pics\\Buttons\\Checked.png");
 		ImageIcon notChecked = new ImageIcon("Pics\\Buttons\\NotChecked.png");
-		frictionCheckBox.setIcon(notChecked);
-		frictionCheckBox.setPressedIcon(notChecked);
-		frictionCheckBox.setRolloverIcon(notChecked);
-		frictionCheckBox.setSelectedIcon(checked);
-		frictionCheckBox.setBorder(null);
-		frictionCheckBox.setBackground(new Color(0,0,0,0));
-		frictionCheckBox.addActionListener(new ActionListener(){
+		cursorCheckBox.setIcon(notChecked);
+		cursorCheckBox.setPressedIcon(notChecked);
+		cursorCheckBox.setRolloverIcon(notChecked);
+		cursorCheckBox.setSelectedIcon(checked);
+		cursorCheckBox.setBorder(null);
+		cursorCheckBox.setBackground(new Color(0,0,0,0));
+		cursorCheckBox.setSelected(true);
+		cursorCheckBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				if(frictionCheckBox.isSelected()){
-					
+				if(cursorCheckBox.isSelected()){
+					win.setCustomCursor();
+				}else{
+					win.setDefaultCursor();
 				}
 			}
 		});
@@ -142,9 +145,9 @@ public class Settings extends JPanel{
 		catTypeLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
 		catTypeLabel.setForeground(currentTheme.getFontColor());
 		
-		frictionLabel = new JLabel("Friction: ");
-		frictionLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
-		frictionLabel.setForeground(currentTheme.getFontColor());
+		cursorLabel = new JLabel("Cat paw cursor: ");
+		cursorLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
+		cursorLabel.setForeground(currentTheme.getFontColor());
 		
 		themeLabel = new JLabel("Theme: ");
 		themeLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
@@ -153,7 +156,7 @@ public class Settings extends JPanel{
 	
 	private void updateTheme(){
 		catTypeLabel.setForeground(currentTheme.getFontColor());
-		frictionLabel.setForeground(currentTheme.getFontColor());
+		cursorLabel.setForeground(currentTheme.getFontColor());
 		themeLabel.setForeground(currentTheme.getFontColor());
 		win.updatedTheme();
 		repaint();

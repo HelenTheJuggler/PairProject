@@ -222,7 +222,7 @@ public class Catapult extends JPanel implements ActionListener, MouseListener{
 		
 		//draw any obstacles/coins that overlap the catapult panel
 		for(int i=0; i<obs.length; i++){
-			g2.drawImage(obs[i].getImage(), obs[i].getX()-10,  obs[i].getY()-163, new Color(0,0,0,0), null);
+			g2.drawImage(obs[i].getImage(), obs[i].getX()-10,  obs[i].getY()-162, new Color(0,0,0,0), null);
 		}
 		for(int i=0; i<coins.length; i++){
 			if(!coins[i].isAccomplished())

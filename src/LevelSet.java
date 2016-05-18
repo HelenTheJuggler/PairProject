@@ -5,7 +5,7 @@ public class LevelSet {
 	int current;
 	
 	public LevelSet(){
-		levs = new Level[8];
+		levs = new Level[9];
 		current = 0;
 		
 		levs[0] = new Level(null, new Goal("Bird"), null, 
@@ -20,12 +20,12 @@ public class LevelSet {
 		levs[2] = new Level(null, new Goal("Bird"), coins, 
 				"Catch fish for extra points", false);
 		
-		Obstacle[] obs = {new Obstacle(300, 275)};
+		Obstacle[] obs = {new Obstacle(350, 275)};
 		levs[3] = new Level(obs, new Goal("Bird"), null, "Avoid obstacles", false);
 		
-		Obstacle[] obs2 = {new Obstacle(425, 150)};
-		Goal[] coins2 = {new Goal(new Point(450,75),"Fish")};
-		levs[4] = new Level(obs2, new Goal("Bird"), coins2, null, false);
+		Obstacle[] obs2 = {new Obstacle(350, 150)};
+		Goal[] coins2 = {new Goal(new Point(350,75),"Fish")};
+		levs[4] = new Level(obs2, new Goal(new Point(630, 300),"Bird"), coins2, null, false);
 		
 		Obstacle[] obs3 = {new Obstacle(600,100), new Obstacle(600,200), new Obstacle(600, 300)};
 		Goal[] coins3 = {new Goal(new Point(380,100), "Fish")};
@@ -37,6 +37,11 @@ public class LevelSet {
 	
 		MovingGoal mov = new MovingGoal(new Point(0,50), "Bird", true, 5, 600, 0);
 		levs[7] = new Level(null, mov, null, null, true);
+		
+		MovingGoal mov2 = new MovingGoal(new Point(500, 150), "Bird", false, 5, 275, 10);
+		Goal[] coins5 = {new Goal(new Point(250, 150), "Fish"), new Goal(new Point(325, 150), "Fish"),
+				new Goal(new Point(400, 150), "Fish")};
+		levs[8] = new Level(null, mov2, coins5, null, true);
 	}
 	
 	public void nextLevel(){

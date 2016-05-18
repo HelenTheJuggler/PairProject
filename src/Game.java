@@ -10,6 +10,7 @@ public class Game extends JPanel implements ActionListener{
 	private Settings settings;
 	private Timer time;
 	private Timer waitTime;
+	private Timer goalTime;
 	private int score;
 	private int tempScore;
 	
@@ -38,6 +39,12 @@ public class Game extends JPanel implements ActionListener{
 		lev = new Level();
 		
 		launching = true;
+		goalTime = new Timer(10, new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				((MovingGoal) lev.getGoal()).move();
+				repaint();
+			}
+		});
 		
 		setLayout(null);
 		add(cata);
@@ -145,6 +152,9 @@ public class Game extends JPanel implements ActionListener{
 			}
 		}
 		cata.startLaunch(kitty.getImage(), overlap.toArray(new Obstacle[overlap.size()]), overlap2.toArray(new Goal[overlap2.size()]));
+		if(lev.isMoving()){
+			goalTime.start();
+		}
 	}
 	
 	public Point getReleasePosition(){
@@ -198,6 +208,7 @@ public class Game extends JPanel implements ActionListener{
 		if(kitty.collide(lev.getGoal().getGoalBounds()) && !lev.getGoal().isAccomplished()){
 			tempScore+=10;
 			lev.getGoal().accomplished();
+			goalTime.stop();
 			win.nextLevel();
 		}
 		

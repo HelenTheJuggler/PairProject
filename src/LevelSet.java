@@ -5,7 +5,7 @@ public class LevelSet {
 	int current;
 	
 	public LevelSet(){
-		levs = new Level[7];
+		levs = new Level[8];
 		current = 0;
 		
 		levs[0] = new Level(null, new Goal("Bird"), null, 
@@ -34,6 +34,9 @@ public class LevelSet {
 		Goal[] coins4 = {new Goal(new Point(250, 100), "Fish"), new Goal(new Point(300, 130), "Fish"), 
 				new Goal(new Point(350, 180), "Fish"), new Goal(new Point(400, 225), "Fish")};
 		levs[6] = new Level(null, new Goal(new Point(480, 300),"Bird"), coins4, null, false);
+	
+		MovingGoal mov = new MovingGoal(new Point(0,50), "Bird", true, 5, 600, 0);
+		levs[7] = new Level(null, mov, null, null, true);
 	}
 	
 	public void nextLevel(){

@@ -40,6 +40,8 @@ public class Window {
 		frame.setSize(new Dimension(700,400));
 		frame.setResizable(false);
 		
+		setCursor();
+		
 		settings = new Settings(this);
 		game = new Game(this);
 		levSet = new LevelSet();
@@ -81,6 +83,14 @@ public class Window {
 		frame.pack();
 		frame.setVisible(true);
 		frame.createBufferStrategy(2);
+	}
+	private void setCursor(){
+		try{
+			Toolkit tool = Toolkit.getDefaultToolkit();
+			BufferedImage img = ImageIO.read(new File("Pics\\Fish.png"));
+			Cursor curs = tool.createCustomCursor(img, new Point(0,0), "cat paw");
+			frame.setCursor(curs);
+		}catch(Exception e){}
 	}
 	public void gameComplete(){
 		end.setScore(game.getScore(), levSet.getCurrent()==null);

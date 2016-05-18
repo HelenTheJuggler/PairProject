@@ -43,17 +43,23 @@ public class LevelSet {
 				new Goal(new Point(400, 150), "Fish")};
 		levs[8] = new Level(null, mov2, coins5, null, true);
 		
-		Obstacle[] obs4 = {new Obstacle(250, 200)};
-		levs[9] = new Level(obs4, new Goal("Bird"), null, null, false);
+		Obstacle[] obs4 = {new Obstacle(300, 200)};
+		MovingGoal mov3 = new MovingGoal(new Point(500,10), "Bird", false, 5, 300, 10);
+		levs[9] = new Level(obs4, mov3, null, null, true);
 		
-		levs[10] = new Level();
+		Obstacle[] obs5 = {new Obstacle(400,250), new Obstacle(400,10)};
+		MovingGoal mov4 = new MovingGoal(new Point(510,10), "Bird", false, 1, 300, 10);
+		levs[10] = new Level(obs5, mov4, null, null, true);
 		
-		levs[11] = new Level();
+		Obstacle[] obs6 = {new Obstacle(500,20)};
+		levs[11] = new Level(obs6, new Goal(new Point(550,-39), "Bird"), null, null, false);
 		
-		levs[12] = new Level();
+		Obstacle[] obs7 = {new Obstacle(500,250), new Obstacle(500,10), new Obstacle(600,240), new Obstacle(600,20), new Obstacle(700,230), new Obstacle(700,30)};
+		levs[12] = new Level(obs7, new Goal(new Point(750, 180), "Bird"), null, null, false);
 		
-		levs[13] = new Level();
-		
+		Obstacle[] obs8 = {new Obstacle(300, 300), new Obstacle(300,230)};
+		levs[13] = new Level(obs8, new Goal(new Point(500, 300), "Bird"), null, null, false);
+	
 		levs[14] = new Level();
 	}
 	

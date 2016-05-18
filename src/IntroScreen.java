@@ -75,7 +75,23 @@ public class IntroScreen extends JPanel{
 	}
 	
 	public void update(){
-		repaint();
+		ImageIcon[] icons = window.getSettings().getTheme().getImageIcons("play");
+		play.setIcon(icons[0]);
+		play.setSelectedIcon(icons[1]);
+		play.setRolloverIcon(icons[1]);
+		play.setDisabledIcon(icons[0]);
+		
+		icons = window.getSettings().getTheme().getImageIcons("qMark");
+		instructions.setIcon(icons[0]);
+		instructions.setSelectedIcon(icons[1]);
+		instructions.setRolloverIcon(icons[1]);
+		instructions.setDisabledIcon(icons[0]);
+		
+		icons = window.getSettings().getTheme().getImageIcons("gear");
+		settings.setIcon(icons[0]);
+		settings.setSelectedIcon(icons[1]);
+		settings.setRolloverIcon(icons[1]);
+		settings.setDisabledIcon(icons[0]);
 	}
 	
 	public void paint(Graphics g){

@@ -124,6 +124,8 @@ public class Game extends JPanel implements ActionListener{
 	}
 	
 	public void startLaunch(Level l){
+		Insets insets = getInsets();
+		cata.setBounds(insets.left+1,insets.top + getHeight() + cata.getGroundHeight() - 220, 400, 200);
 		kitty.reset();
 		lev = l;
 		tempScore = 0;

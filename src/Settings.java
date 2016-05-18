@@ -19,7 +19,7 @@ public class Settings extends JPanel{
 	private JCheckBox cursorCheckBox;
 	private JLabel cursorLabel;
 	
-	private String[] themeNames = {"Day", "Night"};
+	private String[] themeNames = {"Day", "Night", "Sunset"};
 	private Theme[] themes;
 	private JComboBox<String> themeBox;
 	private Theme currentTheme;
@@ -87,6 +87,13 @@ public class Settings extends JPanel{
 			Color fontColor = new Color(255, 200, 0);
 			catColor = "White";
 			themes[1] = new Theme(sky, groundColor, fontColor, catColor, "Yellow");
+			
+			sky = ImageIO.read(new File("Pics\\Skies\\SunsetSky.png"));
+			System.out.println("!!!!!");
+			groundColor = Color.BLACK;
+			fontColor = Color.BLACK;
+			catColor = "Black";
+			themes[2] = new Theme(sky, groundColor, fontColor, catColor, "Black");
 		} catch (IOException e) {}
 		currentTheme = themes[0];
 	}

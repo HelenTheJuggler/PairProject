@@ -37,4 +37,7 @@ public class Obstacle {
 	public int getY(){
 		return y;
 	}
+	public int getHeight(){
+		return (int) rect.getHeight();
+	}
 }

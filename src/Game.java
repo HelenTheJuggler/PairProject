@@ -193,6 +193,9 @@ public class Game extends JPanel implements ActionListener{
 		for(int x = 0; x < obs.length; x ++){
 			if(kitty.collide(obs[x].getRectangle())){
 				boolean top = kitty.getPosition().getX() + kitty.getWidth()*0.75>=obs[x].getX();
+				if(kitty.getPosition().getY()>obs[x].getY()){
+					top=false;
+				}
 				kitty.hitObstacle(top);
 				if(top){
 					runComplete();

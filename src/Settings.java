@@ -89,7 +89,6 @@ public class Settings extends JPanel{
 			themes[1] = new Theme(sky, groundColor, fontColor, catColor, "Yellow");
 			
 			sky = ImageIO.read(new File("Pics\\Skies\\SunsetSky.png"));
-			System.out.println("!!!!!");
 			groundColor = Color.BLACK;
 			fontColor = Color.BLACK;
 			catColor = "Black";

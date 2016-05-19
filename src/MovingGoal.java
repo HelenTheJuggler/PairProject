@@ -23,20 +23,25 @@ public class MovingGoal extends Goal{
 		this.stop = stop;
 		this.start = start;
 		currentImg = 0;
-		isReverse = true;
+		isReverse = false;
 		initImages();
 	}
 	
 	private void initImages(){
-		images = new BufferedImage[5];
-		reverse = new BufferedImage[5];
+		String filePath = "Pics\\FlyingBirds\\";
+		
+		images = new BufferedImage[6];
+		reverse = new BufferedImage[6];
 		BufferedImage img;
 		try{
-			img = ImageIO.read(new File("Pics\\Bird.png"));
-			for(int i=0; i<5; i++){
-				images[i] = img;
-				reverse[i] = img;
+			for(int i=1; i<=4; i++){
+				images[i-1] = ImageIO.read(new File(filePath + "Flying" + i + ".png"));
+				reverse[i-1] = ImageIO.read(new File(filePath + "Reverse" + i + ".png"));
 			}
+			images[4] = images[2];
+			images[5] = images[1];
+			reverse[4] = reverse[2];
+			reverse[5] = reverse[1];
 		}catch(Exception e){}
 		
 		for(int i=0; i<images.length; i++){
@@ -49,7 +54,7 @@ public class MovingGoal extends Goal{
 		if(horizontal){
 			if(pos.getX() + speed > stop || pos.getX() + speed<start){
 				speed *= -1;
-				isReverse = false;
+				isReverse = !isReverse;
 			}
 			pos.setLocation(pos.getX() + speed, pos.getY());
 		}else{

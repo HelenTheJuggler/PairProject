@@ -77,13 +77,13 @@ public class LevelScreen extends JPanel{
 			if(win.getLevelSet().isComplete(x)){
 				getComponent(x).setBackground(Color.GREEN);
 			}
-		}for(int x = n+1; x<win.getLevelSet().numLevels(); x++){
-			getComponent(x).setEnabled(false);
+		}/*for(int x = n+1; x<win.getLevelSet().numLevels(); x++){
+			//getComponent(x).setEnabled(false);
 		}
 		if(n<win.getLevelSet().numLevels()){
 			getComponent(n).setBackground(Color.RED);
 			getComponent(n).setEnabled(true);
-		}
+		}*/
 	}
 	
 	private void clearHighlight(){

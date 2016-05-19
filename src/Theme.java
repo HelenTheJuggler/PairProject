@@ -13,13 +13,14 @@ public class Theme {
 	private Color fontColor;
 	private String catColor;
 	private String titleColor;
+	private String obsColor;
 	
 	private final String[] buttonNames = {"play", "qMark", "gear", "replay", "home"};
 	private ImageIcon[] icons;
 	
 	private BufferedImage title;
 	
-	public Theme(BufferedImage s, Color gc, Color fc, String cc, String tc){
+	public Theme(BufferedImage s, Color gc, Color fc, String cc, String tc, String oc){
 		catColor = cc;
 		if(fc == null){
 			fontColor = Color.black;
@@ -29,6 +30,7 @@ public class Theme {
 		sky = s;
 		titleColor =tc;
 		groundColor = gc;
+		obsColor = oc;
 		try{
 			title = ImageIO.read(new File("Pics\\Title"+ titleColor + ".png"));
 		}catch(Exception e){}
@@ -68,6 +70,10 @@ public class Theme {
 	
 	public BufferedImage getTitle(){
 		return title;
+	}
+	
+	public String getObsColor(){
+		return obsColor;
 	}
 	
 	public ImageIcon[] getImageIcons(String buttonName){

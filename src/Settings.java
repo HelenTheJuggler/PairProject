@@ -80,19 +80,19 @@ public class Settings extends JPanel{
 			BufferedImage sky = ImageIO.read(new File("Pics\\Skies\\DaySky.png"));
 			Color groundColor = new Color(0, 102, 0);
 			String catColor = "Orange";
-			themes[0] = new Theme(sky, groundColor, null, catColor, "Black");
+			themes[0] = new Theme(sky, groundColor, null, catColor, "Black", "Red");
 			
 			sky = ImageIO.read(new File("Pics\\Skies\\NightSky.png"));
 			groundColor = new Color(10, 54, 0);
 			Color fontColor = new Color(255, 200, 0);
 			catColor = "White";
-			themes[1] = new Theme(sky, groundColor, fontColor, catColor, "Yellow");
+			themes[1] = new Theme(sky, groundColor, fontColor, catColor, "Yellow", "Purple");
 			
 			sky = ImageIO.read(new File("Pics\\Skies\\SunsetSky.png"));
 			groundColor = Color.BLACK;
 			fontColor = Color.BLACK;
 			catColor = "Black";
-			themes[2] = new Theme(sky, groundColor, fontColor, catColor, "Black");
+			themes[2] = new Theme(sky, groundColor, fontColor, catColor, "Black", "Black");
 		} catch (IOException e) {}
 		currentTheme = themes[0];
 	}

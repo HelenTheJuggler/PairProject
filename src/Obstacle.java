@@ -40,4 +40,10 @@ public class Obstacle {
 	public int getHeight(){
 		return (int) rect.getHeight();
 	}
+	public void setColor(String color){
+		try{
+			img =  ImageIO.read(new File("Pics\\Obstacles\\"+color+".png"));
+		}catch(Exception e){}
+		rect = new Rectangle(x, y, img.getWidth(), img.getHeight());
+	}
 }

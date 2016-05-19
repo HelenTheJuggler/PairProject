@@ -140,8 +140,13 @@ public class Game extends JPanel implements ActionListener{
 		lev = l;
 		tempScore = 0;
 		
-		ArrayList<Obstacle> overlap = new ArrayList<Obstacle>();
 		Obstacle[] obs = l.getObstacles();
+		for(int i=0; i<obs.length; i++){
+			obs[i].setColor(settings.getTheme().getObsColor());
+		}
+		
+		ArrayList<Obstacle> overlap = new ArrayList<Obstacle>();
+		obs = l.getObstacles();
 		for(int i=0; i<obs.length; i++){
 			if(obs[i].getRectangle().intersects(cata.getBounds())){
 				overlap.add(obs[i]);

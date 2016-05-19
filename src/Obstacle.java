@@ -10,12 +10,14 @@ public class Obstacle {
 	int x, y;
 	Rectangle rect;
 	BufferedImage img;
+	boolean block;
 	
 	public Obstacle(int xPos, int yPos, BufferedImage image){
 		x = xPos;
 		y = yPos;
 		img = image;
 		rect = new Rectangle(x, y, img.getWidth(), img.getHeight());
+		block = false;
 	}
 	public Obstacle(int xPos, int yPos){
 		x = xPos;
@@ -24,6 +26,7 @@ public class Obstacle {
 			img =  ImageIO.read(new File("Pics\\DefaultObstacle.png"));
 		}catch(Exception e){}
 		rect = new Rectangle(x, y, img.getWidth(), img.getHeight());
+		block = true;
 	}
 	public Rectangle getRectangle(){
 		return rect;
@@ -41,9 +44,11 @@ public class Obstacle {
 		return (int) rect.getHeight();
 	}
 	public void setColor(String color){
-		try{
-			img =  ImageIO.read(new File("Pics\\Obstacles\\"+color+".png"));
-		}catch(Exception e){}
-		rect = new Rectangle(x, y, img.getWidth(), img.getHeight());
+		if(block){
+			try{
+				img =  ImageIO.read(new File("Pics\\Obstacles\\"+color+".png"));
+			}catch(Exception e){}
+			rect = new Rectangle(x, y, img.getWidth(), img.getHeight());
+		}
 	}
 }

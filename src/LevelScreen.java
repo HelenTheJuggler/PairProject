@@ -69,14 +69,27 @@ public class LevelScreen extends JPanel{
 		text.setForeground(win.getSettings().getTheme().getFontColor());
 	}
 	
-	public void hightlight(int n){
+	
+	public void hightlight(){
 		clearHighlight();
-		getComponent(n).setBackground(Color.RED);
+		int n = win.getLevelSet().highestLevel();
+		for(int x=0; x<n; x++){
+			if(win.getLevelSet().isComplete(x)){
+				getComponent(x).setBackground(Color.GREEN);
+			}
+		}for(int x = n+1; x<win.getLevelSet().numLevels(); x++){
+			getComponent(x).setEnabled(false);
+		}
+		if(n<win.getLevelSet().numLevels()){
+			getComponent(n).setBackground(Color.RED);
+			getComponent(n).setEnabled(true);
+		}
 	}
 	
 	private void clearHighlight(){
 		for(int i=0; i<15; i++){
 			getComponent(i).setBackground(back.getBackground());
+			getComponent(i).setEnabled(true);
 		}
 	}
 	

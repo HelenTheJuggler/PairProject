@@ -2,10 +2,13 @@ import java.awt.Point;
 
 public class LevelSet {
 	private Level[] levs;
-	int current;
+	private boolean[] complete;
+	private int current;
+	private int highest;
 	
 	public LevelSet(){
 		levs = new Level[15];
+		complete = new boolean[levs.length];
 		current = 0;
 		
 		levs[0] = new Level(null, new Goal("Bird"), null, 
@@ -64,9 +67,20 @@ public class LevelSet {
 	}
 	
 	public void nextLevel(){
+		complete[current] = true;
 		current++;
+		if(current>highest)
+			highest = current;
 	}
-	//
+	
+	public int highestLevel(){
+		return highest;
+	}
+	
+	public boolean isComplete(int n){
+		return complete[n];
+	}
+	
 	public Level getCurrent(){
 		if(current>=levs.length){
 			return null;

@@ -12,7 +12,7 @@ public class Settings extends JPanel{
 	private Window win;
 	private JPanel panel;
 	
-	private String[] names = {"Kitten","Cat"};
+	private String[] names = {"Kitten","Cat", "Blob"};
 	private JLabel catTypeLabel;
 	private JComboBox<String> catType;
 	

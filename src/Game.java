@@ -41,8 +41,10 @@ public class Game extends JPanel implements ActionListener{
 		launching = true;
 		goalTime = new Timer(10, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				try{
 				((MovingGoal) lev.getGoal()).move();
 				repaint();
+				}catch(Exception ex){}
 			}
 		});
 		
@@ -240,6 +242,7 @@ public class Game extends JPanel implements ActionListener{
 				waitTime.stop();
 				win.gameComplete();
 				launching = true;
+				goalTime.stop();
 			}
 		});
 		waitTime.start();
